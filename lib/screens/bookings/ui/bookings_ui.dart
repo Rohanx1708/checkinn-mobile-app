@@ -376,42 +376,6 @@ class BookingsUiState extends State<BookingsUi> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF6366F1),
-              Color(0xFF8B5CF6),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6366F1).withOpacity(0.3),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: FloatingActionButton.extended(
-          onPressed: _showAddBookingBottomSheet,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 28,
-          ),
-          label: const Text(
-            "Add Booking",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
     );
   }
 
