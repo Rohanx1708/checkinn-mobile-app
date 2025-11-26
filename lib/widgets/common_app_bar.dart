@@ -53,59 +53,38 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget? _buildLeading(BuildContext context, double screenWidth) {
     // Priority 1: Menu button (for dashboard screens)
     if (showMenuButton) {
-      return Container(
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.menu, color: Color(0xFF1F2937)),
-          onPressed: onMenuPressed ?? () {
-            // Try to find the Scaffold in the widget tree
-            final scaffoldState = context.findAncestorStateOfType<ScaffoldState>();
-            if (scaffoldState != null) {
-              scaffoldState.openDrawer();
-            } else {
-              // Fallback: try Scaffold.of(context)
-              try {
-                Scaffold.of(context).openDrawer();
-              } catch (e) {
-                print('Error opening drawer: $e');
-              }
+      return IconButton(
+        icon: const Icon(Icons.menu, color: Color(0xFF1F2937)),
+        onPressed: onMenuPressed ?? () {
+          // Try to find the Scaffold in the widget tree
+          final scaffoldState = context.findAncestorStateOfType<ScaffoldState>();
+          if (scaffoldState != null) {
+            scaffoldState.openDrawer();
+          } else {
+            // Fallback: try Scaffold.of(context)
+            try {
+              Scaffold.of(context).openDrawer();
+            } catch (e) {
+              print('Error opening drawer: $e');
             }
-          },
-        ),
+          }
+        },
       );
     }
 
     // Priority 2: Custom leading icon
     if (leadingIcon != null && onLeadingPressed != null) {
-      return Container(
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: IconButton(
-          icon: Icon(leadingIcon, color: foregroundColor),
-          onPressed: onLeadingPressed,
-        ),
+      return IconButton(
+        icon: Icon(leadingIcon, color: foregroundColor),
+        onPressed: onLeadingPressed,
       );
     }
 
     // Priority 3: Back button
     if (showBackButton) {
-      return Container(
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF1F2937)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+      return IconButton(
+        icon: const Icon(Icons.arrow_back, color: Color(0xFF1F2937)),
+        onPressed: () => Navigator.of(context).pop(),
       );
     }
 
@@ -146,18 +125,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       actionWidgets.add(
         Stack(
           children: [
-            Container(
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.notifications, color: Color(0xFF1F2937)),
-                onPressed: onNotificationPressed ?? () {
-                  Navigator.pushNamed(context, '/notifications');
-                },
-              ),
+            IconButton(
+              icon: const Icon(Icons.notifications, color: Color(0xFF1F2937)),
+              onPressed: onNotificationPressed ?? () {
+                Navigator.pushNamed(context, '/notifications');
+              },
             ),
             if (notificationCount != null && notificationCount! > 0)
               Positioned(
@@ -186,17 +158,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    // Add empty container for spacing if no actions
+    // Return empty list if no actions
     if (actionWidgets.isEmpty) {
-      actionWidgets.add(
-        Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF1F5F9),
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      );
+      return null;
     }
 
     return actionWidgets;
