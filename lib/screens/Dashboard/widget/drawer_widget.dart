@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/common_app_bar.dart';
+import '../../../widgets/checkinn_logo.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -15,87 +16,33 @@ class DrawerWidget extends StatelessWidget {
     return Drawer(
       child: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Color(0xFFF8FAFC),
-            ],
-          ),
+          color: Colors.white,
         ),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            // Drawer header with gradient
+            // Drawer header with logo
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFF6366F1),
-                    const Color(0xFF8B5CF6),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF6366F1).withOpacity(0.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+              padding: const EdgeInsets.fromLTRB(20, 60, 20, 30),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xFFE5E7EB),
+                    width: 1,
                   ),
-                ],
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Profile section
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: const CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Color(0xFFF1F5F9),
-                          child: Icon(
-                            Icons.person,
-                            size: 30,
-                            color: Color(0xFF6366F1),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Text(
-                              'CheckInn',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white.withOpacity(0.9),
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  // Logo section
+                  const CheckInnLogo(
+                    iconSize: 56,
+                    fontSize: 28,
+                    alignment: MainAxisAlignment.start,
+                    textColor: Color(0xFF1F2937),
                   ),
-                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -221,8 +168,8 @@ class DrawerWidget extends StatelessWidget {
                   ),
                   title: Text(
                     'Logout',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w500,
                       color: const Color(0xFFEF4444),
                       fontSize: 14,
                     ),
@@ -257,7 +204,7 @@ class DrawerWidget extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           value,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.bold,
@@ -265,7 +212,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white.withOpacity(0.8),
             fontSize: 10,
             fontWeight: FontWeight.w500,
@@ -286,10 +233,10 @@ class DrawerWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       child: Container(
         decoration: BoxDecoration(
-          color: isActive ? const Color(0xFF6366F1).withOpacity(0.1) : Colors.transparent,
+          color: isActive ? const Color(0xFF1F2937).withOpacity(0.08) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: isActive
-              ? Border.all(color: const Color(0xFF6366F1).withOpacity(0.3), width: 1)
+              ? Border.all(color: const Color(0xFF1F2937).withOpacity(0.2), width: 1)
               : null,
         ),
         child: ListTile(
@@ -297,26 +244,26 @@ class DrawerWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: isActive
-                  ? const Color(0xFF6366F1)
-                  : const Color(0xFFF1F5F9),
+                  ? const Color(0xFF1F2937)
+                  : const Color(0xFFF9FAFB),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               icon,
               color: isActive
                   ? Colors.white
-                  : const Color(0xFF6366F1),
+                  : const Color(0xFF1F2937),
               size: 20,
             ),
           ),
           title: Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontWeight: FontWeight.w500,
               color: isActive
-                  ? const Color(0xFF6366F1)
+                  ? const Color(0xFF1F2937)
                   : const Color(0xFF1F2937),
-              fontSize: 13,
+              fontSize: 14,
             ),
           ),
           trailing: isActive
@@ -324,7 +271,7 @@ class DrawerWidget extends StatelessWidget {
                   width: 4,
                   height: 4,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF6366F1),
+                    color: Color(0xFF1F2937),
                     shape: BoxShape.circle,
                   ),
                 )
@@ -370,7 +317,7 @@ class DrawerWidget extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 'Logout',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
                 ),
@@ -379,7 +326,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           content: Text(
             'Are you sure you want to logout?',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: const Color(0xFF6B7280),
             ),
           ),
@@ -388,7 +335,7 @@ class DrawerWidget extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: const Color(0xFF6B7280),
                   fontWeight: FontWeight.w500,
                 ),
@@ -418,7 +365,7 @@ class DrawerWidget extends StatelessWidget {
                 },
                 child: Text(
                   'Logout',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
