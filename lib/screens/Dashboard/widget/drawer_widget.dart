@@ -1,0 +1,433 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../widgets/common_app_bar.dart';
+
+class DrawerWidget extends StatelessWidget {
+  const DrawerWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    
+    // Get current route to determine which item should be active
+    final currentRoute = ModalRoute.of(context)?.settings.name ?? '/dashboard';
+    
+    return Drawer(
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white,
+              Color(0xFFF8FAFC),
+            ],
+          ),
+        ),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            // Drawer header with gradient
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFF6366F1),
+                    const Color(0xFF8B5CF6),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF6366F1).withOpacity(0.2),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Profile section
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: const CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Color(0xFFF1F5F9),
+                          child: Icon(
+                            Icons.person,
+                            size: 30,
+                            color: Color(0xFF6366F1),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            Text(
+                              'CheckInn',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
+            
+            const SizedBox(height: 20),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.dashboard,
+              title: 'Dashboard',
+              route: '/dashboard',
+              isActive: currentRoute == '/dashboard',
+            ),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.business,
+              title: 'PMS (Property Management)',
+              route: '/pms',
+              isActive: currentRoute == '/pms',
+            ),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.meeting_room,
+              title: 'Room Management',
+              route: '/rooms',
+              isActive: currentRoute == '/rooms',
+            ),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.people,
+              title: 'Agents',
+              route: '/agent',
+              isActive: currentRoute == '/agent',
+            ),
+
+            _buildDrawerItem(
+              context,
+              icon: Icons.badge,
+              title: 'Employees',
+              route: '/employees',
+              isActive: currentRoute == '/employees',
+            ),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.calendar_today,
+              title: 'Calendar',
+              route: '/calendar',
+              isActive: currentRoute == '/calendar',
+            ),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.book_online,
+              title: 'Bookings',
+              route: '/bookings',
+              isActive: currentRoute == '/bookings',
+            ),
+            
+            _buildDrawerItem(
+              context,
+              icon: Icons.bar_chart,
+              title: 'Reports',
+              route: '/reports',
+              isActive: currentRoute == '/reports',
+            ),
+
+            _buildDrawerItem(
+              context,
+              icon: Icons.people_outline,
+              title: 'CRM',
+              route: '/crm',
+              isActive: currentRoute == '/crm',
+            ),
+            
+            const SizedBox(height: 20),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.transparent,
+                      const Color(0xFFE2E8F0),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            
+            const SizedBox(height: 20),
+            
+            // Logout button with special styling
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF2F2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: const Color(0xFFFECACA),
+                    width: 1,
+                  ),
+                ),
+                child: ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFEE2E2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.logout,
+                      color: Color(0xFFEF4444),
+                      size: 20,
+                    ),
+                  ),
+                  title: Text(
+                    'Logout',
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFFEF4444),
+                      fontSize: 14,
+                    ),
+                  ),
+                  onTap: () => _showLogoutDialog(context),
+                ),
+              ),
+            ),
+            
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatItem(String label, String value, IconData icon) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            color: Colors.white.withOpacity(0.8),
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String route,
+    bool isActive = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isActive ? const Color(0xFF6366F1).withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: isActive
+              ? Border.all(color: const Color(0xFF6366F1).withOpacity(0.3), width: 1)
+              : null,
+        ),
+        child: ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? const Color(0xFF6366F1)
+                  : const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              icon,
+              color: isActive
+                  ? Colors.white
+                  : const Color(0xFF6366F1),
+              size: 20,
+            ),
+          ),
+          title: Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              color: isActive
+                  ? const Color(0xFF6366F1)
+                  : const Color(0xFF1F2937),
+              fontSize: 13,
+            ),
+          ),
+          trailing: isActive
+              ? Container(
+                  width: 4,
+                  height: 4,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF6366F1),
+                    shape: BoxShape.circle,
+                  ),
+                )
+              : null,
+          onTap: () {
+            Navigator.pop(context);
+            _navigateToRoute(context, route);
+          },
+        ),
+      ),
+    );
+  }
+
+  void _navigateToRoute(BuildContext context, String route) {
+    // Add a small delay for better UX
+    Future.delayed(const Duration(milliseconds: 100), () {
+      Navigator.pushNamed(context, route);
+    });
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEE2E2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.logout,
+                  color: Color(0xFFEF4444),
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Logout',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF1F2937),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            'Are you sure you want to logout?',
+            style: GoogleFonts.poppins(
+              color: const Color(0xFF6B7280),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF6B7280),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFEF4444),
+                    const Color(0xFFDC2626),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close dialog
+                  Navigator.pop(context); // Close drawer
+                  
+                  // Navigate to login screen and remove all previous routes
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login',
+                    (route) => false,
+                  );
+                },
+                child: Text(
+                  'Logout',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

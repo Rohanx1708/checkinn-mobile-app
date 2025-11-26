@@ -1,0 +1,126 @@
+import '../models/bookingdetails.dart';
+
+class BookingHelper {
+  static List<Booking> getDefaultBookings() {
+    return [
+      Booking(
+        id: '1',
+        title: "Luxury Beach Resort",
+        date: DateTime.parse("2025-08-12"),
+        status: "Upcoming",
+        companyName: "Luxury Travels",
+        roomDetails: "Ocean View Room",
+        checkInDate: DateTime.parse("2025-08-12"),
+        checkOutDate: DateTime.parse("2025-08-15"),
+        imageUrl: "https://via.placeholder.com/150",
+        address: "123 Beach Road, Goa",
+        notes: "Late check-in requested",
+        amountSpend: 5000,
+        balanceDue: 2000,
+        bookingFee: 1000,
+        customer: Customer(
+          name: "John Doe",
+          phone: "+91 9876543210",
+          email: "john@example.com",
+          address: "123 Beach Road, Goa",
+          idProof: "Passport",
+          idProofNumber: "A1234567",
+        ),
+        totalGuests: 2,
+        remarks: "Late check-in requested",
+        roomType: "Deluxe",
+        selectedRoom: "101",
+        roomRemarks: "Ocean view preferred",
+        subtotal: 4500,
+        gst: 500,
+        totalCost: 5000,
+        finalAmount: 5000,
+        guests: [],
+        extras: [],
+        addOns: [],
+      ),
+      Booking(
+        id: '2',
+        title: "Mountain Adventure Trip",
+        date: DateTime.parse("2025-07-05"),
+        status: "Completed",
+        companyName: "Adventure Co.",
+        roomDetails: "Mountain Cabin",
+        checkInDate: DateTime.parse("2025-07-05"),
+        checkOutDate: DateTime.parse("2025-07-10"),
+        imageUrl: "https://via.placeholder.com/150",
+        address: "456 Mountain Road, Himachal",
+        notes: "No special requests",
+        amountSpend: 7000,
+        balanceDue: 0,
+        bookingFee: 500,
+        customer: Customer(
+          name: "Jane Smith",
+          phone: "+91 9876543211",
+          email: "jane@example.com",
+          address: "456 Mountain Road, Himachal",
+          idProof: "Aadhar",
+          idProofNumber: "1234 5678 9012",
+        ),
+        totalGuests: 4,
+        remarks: "No special requests",
+        roomType: "Suite",
+        selectedRoom: "205",
+        roomRemarks: null,
+        subtotal: 6500,
+        gst: 500,
+        totalCost: 7000,
+        finalAmount: 7000,
+        guests: [],
+        extras: [],
+        addOns: [],
+      ),
+      Booking(
+        id: '3',
+        title: "City Business Stay",
+        date: DateTime.parse("2025-08-20"),
+        status: "Upcoming",
+        companyName: "Business Travels",
+        roomDetails: "Executive Suite",
+        checkInDate: DateTime.parse("2025-08-20"),
+        checkOutDate: DateTime.parse("2025-08-22"),
+        imageUrl: "https://via.placeholder.com/150",
+        address: "789 City Center, Mumbai",
+        notes: "Need a quiet room",
+        amountSpend: 3000,
+        balanceDue: 1500,
+        bookingFee: 300,
+        customer: Customer(
+          name: "Robert Johnson",
+          phone: "+91 9876543212",
+          email: "robert@example.com",
+          address: "789 City Center, Mumbai",
+          idProof: "Driving License",
+          idProofNumber: "DL98765432",
+        ),
+        totalGuests: 1,
+        remarks: "Need a quiet room",
+        roomType: "Executive",
+        selectedRoom: "301",
+        roomRemarks: "Away from elevator",
+        subtotal: 2700,
+        gst: 300,
+        totalCost: 3000,
+        finalAmount: 3000,
+        guests: [],
+        extras: [],
+        addOns: [],
+      ),
+    ];
+  }
+
+  static List<Booking> filterBookings(List<Booking> allBookings, String type, String searchQuery) {
+    return allBookings.where((booking) {
+      bool matchesTab = (type == "All") || (booking.status == type);
+      bool matchesSearch = booking.title
+          .toLowerCase()
+          .contains(searchQuery.toLowerCase());
+      return matchesTab && matchesSearch;
+    }).toList();
+  }
+}
