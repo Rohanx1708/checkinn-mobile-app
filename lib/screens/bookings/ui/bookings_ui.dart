@@ -9,7 +9,7 @@ import '../widgets/add_booking_sheet.dart';
 import '../widgets/filter.dart';
 import '../../../widgets/common_app_bar.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
-import 'add_booking_ui.dart';
+import '../add_booking/add_booking_ui.dart';
 
 class BookingsUi extends StatefulWidget {
   const BookingsUi({super.key});

@@ -6,7 +6,7 @@ import 'package:checkinn/screens/calendar/services/calendar_service.dart';
 import 'package:checkinn/screens/bookings/bookingdetailpage.dart';
 import 'package:checkinn/screens/bookings/models/bookingdetails.dart';
 import 'package:checkinn/screens/bookings/services/bookings_service.dart';
-import 'package:checkinn/screens/bookings/ui/add_booking_ui.dart';
+import 'package:checkinn/screens/bookings/add_booking/add_booking_ui.dart';
 
 // Placeholder for BookingListUi until the actual implementation is available
 class BookingListUi extends StatelessWidget {

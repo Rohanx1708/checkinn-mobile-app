@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:checkinn/screens/bookings/models/bookingdetails.dart';
 import 'package:checkinn/screens/bookings/services/bookings_service.dart';
-import 'package:checkinn/screens/bookings/ui/add_booking_ui.dart';
+import 'package:checkinn/screens/bookings/add_booking/add_booking_ui.dart';
 
 
 class BookingDetailsPage extends StatefulWidget {

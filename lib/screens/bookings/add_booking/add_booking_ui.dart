@@ -3,100 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../config/api_config.dart';
-import '../../../services/auth_service.dart';
+import '../../../../config/api_config.dart';
+import '../../../../services/auth_service.dart';
 import 'package:intl/intl.dart';
-import '../../../widgets/common_app_bar.dart';
+import '../../../../widgets/common_app_bar.dart';
 import '../models/bookingdetails.dart';
 import '../services/bookings_service.dart';
 import '../../rooms/services/rooms_service.dart';
-import '../../../utils/app_fonts.dart';
-
-// Riverpod providers for meta options
-final bookingMetaProvider = FutureProvider<_BookingMetaOptions>((ref) async {
-  final helper = _BookingMetaHelper();
-  return await helper.fetchMetaOptions();
-});
-
-class _BookingMetaOptions {
-  final List<String> paymentStatuses;
-  final List<String> bookingStatuses;
-  final List<String> sources;
-  const _BookingMetaOptions({
-    required this.paymentStatuses,
-    required this.bookingStatuses,
-    required this.sources,
-  });
-}
-
-class _BookingMetaHelper {
-  Future<_BookingMetaOptions> fetchMetaOptions() async {
-    try {
-      final token = await AuthService.getToken();
-      final headers = token != null ? ApiConfig.getAuthHeaders(token) : ApiConfig.defaultHeaders;
-      final metaUris = <Uri>[
-        Uri.parse('${ApiConfig.baseUrl}/v1/bookings/meta'),
-        Uri.parse('${ApiConfig.baseUrl}/v1/bookings/options'),
-      ];
-
-      List<String>? payment;
-      List<String>? sources;
-      List<String>? statuses;
-
-      for (final uri in metaUris) {
-        try {
-          final res = await http.get(uri, headers: headers).timeout(const Duration(seconds: 20));
-          if (res.statusCode >= 200 && res.statusCode < 300 && res.body.isNotEmpty) {
-            final decoded = jsonDecode(res.body);
-            final Map<String, dynamic> meta = (decoded is Map && decoded['data'] is Map)
-                ? (decoded['data'] as Map).cast<String, dynamic>()
-                : (decoded is Map ? decoded.cast<String, dynamic>() : <String, dynamic>{});
-            final psDyn = meta['payment_statuses'] ?? meta['paymentStatuses'] ?? meta['payment-statuses'] ?? meta['payments'] ?? [];
-            final srcDyn = meta['sources'] ?? meta['booking_sources'] ?? meta['bookingSources'] ?? [];
-            final bsDyn = meta['booking_statuses'] ?? meta['bookingStatuses'] ?? meta['statuses'] ?? [];
-            if (psDyn is List) payment = psDyn.map((e) => e.toString()).toList();
-            if (srcDyn is List) sources = srcDyn.map((e) => e.toString()).toList();
-            if (bsDyn is List) statuses = bsDyn.map((e) => e.toString()).toList();
-          }
-        } catch (_) {}
-        if (payment != null || sources != null || statuses != null) break;
-      }
-
-      if (sources == null) {
-        try {
-          final res = await http.get(Uri.parse('${ApiConfig.baseUrl}/v1/bookings/sources'), headers: headers).timeout(const Duration(seconds: 20));
-          if (res.statusCode >= 200 && res.statusCode < 300) {
-            final decoded = jsonDecode(res.body);
-            final list = (decoded['data'] ?? decoded['sources'] ?? decoded);
-            if (list is List) sources = list.map((e) => e.toString()).toList();
-          }
-        } catch (_) {}
-      }
-      if (statuses == null) {
-        try {
-          final res = await http.get(Uri.parse('${ApiConfig.baseUrl}/v1/bookings/statuses'), headers: headers).timeout(const Duration(seconds: 20));
-          if (res.statusCode >= 200 && res.statusCode < 300) {
-            final decoded = jsonDecode(res.body);
-            final list = (decoded['data'] ?? decoded['statuses'] ?? decoded);
-            if (list is List) statuses = list.map((e) => e.toString()).toList();
-          }
-        } catch (_) {}
-      }
-
-      return _BookingMetaOptions(
-        paymentStatuses: payment ?? const ['pending','paid','partial','refunded','failed'],
-        bookingStatuses: statuses ?? const ['confirmed','checked-in','checked-out','pending','cancelled'],
-        sources: sources ?? const ['direct','website','walk-in','phone','ota','agent'],
-      );
-    } catch (_) {
-      return const _BookingMetaOptions(
-        paymentStatuses: ['pending','paid','partial','refunded','failed'],
-        bookingStatuses: ['confirmed','checked-in','checked-out','pending','cancelled'],
-        sources: ['direct','website','walk-in','phone','ota','agent'],
-      );
-    }
-  }
-}
+import '../../../../utils/app_fonts.dart';
+import 'services/booking_meta_service.dart';
+import 'widgets/section_header.dart';
+import 'widgets/custom_text_field.dart';
+import 'widgets/date_field.dart';
+import 'widgets/guest_counter.dart';
 
 class AddBookingUi extends ConsumerStatefulWidget {
   final Booking? existingBooking; // For editing existing bookings
@@ -147,7 +66,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
   // API Data
   List<Map<String, dynamic>> _roomTypes = [];
   List<Map<String, dynamic>> _rooms = [];
-  List<Map<String, dynamic>> _availableRooms = []; // Rooms filtered by selected room type
+// Rooms filtered by selected room type
   // Multi-room-type selections: each item {roomTypeId, roomTypeName, roomId, roomLabel}
   final List<Map<String, dynamic>> _roomSelections = [];
   final Map<int, List<Map<String, dynamic>>> _availableRoomsByType = {};
@@ -203,7 +122,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
     
     // Initialize rooms with fallback data directly
     _rooms = _getFallbackRooms();
-    print('✅ Loaded ${_rooms.length} fallback rooms');
     
     // Initialize available rooms - no longer needed as we use _availableRoomsByType
     // Only initialize empty selection for new bookings, not when editing existing bookings
@@ -349,17 +267,10 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         setState(() {
           _roomTypes = _extractRoomTypes(result['data']);
         });
-        print('✅ Loaded ${_roomTypes.length} room types from API');
-        for (int i = 0; i < _roomTypes.length; i++) {
-          final rt = _roomTypes[i];
-          print('  [$i] Room Type: "${rt['name']}" (ID: ${rt['id']})');
-        }
       } else {
-        print('❌ Failed to load room types: ${result['message']}');
         _showErrorSnackBar('Failed to load room types: ${result['message']}');
       }
     } catch (e) {
-      print('💥 Error loading room types: $e');
       _showErrorSnackBar('Error loading room types: ${e.toString()}');
     }
   }
@@ -368,7 +279,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
   // Removed deprecated _loadAvailableRooms method - use _loadAvailableRoomsForType instead
   
   Future<void> _reloadAllAvailableRooms() async {
-    print('🔄 Reloading all available rooms');
     for (final selection in _roomSelections) {
       final roomTypeId = selection['roomTypeId'] as int;
       if (roomTypeId > 0 && _checkInDate != null && _checkOutDate != null) {
@@ -418,79 +328,14 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         _availableRoomsByType[roomTypeId] = availableRooms;
         _isLoadingAvailableRooms = false;
       });
-      print('✅ Loaded ${availableRooms.length} available rooms for room type $roomTypeId');
     } catch (e) {
       setState(() {
         _availableRoomsByType[roomTypeId] = [];
         _isLoadingAvailableRooms = false;
       });
-      print('❌ Error loading available rooms for room type $roomTypeId: $e');
     }
   }
 
-  Future<List<Map<String, dynamic>>> _checkRoomAvailability(List<Map<String, dynamic>> rooms) async {
-    try {
-      print('🔍 Checking availability for ${rooms.length} rooms');
-      
-      // Get existing bookings for the selected dates
-      final bookingsResult = await BookingsService.getBookings(
-        checkInDate: _checkInDate,
-        checkOutDate: _checkOutDate,
-        propertyId: '1', // Default property ID, as property selection is removed
-        limit: 1000, // Get all bookings for the date range
-      );
-
-      Set<String> occupiedRoomIds = {};
-      
-      if (bookingsResult['success'] == true && bookingsResult['data'] != null) {
-        final bookings = bookingsResult['data'];
-        List<dynamic> bookingList = [];
-        
-        // Extract bookings from response
-        if (bookings is Map && bookings.containsKey('data')) {
-          bookingList = bookings['data'] as List<dynamic>;
-        } else if (bookings is List) {
-          bookingList = bookings;
-        }
-        
-        // Collect occupied room IDs
-        for (var booking in bookingList) {
-          if (booking is Map<String, dynamic>) {
-            final roomId = booking['room_id']?.toString();
-            final selectedRoom = booking['selected_room']?.toString();
-            
-            if (roomId != null) {
-              occupiedRoomIds.add(roomId);
-            }
-            if (selectedRoom != null) {
-              occupiedRoomIds.add(selectedRoom);
-            }
-          }
-        }
-      }
-
-      // Filter out occupied rooms
-      final availableRooms = rooms.where((room) {
-        final roomId = room['id']?.toString();
-        final roomName = room['name']?.toString();
-        final isOccupied = occupiedRoomIds.contains(roomId) || occupiedRoomIds.contains(roomName);
-        
-        if (isOccupied) {
-          print('🚫 Room ${room['name']} is occupied');
-        }
-        
-        return !isOccupied;
-      }).toList();
-
-      print('✅ ${availableRooms.length} rooms available out of ${rooms.length} total');
-      return availableRooms;
-      
-    } catch (e) {
-      print('💥 Error checking room availability: $e');
-      // Return all rooms if availability check fails
-      return rooms;
-    }
-  }
 
   List<Map<String, dynamic>> _extractRoomTypes(dynamic data) {
     try {
@@ -512,7 +357,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       
       return roomTypes;
     } catch (e) {
-      print('💥 Error extracting room types: $e');
       return [];
     }
   }
@@ -563,51 +407,9 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
     ];
   }
 
-  Future<void> _validateCustomer() async {
-    if (_customerPhoneController.text.isEmpty) return;
-
-    try {
-      // Check if customer exists by phone number
-      final bookingsResult = await BookingsService.getBookings(
-        search: _customerPhoneController.text,
-        limit: 10,
-      );
-
-      if (bookingsResult['success'] == true && bookingsResult['data'] != null) {
-        final bookings = bookingsResult['data'];
-        List<dynamic> bookingList = [];
-        
-        // Extract bookings from response
-        if (bookings is Map && bookings.containsKey('data')) {
-          bookingList = bookings['data'] as List<dynamic>;
-        } else if (bookings is List) {
-          bookingList = bookings;
-        }
-
-        // Check if any booking has matching phone number
-        for (var booking in bookingList) {
-          if (booking is Map<String, dynamic>) {
-            final guestPhone = booking['guest_phone']?.toString();
-            if (guestPhone == _customerPhoneController.text) {
-              // Customer exists, populate form with existing data
-              _customerNameController.text = booking['guest_name'] ?? '';
-              _customerEmailController.text = booking['guest_email'] ?? '';
-              
-              _showInfoSnackBar('Customer found! Form populated with existing data.');
-              return;
-            }
-          }
-        }
-      }
-    } catch (e) {
-      print('💥 Error validating customer: $e');
-    }
-  }
 
   Future<void> _sendBookingConfirmation(dynamic bookingData) async {
     try {
-      print('📧 Sending booking confirmation...');
-      
       // Extract booking ID from response
       String? bookingId;
       if (bookingData is Map<String, dynamic>) {
@@ -623,14 +425,10 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         );
 
         if (statusResult['success'] == true) {
-          print('✅ Booking confirmation sent successfully');
           _showInfoSnackBar('Booking confirmation sent to customer');
-        } else {
-          print('⚠️ Failed to send booking confirmation: ${statusResult['message']}');
         }
       }
     } catch (e) {
-      print('💥 Error sending booking confirmation: $e');
       // Don't show error to user as booking was already created successfully
     }
   }
@@ -710,30 +508,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
     }
   }
 
-  void _showWarningSnackBar(String message) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              const Icon(Icons.warning_outlined, color: Colors.white, size: 20),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  message,
-                  style: AppFonts.poppins(fontWeight: FontWeight.w500),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          backgroundColor: Colors.orange,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-    }
-  }
 
   @override
   void dispose() {
@@ -778,8 +552,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       'roomId': null,
       'roomLabel': '',
     });
-    
-    print('🔍 Starting with empty room selection for editing - user can select desired rooms');
     
     // No need to load existing room data - user will select fresh
     
@@ -882,11 +654,8 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         // Update the text controllers to reflect the calculated values
         _subtotalController.text = _subtotal.toStringAsFixed(2);
         _gstController.text = _gst.toStringAsFixed(2);
-
-        print('💰 Calculated pricing: Subtotal: ₹$_subtotal, GST: ₹$_gst, Total: ₹$_totalCost');
       }
     } catch (e) {
-      print('💥 Error calculating pricing: $e');
     }
   }
 
@@ -1004,12 +773,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         'created_by': 'user', // Default user - you might want to get this from auth
         'updated_at': DateTime.now().toIso8601String(),
       };
-
-      print('📝 Booking data being sent: $bookingData');
-      print('🔍 Room selections: $_roomSelections');
-      print('🔍 Selected room IDs: $selectedIds');
-      print('🔍 Room type names: ${_roomSelections.map((s) => s['roomTypeName']).toList()}');
-      print('🔍 Room labels: ${_roomSelections.map((s) => s['roomLabel']).toList()}');
       
       // For updates, include room_type_id only when exactly one type is selected
       final finalBookingData = Map<String, dynamic>.from(bookingData);
@@ -1028,14 +791,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         // Remove fields that might cause issues in updates
         finalBookingData.remove('created_by'); // Don't update created_by
         finalBookingData.remove('updated_at'); // Let server handle timestamps
-        
-        print('📝 Update data (cleaned): $finalBookingData');
-        print('📝 Room selections: $_roomSelections');
-        print('📝 Selected room IDs: $selectedIds');
       }
-      
-      print('🔄 Calling API for ${widget.existingBooking != null ? 'UPDATE' : 'CREATE'} booking');
-      print('🆔 Booking ID: ${widget.existingBooking?.id ?? 'NEW'}');
       
       final result = widget.existingBooking != null
           ? await BookingsService.updateBooking(
@@ -1043,10 +799,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               updateData: finalBookingData,
             )
           : await BookingsService.createBooking(bookingData);
-
-      print('📋 API Result: $result');
-      print('📋 API Success: ${result['success']}');
-      print('📋 API Message: ${result['message']}');
       
       Navigator.of(context).pop(); // Close loading dialog
 
@@ -1076,7 +828,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
           // For existing bookings, use the existing booking ID
           if (widget.existingBooking != null) {
             bookingId = widget.existingBooking!.id;
-            print('🔄 Using existing booking ID for room allocation: $bookingId');
           } else {
             // For new bookings, extract ID from API response
             final data = result['data'];
@@ -1085,7 +836,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
             } else if (data is Map) {
               bookingId = data['id']?.toString();
             }
-            print('🆕 Extracted new booking ID for room allocation: $bookingId');
           }
           
           // Only get room IDs that have been explicitly selected by the user
@@ -1094,39 +844,17 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               .where((s) => s['roomId'] != null && s['roomTypeId'] != null && s['roomTypeId'] != 0)
               .map<int>((s) => s['roomId'] as int)
               .toList();
-              
-          print('🏨 Selected room IDs for allocation: $selectedIds');
-          print('🏨 Room selections details:');
-          for (int i = 0; i < _roomSelections.length; i++) {
-            final selection = _roomSelections[i];
-            print('  Selection $i: ${selection['roomTypeName']} - ${selection['roomLabel']} (ID: ${selection['roomId']})');
-          }
-          print('🔍 Total room selections: ${_roomSelections.length}');
-          print('🔍 Valid selections (with roomId): ${_roomSelections.where((s) => s['roomId'] != null).length}');
-          print('🔍 Valid selections (with roomTypeId > 0): ${_roomSelections.where((s) => s['roomTypeId'] != null && s['roomTypeId'] != 0).length}');
           
           // Use new room allocation API
           if (bookingId != null && selectedIds.isNotEmpty) {
             if (widget.existingBooking != null) {
               // Update room allocations for existing booking
-              print('🔄 Updating room allocations for existing booking');
-              print('🔄 Sending room IDs to API: $selectedIds');
-              print('🔄 Booking ID: $bookingId');
-              
               // First, try to clear existing room allocations
-              print('🗑️ Step 1: Clearing existing room allocations');
               final clearResult = await BookingsService.clearRoomAllocations(
                 bookingId: bookingId,
               );
               
-              if (clearResult['success'] == true) {
-                print('✅ Existing room allocations cleared successfully');
-              } else {
-                print('⚠️ Failed to clear existing room allocations: ${clearResult['message']}');
-              }
-              
               // Then, add the new room allocations
-              print('➕ Step 2: Adding new room allocations');
               final allocResult = await BookingsService.updateRoomAllocations(
                 bookingId: bookingId,
                 roomIds: selectedIds,
@@ -1134,14 +862,11 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               
               if (allocResult['success'] == true) {
                 _showSuccessSnackBar('Booking updated successfully! Room allocations updated.');
-                print('✅ Room allocations updated successfully');
               } else {
                 _showSuccessSnackBar('Booking updated successfully! Room allocation failed: ${allocResult['message']}');
-                print('⚠️ Room allocation update failed: ${allocResult['message']}');
               }
             } else {
               // Allocate rooms for new booking
-              print('🔄 Allocating rooms for new booking');
               final allocResult = await BookingsService.allocateRooms(
                 bookingId: bookingId,
                 roomIds: selectedIds,
@@ -1149,10 +874,8 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               
               if (allocResult['success'] == true) {
                 _showSuccessSnackBar('Booking created successfully! Rooms allocated.');
-                print('✅ Rooms allocated successfully');
               } else {
                 _showSuccessSnackBar('Booking created successfully! Room allocation failed: ${allocResult['message']}');
-                print('⚠️ Room allocation failed: ${allocResult['message']}');
               }
             }
           } else {
@@ -1164,7 +887,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
             }
           }
         } catch (e) {
-          print('💥 Allocate/refresh error: $e');
+          // Error handling for room allocation
         }
 
         // Send booking confirmation if it's a new booking
@@ -1179,25 +902,19 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
           try {
             final updatedBooking = await BookingsService.getBooking(widget.existingBooking!.id);
             if (updatedBooking['success'] == true) {
-              print('🔄 Updated booking data fetched successfully');
               // Create a new Booking instance with the updated data
-              final refreshedBooking = Booking.fromMap(updatedBooking['data']);
-              
+
               // Store the updated room data for the booking detail page
               final updatedRoomData = {
                 'roomType': _roomSelections.map((s) => s['roomTypeName'] as String).join(', '),
                 'selectedRoom': _roomSelections.map((s) => s['roomLabel'] as String).join(', '),
               };
-              print('🔄 Updated room data to pass: ${updatedRoomData}');
               
               // Note: We can't directly update widget.existingBooking since it's final
               // The parent widget should handle refreshing the booking data
-              print('🔄 Booking refreshed with latest data');
-            } else {
-              print('⚠️ Failed to fetch updated booking: ${updatedBooking['message']}');
             }
           } catch (e) {
-            print('💥 Error fetching updated booking: $e');
+            // Error fetching updated booking
           }
         }
 
@@ -1224,7 +941,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       }
     } catch (e) {
       Navigator.of(context).pop(); // Close loading dialog
-      print('💥 AddBooking Error: $e');
       
       final errorMessage = widget.existingBooking != null 
         ? 'Error updating booking: ${e.toString()}'
@@ -1241,7 +957,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -1436,16 +1151,16 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader('Customer Information', Icons.person),
+          SectionHeader(title: 'Customer Information', icon: Icons.person),
           const SizedBox(height: 20),
-          _buildTextField(
+          CustomTextField(
             controller: _customerNameController,
             label: 'Full Name',
             hint: 'Enter full name',
             validator: (value) => value?.isEmpty == true ? 'Name is required' : null,
           ),
           const SizedBox(height: 16),
-          _buildTextField(
+          CustomTextField(
             controller: _customerPhoneController,
             label: 'Phone Number',
             hint: 'Enter phone number',
@@ -1453,7 +1168,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
             validator: (value) => value?.isEmpty == true ? 'Phone is required' : null,
           ),
           const SizedBox(height: 16),
-          _buildTextField(
+          CustomTextField(
             controller: _customerEmailController,
             label: 'Email Address',
             hint: 'Enter email address',
@@ -1478,33 +1193,40 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader('Booking Dates', Icons.calendar_today),
+          SectionHeader(title: 'Booking Dates', icon: Icons.calendar_today),
           const SizedBox(height: 20),
-          _buildDateField(
+          DateField(
             label: 'Check-in Date',
             date: _checkInDate,
             onTap: () => _selectDate(context, true),
           ),
           const SizedBox(height: 20),
-          _buildDateField(
+          DateField(
             label: 'Check-out Date',
             date: _checkOutDate,
             onTap: () => _selectDate(context, false),
           ),
           const SizedBox(height: 20),
-          _buildSectionHeader('Guest Information', Icons.people),
+          SectionHeader(title: 'Guest Information', icon: Icons.people),
           const SizedBox(height: 20),
-          _buildGuestCounter(),
+          GuestCounter(
+            totalGuests: _totalGuests,
+            onChanged: (value) {
+              setState(() {
+                _totalGuests = value;
+              });
+            },
+          ),
           const SizedBox(height: 20),
-          _buildSectionHeader('Booking Status', Icons.flag),
+          SectionHeader(title: 'Booking Status', icon: Icons.flag),
           const SizedBox(height: 20),
           _buildStatusDropdown(),
           const SizedBox(height: 20),
-          _buildSectionHeader('Payment Status', Icons.payments_outlined),
+          SectionHeader(title: 'Payment Status', icon: Icons.payments_outlined),
           const SizedBox(height: 20),
           _buildPaymentStatusDropdown(),
           const SizedBox(height: 20),
-          _buildSectionHeader('Source', Icons.source),
+          SectionHeader(title: 'Source', icon: Icons.source),
           const SizedBox(height: 20),
           _buildSourceDropdown(),
         ],
@@ -1518,19 +1240,19 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader('Room Selection', Icons.bed),
+          SectionHeader(title: 'Room Selection', icon: Icons.bed),
           const SizedBox(height: 20),
           _buildMultiRoomTypeSection(),
           const SizedBox(height: 20),
           // Use general remarks here in place of room remarks
-          _buildTextField(
+          CustomTextField(
             controller: _remarksController,
             label: 'Remarks',
             hint: 'Any special room requirements or notes',
             maxLines: 3,
           ),
           const SizedBox(height: 20),
-          _buildSectionHeader('Pricing', Icons.account_balance_wallet),
+          SectionHeader(title: 'Pricing', icon: Icons.account_balance_wallet),
           const SizedBox(height: 20),
           _buildPricingFields(),
         ],
@@ -1544,7 +1266,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader('Booking Summary', Icons.summarize),
+          SectionHeader(title: 'Booking Summary', icon: Icons.summarize),
           const SizedBox(height: 20),
           _buildSummaryCard(),
         ],
@@ -1552,195 +1274,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
     );
   }
 
-  Widget _buildSectionHeader(String title, IconData icon) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFF6366F1).withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(icon, color: const Color(0xFF6366F1), size: 20),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF1F2937),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required String hint,
-    TextInputType? keyboardType,
-    int maxLines = 1,
-    String? Function(String?)? validator,
-    Function(String)? onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF374151),
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          validator: validator,
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: GoogleFonts.poppins(color: const Color(0xFF9CA3AF)),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFF6366F1), width: 2),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDateField({
-    required String label,
-    required DateTime? date,
-    required VoidCallback onTap,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: const Color(0xFF374151),
-          ),
-        ),
-        const SizedBox(height: 8),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFFE5E7EB)),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.calendar_today, color: const Color(0xFF6366F1), size: 20),
-                const SizedBox(width: 12),
-                Text(
-                  date != null ? DateFormat('MMM dd, yyyy').format(date) : 'Select date',
-                  style: GoogleFonts.poppins(
-                    color: date != null ? const Color(0xFF1F2937) : const Color(0xFF9CA3AF),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGuestCounter() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Total Guests',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF374151),
-            ),
-          ),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (_totalGuests > 1) {
-                    setState(() {
-                      _totalGuests--;
-                    });
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: _totalGuests > 1 ? const Color(0xFF6366F1) : const Color(0xFFE5E7EB),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    Icons.remove,
-                    color: _totalGuests > 1 ? Colors.white : const Color(0xFF9CA3AF),
-                    size: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                _totalGuests.toString(),
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1F2937),
-                ),
-              ),
-              const SizedBox(width: 16),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _totalGuests++;
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF6366F1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(Icons.add, color: Colors.white, size: 20),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildStatusDropdown() {
     return Column(
@@ -1929,8 +1462,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
                     final newTypeId = int.tryParse(parts[0]) ?? 0;
                     final newTypeName = parts[1];
                     
-                    print('🔄 Room type changed to: $newTypeName (ID: $newTypeId)');
-                    
                     setState(() {
                       _roomSelections[index]['roomTypeId'] = newTypeId;
                       _roomSelections[index]['roomTypeName'] = newTypeName;
@@ -2061,44 +1592,44 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
   Widget _buildPricingFields() {
     return Column(
       children: [
-        _buildTextField(
-          controller: _subtotalController,
-          label: 'Subtotal (₹)',
-          hint: 'Enter subtotal amount',
-          keyboardType: TextInputType.number,
-          onChanged: (value) {
-            setState(() {
-              _subtotal = double.tryParse(value) ?? 0.0;
-              _calculateTotal();
-            });
-          },
-        ),
+          CustomTextField(
+            controller: _subtotalController,
+            label: 'Subtotal (₹)',
+            hint: 'Enter subtotal amount',
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              setState(() {
+                _subtotal = double.tryParse(value) ?? 0.0;
+                _calculateTotal();
+              });
+            },
+          ),
         const SizedBox(height: 16),
-        _buildTextField(
-          controller: _gstController,
-          label: 'GST (₹)',
-          hint: 'Enter GST amount',
-          keyboardType: TextInputType.number,
-          onChanged: (value) {
-            setState(() {
-              _gst = double.tryParse(value) ?? 0.0;
-              _calculateTotal();
-            });
-          },
-        ),
+          CustomTextField(
+            controller: _gstController,
+            label: 'GST (₹)',
+            hint: 'Enter GST amount',
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              setState(() {
+                _gst = double.tryParse(value) ?? 0.0;
+                _calculateTotal();
+              });
+            },
+          ),
         const SizedBox(height: 16),
-        _buildTextField(
-          controller: _discountController,
-          label: 'Discount (₹)',
-          hint: 'Enter discount amount',
-          keyboardType: TextInputType.number,
-          onChanged: (value) {
-            setState(() {
-              _discount = double.tryParse(value) ?? 0.0;
-              _calculateTotal();
-            });
-          },
-        ),
+          CustomTextField(
+            controller: _discountController,
+            label: 'Discount (₹)',
+            hint: 'Enter discount amount',
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              setState(() {
+                _discount = double.tryParse(value) ?? 0.0;
+                _calculateTotal();
+              });
+            },
+          ),
         const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.all(16),
@@ -2252,7 +1783,6 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       });
       
       // Reload available rooms for all selected room types when dates change
-      print('🔄 Dates changed, reloading available rooms for all room types');
       for (final selection in _roomSelections) {
         final roomTypeId = selection['roomTypeId'] as int;
         if (roomTypeId > 0) {

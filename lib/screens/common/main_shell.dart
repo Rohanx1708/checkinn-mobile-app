@@ -4,7 +4,7 @@ import '../../utils/routes.dart';
 import '../bookings/widgets/add_booking_sheet.dart';
 import '../Dashboard/dashboard_ui.dart';
 import '../bookings/ui/bookings_ui.dart';
-import '../bookings/ui/add_booking_ui.dart';
+import '../bookings/add_booking/add_booking_ui.dart';
 import '../calendar/ui/calendar_ui.dart';
 import '../profile/ui/profile_ui.dart';
 
