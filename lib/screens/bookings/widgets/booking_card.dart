@@ -105,28 +105,6 @@ class BookingCard extends StatelessWidget {
                 // Header Row
                 Row(
                   children: [
-                    // Icon with gradient background
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFF3B82F6).withOpacity(0.12),
-                            Color(0xFF60A5FA).withOpacity(0.24),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.event_note,
-                        color: Color(0xFF3B82F6),
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    
                     // Title and Company
                     Expanded(
                       child: Column(
@@ -157,37 +135,33 @@ class BookingCard extends StatelessWidget {
                       ),
                     ),
                     
-                    // Status Badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: statusColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: statusColor.withOpacity(0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            statusIcon,
-                            size: 16,
-                            color: statusColor,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            booking.status,
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: statusColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                     // Status Badge
+                     Container(
+                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                       decoration: BoxDecoration(
+                         color: statusColor.withOpacity(0.1),
+                         borderRadius: BorderRadius.circular(20),
+                         border: Border.all(
+                           color: statusColor.withOpacity(0.3),
+                           width: 1,
+                         ),
+                       ),
+                       child: Text(
+                         booking.status
+                             .replaceAll('_', ' ')
+                             .split(' ')
+                             .map((word) {
+                               if (word.isEmpty) return word;
+                               return word[0].toUpperCase() + word.substring(1).toLowerCase();
+                             })
+                             .join(' '),
+                         style: GoogleFonts.poppins(
+                           fontSize: 12,
+                           fontWeight: FontWeight.w600,
+                           color: statusColor,
+                         ),
+                       ),
+                     ),
                   ],
                 ),
                 
@@ -196,12 +170,6 @@ class BookingCard extends StatelessWidget {
                 // Customer Info
                 Row(
                   children: [
-                    Icon(
-                      Icons.person,
-                      size: 16,
-                      color: Colors.grey.shade600,
-                    ),
-                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         "${booking.customer.name} • ${booking.totalGuests} guest${booking.totalGuests > 1 ? 's' : ''}",
@@ -221,12 +189,6 @@ class BookingCard extends StatelessWidget {
                 // Check-in/Check-out Info
                 Row(
                   children: [
-                    Icon(
-                      Icons.login,
-                      size: 16,
-                      color: Colors.grey.shade600,
-                    ),
-                    const SizedBox(width: 8),
                     Text(
                       "Check-in: ${DateFormat('dd MMM').format(booking.checkInDate)}",
                       style: GoogleFonts.poppins(
@@ -235,12 +197,6 @@ class BookingCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Icon(
-                      Icons.logout,
-                      size: 16,
-                      color: Colors.grey.shade600,
-                    ),
-                    const SizedBox(width: 8),
                     Text(
                       "Check-out: ${DateFormat('dd MMM').format(booking.checkOutDate)}",
                       style: GoogleFonts.poppins(
