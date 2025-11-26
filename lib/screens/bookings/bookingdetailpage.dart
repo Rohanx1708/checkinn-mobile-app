@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:checkinn/screens/bookings/models/bookingdetails.dart';
 import 'package:checkinn/screens/bookings/services/bookings_service.dart';
 import 'package:checkinn/screens/bookings/add_booking/add_booking_ui.dart';
+import 'package:checkinn/widgets/common_app_bar.dart';
 
 
 class BookingDetailsPage extends StatefulWidget {
@@ -55,7 +56,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               const SizedBox(width: 12),
               Text(
                 'Delete Booking',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
@@ -65,7 +66,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           ),
           content: Text(
             'Are you sure you want to delete this booking? This action cannot be undone.',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: const Color(0xFF6B7280),
             ),
@@ -75,7 +76,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.w500,
                 ),
@@ -96,7 +97,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               ),
               child: Text(
                 'Delete',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -125,7 +126,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             const SizedBox(height: 16),
             Text(
               'Deleting booking...',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF1F2937),
@@ -149,7 +150,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               Expanded(
                 child: Text(
                   'Booking deleted successfully',
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                  style: GoogleFonts.inter(fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -172,7 +173,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               Expanded(
                 child: Text(
                   result['message']?.toString() ?? 'Failed to delete booking',
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                  style: GoogleFonts.inter(fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -205,7 +206,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         return const Color(0xFF0EA5E9); // Light Blue
       case 'checked_out':
       case 'checked-out':
-        return const Color(0xFF8B5CF6); // Purple
+        return const Color(0xFF6B7280); // Grey
       default:
         return const Color(0xFF6B7280); // Gray
     }
@@ -224,20 +225,20 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1).withOpacity(0.1),
+                  decoration: BoxDecoration(
+                  color: const Color(0xFF1F2937).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
                   Icons.receipt_long,
-                  color: Color(0xFF6366F1),
+                  color: Color(0xFF1F2937),
                   size: 24,
                 ),
               ),
               const SizedBox(width: 12),
               Text(
                 'Download Bill',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
@@ -247,7 +248,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           ),
           content: Text(
             'Would you like to download the bill for "${booking.title}"?',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: const Color(0xFF6B7280),
             ),
@@ -257,7 +258,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.grey.shade600,
                   fontWeight: FontWeight.w500,
                 ),
@@ -269,7 +270,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 _processBillDownload(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6366F1),
+                backgroundColor: const Color(0xFF1F2937),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -278,7 +279,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               ),
               child: Text(
                 'Download',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -303,12 +304,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
               ),
               const SizedBox(height: 16),
               Text(
                 'Generating bill...',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF1F2937),
@@ -338,7 +339,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               Expanded(
                 child: Text(
                   'Bill downloaded successfully!',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -362,50 +363,14 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF1F5F9),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Color(0xFF6366F1)),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-        centerTitle: true,
-        title: ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [
-              Color(0xFF6366F1),
-              Color(0xFF8B5CF6),
-            ],
-          ).createShader(bounds),
-          child: Text(
-            'CHECKINN',
-                style: GoogleFonts.poppins(
-                  fontSize: screenWidth * 0.07,
-                  fontWeight: FontWeight.bold,
-              color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-          ),
-        ),
+      appBar: CommonAppBar.withBackButton(
+        title: '',
+        onBackPressed: () => Navigator.of(context).pop(),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: IconButton(
-              tooltip: 'Download Bill',
-              icon: const Icon(Icons.receipt_long, color: Color(0xFF6366F1)),
-              onPressed: () => _downloadBill(context),
-            ),
+          IconButton(
+            tooltip: 'Download Bill',
+            icon: const Icon(Icons.receipt_long, color: Color(0xFF1F2937)),
+            onPressed: () => _downloadBill(context),
           ),
         ],
       ),
@@ -431,86 +396,47 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                  Container(
                    width: double.infinity,
                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
-                   padding: const EdgeInsets.all(16),
+                   padding: const EdgeInsets.all(20),
                    decoration: BoxDecoration(
                      borderRadius: BorderRadius.circular(16),
-                     gradient: LinearGradient(
-                       colors: [
-                         const Color(0xFF6366F1),
-                         const Color(0xFF8B5CF6),
-                       ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                     ),
+                     color: Colors.white,
                      boxShadow: [
                        BoxShadow(
-                         color: const Color(0xFF6366F1).withOpacity(0.2),
+                         color: Colors.black.withOpacity(0.05),
                          blurRadius: 12,
-                         offset: const Offset(0, 6),
+                         offset: const Offset(0, 4),
                        ),
                      ],
+                     border: Border.all(
+                       color: const Color(0xFFF1F5F9),
+                       width: 1,
+                     ),
                    ),
                    child: Row(
                      children: [
-                       // Property Icon
-                       Container(
-                         padding: const EdgeInsets.all(10),
-                         decoration: BoxDecoration(
-                           color: Colors.white.withOpacity(0.2),
-                           borderRadius: BorderRadius.circular(12),
-                         ),
-                         child: const Icon(
-                           Icons.hotel,
-                           size: 24,
-                           color: Colors.white,
-                         ),
-                       ),
-                       const SizedBox(width: 12),
-                       
                        // Title and Company Name
                        Expanded(
                          child: Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Text(
-                      booking.title,
-                               style: GoogleFonts.poppins(
+                               booking.title,
+                               style: GoogleFonts.inter(
                                  fontSize: 18,
                                  fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                                 color: const Color(0xFF1F2937),
                                ),
                              ),
                              const SizedBox(height: 4),
                              Text(
                                booking.companyName,
-                               style: GoogleFonts.poppins(
+                               style: GoogleFonts.inter(
                                  fontSize: 14,
-                                 fontWeight: FontWeight.w500,
-                                 color: Colors.white.withOpacity(0.9),
+                                 fontWeight: FontWeight.w400,
+                                 color: const Color(0xFF6B7280),
                                ),
                              ),
                            ],
-                         ),
-                       ),
-                       
-                       // Status Badge
-                       Container(
-                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                         decoration: BoxDecoration(
-                           color: _getStatusColor(booking.status).withOpacity(0.2),
-                           borderRadius: BorderRadius.circular(16),
-                           border: Border.all(
-                             color: _getStatusColor(booking.status).withOpacity(0.3),
-                             width: 1,
-                           ),
-                         ),
-                         child: Text(
-                           booking.status,
-                           style: GoogleFonts.poppins(
-                             fontSize: 12,
-                             fontWeight: FontWeight.w600,
-                             color: _getStatusColor(booking.status),
-                           ),
                          ),
                        ),
                      ],
@@ -525,12 +451,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       // Customer Information Section
                       _buildSectionCard(
                         'Customer Information',
-                        Icons.person,
-                        const Color(0xFF6366F1),
+                        null,
+                        const Color(0xFF1F2937),
                         [
                     _buildDetailRow('Name', booking.customer.name),
                     _buildDetailRow('Phone', booking.customer.phone),
-                    _buildDetailRow('Email', booking.customer.email ?? 'Not provided', maxLines: 1),
+                    _buildDetailRow('Email', booking.customer.email ?? 'Not provided', maxLines: 10),
                     _buildDetailRow('Total Guests', booking.totalGuests.toString()),
                         ],
                       ),
@@ -540,8 +466,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       // Booking Details Section
                       _buildSectionCard(
                         'Booking Details',
-                        Icons.event_note,
-                        const Color(0xFF8B5CF6),
+                        null,
+                        const Color(0xFF1F2937),
                         [
                           _buildDetailRow('Booking ID', booking.id),
                           _buildDetailRow('Booking Date', _formatDate(booking.date)),
@@ -559,8 +485,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       // Property Information Section
                       _buildSectionCard(
                         'Property Information',
-                        Icons.business,
-                        const Color(0xFF3B82F6),
+                        null,
+                        const Color(0xFF1F2937),
                         [
                           _buildDetailRow('Property Name', booking.propertyName ?? 'Not specified'),
                           _buildDetailRow('Property Address', booking.propertyAddress ?? 'Not specified'),
@@ -571,8 +497,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       const SizedBox(height: 20),
                       _buildSectionCard(
                         'Room Selection',
-                        Icons.bed,
-                        const Color(0xFF22C55E),
+                        null,
+                        const Color(0xFF1F2937),
                         [
                           _buildRoomPairsRow('Room(s)', booking.roomType, booking.selectedRoom),
                           _buildDetailRow('Remarks', booking.remarks ?? 'None'),
@@ -584,8 +510,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       // Financial Summary Section
                       _buildSectionCard(
                         'Financial Summary',
-                        Icons.account_balance_wallet,
-                        const Color(0xFFF59E0B),
+                        null,
+                        const Color(0xFF1F2937),
                         [
                     _buildDetailRow('Total Cost', _formatCurrency(booking.totalCost)),
                     _buildDetailRow('Discount', booking.discount != null ? _formatCurrency(booking.discount!) : '—'),
@@ -600,8 +526,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         const SizedBox(height: 20),
                         _buildSectionCard(
                           'Add-ons',
-                          Icons.add_circle,
-                          const Color(0xFFEC4899),
+                          null,
+                          const Color(0xFF1F2937),
                           [
                             for (final addOn in booking.addOns)
                               _buildDetailRow(addOn.name, _formatCurrency(addOn.price)),
@@ -614,8 +540,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         const SizedBox(height: 20),
                         _buildSectionCard(
                           'Extra Services',
-                          Icons.room_service,
-                          const Color(0xFF06B6D4),
+                          null,
+                          const Color(0xFF1F2937),
                           [
                             for (final extra in booking.extras)
                               _buildDetailRow('${extra.name} (${extra.quantity})', _formatCurrency(extra.price * extra.quantity)),
@@ -633,13 +559,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                                ),
+                                color: const Color(0xFF1F2937),
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFF6366F1).withOpacity(0.3),
+                                    color: const Color(0xFF1F2937).withOpacity(0.3),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   ),
@@ -760,7 +684,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                                 Expanded(
                                                   child: Text(
                                                     'Booking updated successfully!',
-                                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                                                    style: GoogleFonts.inter(fontWeight: FontWeight.w500),
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
@@ -785,7 +709,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                       const SizedBox(width: 8),
                                       Text(
                                         'Edit Booking',
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
@@ -805,13 +729,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFEF4444), Color(0xFFDC2626)],
-                            ),
+                                color: const Color(0xFFEF4444),
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
-                                color: const Color(0xFFEF4444).withOpacity(0.3),
+                                    color: const Color(0xFFEF4444).withOpacity(0.3),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   ),
@@ -832,8 +754,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                    'Delete Booking',
-                                        style: GoogleFonts.poppins(
+                                        'Delete Booking',
+                                        style: GoogleFonts.inter(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
@@ -862,7 +784,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     );
   }
 
-  Widget _buildSectionCard(String title, IconData icon, Color color, List<Widget> children) {
+  Widget _buildSectionCard(String title, IconData? icon, Color color, List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -893,23 +815,25 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             ),
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
+                if (icon != null) ...[
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: color,
+                      size: 20,
+                    ),
                   ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 16),
+                  const SizedBox(width: 16),
+                ],
                 Expanded(
-      child: Text(
-        title,
-                    style: GoogleFonts.poppins(
+                  child: Text(
+                    title,
+                    style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1F2937),
@@ -942,7 +866,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             flex: 4,
             child: Text(
               label,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF6B7280),
@@ -955,12 +879,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             child: Text(
               value,
               textAlign: align ?? TextAlign.right,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF1F2937),
               ),
-              overflow: TextOverflow.ellipsis,
+              overflow: maxLines == 10 ? TextOverflow.clip : TextOverflow.ellipsis,
               maxLines: maxLines,
             ),
           ),
@@ -984,7 +908,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             flex: 4,
             child: Text(
               label,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF6B7280),
@@ -1002,7 +926,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         child: Text(
                           p,
                           textAlign: TextAlign.right,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF1F2937),
@@ -1054,7 +978,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             flex: 4,
             child: Text(
               label,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF6B7280),
@@ -1072,7 +996,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         child: Text(
                           p,
               textAlign: TextAlign.right,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF1F2937),

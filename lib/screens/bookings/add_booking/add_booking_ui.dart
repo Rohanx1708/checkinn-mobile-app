@@ -703,7 +703,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(color: Color(0xFF6366F1)),
+            const CircularProgressIndicator(color: Color(0xFF1F2937)),
             const SizedBox(height: 16),
             Text(
               widget.existingBooking != null 

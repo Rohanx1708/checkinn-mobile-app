@@ -145,7 +145,16 @@ class _LeadsTabState extends State<LeadsTab> {
           child: RefreshIndicator(
             onRefresh: _loadLeads,
             child: _loading
-                ? ListView(children: const [SizedBox(height: 200), Center(child: CircularProgressIndicator())])
+                ? ListView(
+                    children: const [
+                      SizedBox(height: 200),
+                      Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                        ),
+                      ),
+                    ],
+                  )
                 : (_error != null
                     ? ListView(children: [
                         SizedBox(height: 120),

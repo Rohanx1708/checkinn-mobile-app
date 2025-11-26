@@ -701,7 +701,9 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+            ),
             SizedBox(height: 16),
             Text('Creating property and uploading images...'),
           ],

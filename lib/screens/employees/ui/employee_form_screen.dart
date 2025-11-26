@@ -603,7 +603,9 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+        ),
       ),
     );
 

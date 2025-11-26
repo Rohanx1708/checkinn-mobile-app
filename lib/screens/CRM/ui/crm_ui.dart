@@ -44,29 +44,6 @@ class _CrmUiState extends State<CrmUi> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          const Color(0xFF6366F1),
-                          const Color(0xFF8B5CF6),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF6366F1).withOpacity(0.25),
-                          blurRadius: 14,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(Icons.people_outline, color: Colors.white, size: 16),
-                  ),
-                  const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,25 +54,6 @@ class _CrmUiState extends State<CrmUi> {
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Container(
-                          height: 3,
-                          width: 86,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                            ),
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Manage your customers and leads',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: const Color(0xFF6B7280),
                           ),
                         ),
                       ],

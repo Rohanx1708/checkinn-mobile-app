@@ -283,7 +283,9 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                     const Center(
                       child: Padding(
                         padding: EdgeInsets.all(16),
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                        ),
                       ),
                     )
                   else if (selectedDateBookings.isEmpty)

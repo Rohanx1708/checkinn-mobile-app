@@ -303,7 +303,11 @@ class _DashboardUiState extends State<DashboardUi> {
             SizedBox(
               height: 200,
               child: _revenueLoading 
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                    ),
+                  )
                 : _buildRevenueChart(),
             ),
           ],
@@ -748,7 +752,7 @@ class _DashboardUiState extends State<DashboardUi> {
                         value: _loading ? 0.0 : (_occupancyRate / 100),
                         strokeWidth: 6,
                         backgroundColor: const Color(0xFFF1F5F9),
-                        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+                        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
                       ),
                     ),
                     Text(
@@ -756,7 +760,7 @@ class _DashboardUiState extends State<DashboardUi> {
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF6366F1),
+                        color: const Color(0xFF1F2937),
                       ),
                     ),
                   ],

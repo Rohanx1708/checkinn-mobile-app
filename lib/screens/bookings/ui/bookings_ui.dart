@@ -383,7 +383,7 @@ class BookingsUiState extends State<BookingsUi> {
     if (_isLoading) {
       return const Center(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
         ),
       );
     }

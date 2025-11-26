@@ -341,7 +341,11 @@ class _BookingsTrendChartState extends State<BookingsTrendChart> {
     return SizedBox(
       height: 260,
       child: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+              ),
+            )
           : LineChart(
               LineChartData(
                 minY: 0,
@@ -568,7 +572,9 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
       return Container(
         height: 180,
         alignment: Alignment.center,
-        child: const CircularProgressIndicator(),
+        child: const CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+        ),
       );
     }
 

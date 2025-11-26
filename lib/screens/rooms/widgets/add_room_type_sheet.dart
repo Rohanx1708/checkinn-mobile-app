@@ -700,7 +700,9 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+            ),
             SizedBox(height: 16),
             Text('Creating room type and uploading images...'),
           ],

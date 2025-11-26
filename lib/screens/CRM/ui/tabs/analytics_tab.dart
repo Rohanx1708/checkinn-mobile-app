@@ -180,7 +180,11 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                   alignment: Alignment.center,
                   children: [
                     if (_loading)
-                      const Center(child: CircularProgressIndicator())
+                      const Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                        ),
+                      )
                     else
                       PieChart(
                         PieChartData(

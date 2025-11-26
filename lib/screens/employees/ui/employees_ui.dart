@@ -379,26 +379,6 @@ class _EmployeesUiState extends State<EmployeesUi> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF6366F1).withOpacity(0.25),
-                        blurRadius: 14,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(Icons.badge, color: Colors.white, size: 22),
-                ),
-                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -408,27 +388,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 20,
-
                           color: const Color(0xFF1F2937),
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Container(
-                        height: 3,
-                        width: 86,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                          ),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Manage your staff roster and roles',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: const Color(0xFF6B7280),
-                          fontSize: 14,
                         ),
                       ),
                     ],
@@ -492,7 +452,11 @@ class _EmployeesUiState extends State<EmployeesUi> {
           // Employees list
           Expanded(
             child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                    ),
+                  )
                 : _errorMessage != null
                     ? Center(
                         child: Padding(

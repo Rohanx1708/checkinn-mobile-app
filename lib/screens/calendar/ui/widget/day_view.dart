@@ -380,7 +380,11 @@ class _DayViewState extends State<DayView> {
               vertical: screenHeight * .01,
             ),
             child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                    ),
+                  )
                 : _errorMessage != null
                     ? Center(
                         child: Padding(

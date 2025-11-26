@@ -190,7 +190,9 @@ class _RoomCardState extends State<RoomCard> {
                               return Container(
                                 color: Colors.grey[300],
                                 child: const Center(
-                                  child: CircularProgressIndicator(),
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                                  ),
                                 ),
                               );
                             },
