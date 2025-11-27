@@ -422,54 +422,54 @@ class _DashboardUiState extends State<DashboardUi> {
                 ),
               )
             : Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white,
-                      Color(0xFFF8FAFC),
-                    ],
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white,
+                Color(0xFFF8FAFC),
+              ],
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  
+                  // KPI Stats Tile (4 sections)
+                  _buildKpiStatsTile(),
+                  const SizedBox(height: 16),
+                  
+                  // Financial Metrics (2x2 Grid)
+                  _buildFinancialMetrics(),
+                  const SizedBox(height: 16),
+                  
+                  // Counts and Occupancy Section
+                  _buildCountsAndOccupancy(),
+                  const SizedBox(height: 16),
+                  
+                  // Revenue Trend - separate card above calendar
+                  _buildRevenueTrendCard(),
+                  const SizedBox(height: 16),
+                  // Calendar Section
+                  DashboardCalendarWidget(
+                    bookings: _calendarBookings,
+                    loading: _calendarLoading,
+                    onDateSelected: (date) {
+                      // Handle date selection if needed
+                      print('Selected date: $date');
+                    },
                   ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 16),
-                        
-                        // KPI Stats Tile (4 sections)
-                        _buildKpiStatsTile(),
-                        const SizedBox(height: 16),
-                        
-                        // Financial Metrics (2x2 Grid)
-                        _buildFinancialMetrics(),
-                        const SizedBox(height: 16),
-                        
-                        // Counts and Occupancy Section
-                        _buildCountsAndOccupancy(),
-                        const SizedBox(height: 16),
-                        
-                        // Revenue Trend - separate card above calendar
-                        _buildRevenueTrendCard(),
-                        const SizedBox(height: 16),
-                        // Calendar Section
-                        DashboardCalendarWidget(
-                          bookings: _calendarBookings,
-                          loading: _calendarLoading,
-                          onDateSelected: (date) {
-                            // Handle date selection if needed
-                            print('Selected date: $date');
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
-                  ),
-                ),
+                  const SizedBox(height: 16),
+                ],
               ),
+            ),
+          ),
+        ),
       ),
     );
   }

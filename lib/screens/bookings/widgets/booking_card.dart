@@ -135,17 +135,17 @@ class BookingCard extends StatelessWidget {
                       ),
                     ),
                     
-                     // Status Badge
-                     Container(
-                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                       decoration: BoxDecoration(
-                         color: statusColor.withOpacity(0.1),
-                         borderRadius: BorderRadius.circular(20),
-                         border: Border.all(
-                           color: statusColor.withOpacity(0.3),
-                           width: 1,
-                         ),
-                       ),
+                    // Status Badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: statusColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: statusColor.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
                        child: Text(
                          booking.status
                              .replaceAll('_', ' ')
@@ -155,13 +155,13 @@ class BookingCard extends StatelessWidget {
                                return word[0].toUpperCase() + word.substring(1).toLowerCase();
                              })
                              .join(' '),
-                         style: GoogleFonts.poppins(
-                           fontSize: 12,
-                           fontWeight: FontWeight.w600,
-                           color: statusColor,
-                         ),
-                       ),
-                     ),
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: statusColor,
+                            ),
+                      ),
+                    ),
                   ],
                 ),
                 

@@ -225,7 +225,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
+                decoration: BoxDecoration(
                   color: const Color(0xFF1F2937).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -368,9 +368,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         onBackPressed: () => Navigator.of(context).pop(),
         actions: [
           IconButton(
-            tooltip: 'Download Bill',
+              tooltip: 'Download Bill',
             icon: const Icon(Icons.receipt_long, color: Color(0xFF1F2937)),
-            onPressed: () => _downloadBill(context),
+              onPressed: () => _downloadBill(context),
           ),
         ],
       ),
@@ -420,7 +420,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Text(
-                               booking.title,
+                      booking.title,
                                style: GoogleFonts.inter(
                                  fontSize: 18,
                                  fontWeight: FontWeight.w700,
@@ -733,7 +733,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFFEF4444).withOpacity(0.3),
+                                color: const Color(0xFFEF4444).withOpacity(0.3),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   ),
@@ -754,7 +754,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        'Delete Booking',
+                                    'Delete Booking',
                                         style: GoogleFonts.inter(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -816,23 +816,23 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             child: Row(
               children: [
                 if (icon != null) ...[
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      icon,
-                      color: color,
-                      size: 20,
-                    ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(width: 16),
+                  child: Icon(
+                    icon,
+                    color: color,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 16),
                 ],
                 Expanded(
-                  child: Text(
-                    title,
+      child: Text(
+        title,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

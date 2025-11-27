@@ -4,7 +4,7 @@ import '../../utils/routes.dart';
 import '../bookings/widgets/add_booking_sheet.dart';
 import '../Dashboard/dashboard_ui.dart';
 import '../bookings/ui/bookings_ui.dart';
-import '../bookings/add_booking/add_booking_ui.dart';
+import '../new_booking/new_booking_ui.dart';
 import '../calendar/ui/calendar_ui.dart';
 import '../profile/ui/profile_ui.dart';
 
@@ -118,7 +118,7 @@ class _MainShellState extends State<MainShell> {
   Future<void> _showAddBookingSheet() async {
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddBookingUi(),
+        builder: (context) => const NewBookingUi(),
       ),
     );
   }
