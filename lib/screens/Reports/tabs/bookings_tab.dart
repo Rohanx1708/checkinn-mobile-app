@@ -72,7 +72,7 @@ class _BookingsTabState extends State<BookingsTab> {
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
               'Booking Statistics',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF111827),
@@ -140,7 +140,7 @@ class _BookingStatsGrid extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   value,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF111827),
@@ -150,7 +150,7 @@ class _BookingStatsGrid extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   label,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF6B7280),

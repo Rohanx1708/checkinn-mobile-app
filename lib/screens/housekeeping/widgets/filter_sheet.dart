@@ -55,7 +55,7 @@ class _FilterSheetState extends State<FilterSheet> {
             const SizedBox(width: 8),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF374151),
@@ -79,7 +79,7 @@ class _FilterSheetState extends State<FilterSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               items: items,
               onChanged: onChanged,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 15,
                 color: const Color(0xFF1F2937),
                 fontWeight: FontWeight.w500,
@@ -150,7 +150,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   const SizedBox(width: 12),
                   Text(
                     'Filter Rooms',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF1F2937),
@@ -234,7 +234,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         ),
                         child: Text(
                           'Reset All',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF6B7280),
@@ -274,7 +274,7 @@ class _FilterSheetState extends State<FilterSheet> {
                         ),
                         child: Text(
                           'Apply Filters',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,

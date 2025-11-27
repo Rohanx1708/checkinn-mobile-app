@@ -65,7 +65,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             try {
               Scaffold.of(context).openDrawer();
             } catch (e) {
-              print('Error opening drawer: $e');
+              // Error opening drawer
             }
           }
         },

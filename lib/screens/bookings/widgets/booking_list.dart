@@ -28,7 +28,7 @@ class BookingList extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'No bookings found',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 color: Colors.grey.shade600,
@@ -37,7 +37,7 @@ class BookingList extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Try adjusting your search or filters',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14,
                 color: Colors.grey.shade500,
               ),

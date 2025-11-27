@@ -47,13 +47,13 @@ class EmptyState extends StatelessWidget {
             child: Icon(
               icon,
               size: 48,
-              color: const Color(0xFF6366F1),
+              color: const Color(0xFF1F2937),
             ),
           ),
           const SizedBox(height: 24),
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 20,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF1F2937),
@@ -63,7 +63,7 @@ class EmptyState extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: const Color(0xFF6B7280),
             ),
@@ -75,16 +75,11 @@ class EmptyState extends StatelessWidget {
               width: double.infinity,
               height: 48,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFF6366F1),
-                    const Color(0xFF8B5CF6),
-                  ],
-                ),
+                color: const Color(0xFF1F2937),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF6366F1).withOpacity(0.3),
+                    color: const Color(0xFF1F2937).withOpacity(0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -98,7 +93,7 @@ class EmptyState extends StatelessWidget {
                   child: Center(
                     child: Text(
                       actionText!,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,

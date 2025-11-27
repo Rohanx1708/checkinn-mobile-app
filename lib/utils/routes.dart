@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/splash/splash_screen.dart';
 import '../screens/login/ui/login_ui.dart';
 import '../screens/login/ui/forgot_password_ui.dart';
 import '../screens/Dashboard/dashboard_ui.dart';
@@ -17,6 +18,9 @@ import 'package:checkinn/screens/employees/ui/employees_ui.dart';
 
 /// App Routes - Centralized route management
 class AppRoutes {
+  // Initial route
+  static const String splash = '/';
+  
   // Authentication routes
   static const String login = '/login';
   static const String register = '/register';
@@ -24,7 +28,7 @@ class AppRoutes {
 
   // Main app routes
   static const String dashboard = '/dashboard';
-  static const String shell = '/';
+  static const String shell = '/shell';
   static const String rooms = '/rooms';
   static const String events = '/events';
   static const String bookings = '/bookings';
@@ -60,6 +64,10 @@ class AppRoutes {
 /// Route Generator - Handles navigation between screens
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
+    // Initial/Splash route
+    case AppRoutes.splash:
+      return _buildRoute(const SplashScreen(), settings);
+    
     // Authentication routes
     case AppRoutes.login:
       return _buildRoute(const LoginUi(), settings);
@@ -130,7 +138,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
 
     // Default route
     default:
-      return _buildRoute(const LoginUi(), settings);
+      return _buildRoute(const SplashScreen(), settings);
   }
 }
 

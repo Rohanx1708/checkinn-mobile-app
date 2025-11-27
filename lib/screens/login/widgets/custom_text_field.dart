@@ -11,6 +11,8 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool enabled;
+  final ValueChanged<String>? onChanged;
+  final AutovalidateMode? autovalidateMode;
 
   const CustomTextField({
     super.key,
@@ -23,6 +25,8 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.keyboardType = TextInputType.text,
     this.enabled = true,
+    this.onChanged,
+    this.autovalidateMode,
   });
 
   @override
@@ -44,9 +48,11 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         enabled: enabled,
         validator: validator,
+        onChanged: onChanged,
+        autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: GoogleFonts.poppins(
+          hintStyle: GoogleFonts.inter(
             color: const Color(0xFF9CA3AF),
             fontSize: 16,
           ),

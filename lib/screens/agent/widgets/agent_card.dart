@@ -46,12 +46,7 @@ class AgentCard extends StatelessWidget {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1),
-                        const Color(0xFF8B5CF6),
-                      ],
-                    ),
+                    color: const Color(0xFF1F2937),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Icon(
@@ -69,7 +64,7 @@ class AgentCard extends StatelessWidget {
                     children: [
                       Text(
                         agent.name,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF1F2937),
@@ -79,7 +74,7 @@ class AgentCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         agent.company,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 14,
                           color: const Color(0xFF6B7280),
                         ),
@@ -107,7 +102,7 @@ class AgentCard extends StatelessWidget {
                                 const SizedBox(width: 4),
                                 Text(
                                   agent.status,
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                     color: AgentHelper.getStatusColor(agent.status),
@@ -132,7 +127,7 @@ class AgentCard extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.edit,
-                      color: const Color(0xFF6366F1),
+                      color: const Color(0xFF1F2937),
                       size: 20,
                     ),
                   ),

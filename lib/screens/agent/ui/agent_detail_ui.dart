@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../widgets/common_app_bar.dart';
 import '../models/agent_model.dart';
 import '../widgets/agent_detail_tile.dart';
 
@@ -32,50 +33,8 @@ class AgentDetailUi extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF1F5F9),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Color(0xFF6366F1)),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-        centerTitle: true,
-        title: Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: 'CHECK',
-                style: GoogleFonts.poppins(
-                  fontSize: screenWidth * 0.07,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF1F2937),
-                ),
-              ),
-              TextSpan(
-                text: 'INN',
-                style: GoogleFonts.poppins(
-                  fontSize: screenWidth * 0.07,
-                  fontWeight: FontWeight.bold,
-                  background: Paint()
-                    ..shader = LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1),
-                        const Color(0xFF8B5CF6),
-                      ],
-                    ).createShader(const Rect.fromLTWH(0, 0, 100, 70)),
-                ),
-              ),
-            ],
-          ),
-          textAlign: TextAlign.center,
-        ),
+      appBar: CommonAppBar.withBackButton(
+        title: 'Agent Details',
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -94,101 +53,106 @@ class AgentDetailUi extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: screenHeight * 0.02),
+                const SizedBox(height: 8),
                 
                 // Agent Profile Header
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1),
-                        const Color(0xFF8B5CF6),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color(0xFFE5E7EB),
+                      width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF6366F1).withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                  child: Column(
+                  child: Row(
                     children: [
                       // Agent Avatar
                       Container(
-                        width: 100,
-                        height: 100,
+                        width: 80,
+                        height: 80,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
-                            width: 3,
-                          ),
+                          color: const Color(0xFFF3F4F6),
+                          borderRadius: BorderRadius.circular(40),
                         ),
                         child: const Icon(
                           Icons.person,
-                          color: Colors.white,
-                          size: 50,
+                          color: Color(0xFF1F2937),
+                          size: 40,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(width: 16),
                       
-                      // Agent Name
-                      Text(
-                        name,
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      
-                      // Company
-                      Text(
-                        company,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // Status Badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                      // Agent Info
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.circle,
-                              size: 8,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 8),
+                            // Agent Name
                             Text(
-                              status,
-                              style: GoogleFonts.poppins(
+                              name,
+                              style: GoogleFonts.inter(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFF1F2937),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            
+                            // Company
+                            Text(
+                              company,
+                              style: GoogleFonts.inter(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                                color: const Color(0xFF6B7280),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            
+                            // Status Badge
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: status.toLowerCase() == 'active' 
+                                    ? const Color(0xFFD1FAE5)
+                                    : const Color(0xFFFEE2E2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: BoxDecoration(
+                                      color: status.toLowerCase() == 'active'
+                                          ? const Color(0xFF10B981)
+                                          : const Color(0xFFEF4444),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    status,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: status.toLowerCase() == 'active'
+                                          ? const Color(0xFF059669)
+                                          : const Color(0xFFDC2626),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -198,12 +162,12 @@ class AgentDetailUi extends StatelessWidget {
                   ),
                 ),
                 
-                SizedBox(height: screenHeight * 0.03),
+                const SizedBox(height: 24),
                 
                 // Contact Information Section
                 Text(
                   'Contact Information',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF1F2937),
@@ -216,7 +180,7 @@ class AgentDetailUi extends StatelessWidget {
                   icon: Icons.phone,
                   label: 'Mobile Number',
                   value: mobile,
-                  iconColor: const Color(0xFF22C55E),
+                  iconColor: const Color(0xFF1F2937),
                 ),
                 
                 // Alternate Mobile
@@ -225,7 +189,7 @@ class AgentDetailUi extends StatelessWidget {
                     icon: Icons.phone_android,
                     label: 'Alternate Mobile',
                     value: altMobile,
-                    iconColor: const Color(0xFF3B82F6),
+                    iconColor: const Color(0xFF1F2937),
                   ),
                 
                 // Email
@@ -233,7 +197,7 @@ class AgentDetailUi extends StatelessWidget {
                   icon: Icons.email,
                   label: 'Email Address',
                   value: email,
-                  iconColor: const Color(0xFF8B5CF6),
+                  iconColor: const Color(0xFF1F2937),
                 ),
                 
                 // Address
@@ -241,7 +205,7 @@ class AgentDetailUi extends StatelessWidget {
                   icon: Icons.location_on,
                   label: 'Address',
                   value: address,
-                  iconColor: const Color(0xFFF59E0B),
+                  iconColor: const Color(0xFF1F2937),
                 ),
                 
                 SizedBox(height: screenHeight * 0.03),
@@ -251,54 +215,43 @@ class AgentDetailUi extends StatelessWidget {
                   children: [
                     // Edit Details Button
                     Expanded(
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // TODO: Navigate to edit agent screen
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Edit ${name}\'s details'),
+                              backgroundColor: const Color(0xFF1F2937),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1F2937),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF6366F1).withOpacity(0.3),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
+                          elevation: 0,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Edit Details',
+                              style: GoogleFonts.inter(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(12),
-                            onTap: () {
-                              // TODO: Navigate to edit agent screen
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Edit ${name}\'s details'),
-                                  backgroundColor: const Color(0xFF6366F1),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'Edit Details',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
                       ),
                     ),
@@ -340,7 +293,7 @@ class AgentDetailUi extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Text(
                                   'Delete Agent',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     color: const Color(0xFFEF4444),
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
@@ -389,7 +342,7 @@ class AgentDetailUi extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 'Delete Agent',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
                 ),
@@ -398,7 +351,7 @@ class AgentDetailUi extends StatelessWidget {
           ),
           content: Text(
             'Are you sure you want to delete "$name"? This action cannot be undone.',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: const Color(0xFF6B7280),
             ),
           ),
@@ -407,41 +360,38 @@ class AgentDetailUi extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: const Color(0xFF6B7280),
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFFEF4444),
-                    const Color(0xFFDC2626),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close dialog
-                  Navigator.pop(context); // Go back to agents list
-                  
-                  // Show success message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('$name has been deleted'),
-                      backgroundColor: const Color(0xFFEF4444),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Delete',
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog
+                Navigator.pop(context); // Go back to agents list
+                
+                // Show success message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('$name has been deleted'),
+                    backgroundColor: const Color(0xFFEF4444),
                   ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFEF4444),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                elevation: 0,
+              ),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

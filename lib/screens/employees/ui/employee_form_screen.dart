@@ -112,7 +112,7 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
         backgroundColor: colors.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF6366F1)),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF1F2937)),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
@@ -160,7 +160,7 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
                   child: ElevatedButton(
                     onPressed: _currentStep == _stepTitles.length - 1 ? _submit : _next,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0F172A),
+                      backgroundColor: const Color(0xFF1F2937),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
@@ -400,18 +400,12 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
   String? _required(String? v) => (v == null || v.trim().isEmpty) ? 'Required' : null;
   String? _requiredStr(String v) => (v.trim().isEmpty) ? 'Required' : null;
 
-  Widget _section({required IconData icon, required String title, required Widget child}) {
+  Widget _section({IconData? icon, required String title, required Widget child}) {
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(icon, color: const Color(0xFF6366F1), size: 20),
-            const SizedBox(width: 10),
-            Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF1F2937))),
-          ],
-        ),
+        Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF1F2937))),
         const SizedBox(height: 12),
         child,
       ],
@@ -451,10 +445,10 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
       filled: true,
       fillColor: Colors.white,
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      prefixIcon: prefix == null ? null : Icon(prefix, size: 18, color: const Color(0xFF6366F1)),
+      prefixIcon: prefix == null ? null : Icon(prefix, size: 18, color: const Color(0xFF1F2937)),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey.shade300)),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey.shade300)),
-      focusedBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Color(0xFF6366F1), width: 2)),
+      focusedBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Color(0xFF1F2937), width: 2)),
     );
   }
 
@@ -484,7 +478,7 @@ class _EmployeeFormScreenState extends State<EmployeeFormScreen> {
         validator: validator == null ? null : (_) => validator(value.isEmpty ? '' : value),
         decoration: _inputDecoration(),
         isExpanded: true,
-        icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF6366F1)),
+        icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF1F2937)),
       ),
     ]);
   }

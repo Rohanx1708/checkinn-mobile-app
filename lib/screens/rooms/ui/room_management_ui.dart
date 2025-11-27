@@ -25,19 +25,15 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
 
   // Helper method to parse image URLs from API response
   List<String> _parseImageUrls(dynamic imageData) {
-    print('🔍 Parsing image data: $imageData');
     if (imageData == null) {
-      print('🔍 Image data is null, returning empty list');
       return [];
     }
     
     if (imageData is List) {
       final urls = imageData.map((url) => _convertImageUrl(url.toString())).toList();
-      print('🔍 Parsed image URLs: $urls');
       return urls;
     }
     
-    print('🔍 Image data is not a list, returning empty list');
     return [];
   }
 
@@ -45,7 +41,6 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
   String _convertImageUrl(String url) {
     if (url.startsWith('http://localhost')) {
       final convertedUrl = url.replaceFirst('http://localhost', 'https://checkinn.club');
-      print('🔍 Converted URL: $url -> $convertedUrl');
       return convertedUrl;
     }
     return url;
@@ -74,12 +69,8 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
 
         // Parse room types data - this seems to contain the actual room/accommodation data
         final roomTypesData = roomTypesResult['data'];
-        print('🔍 Room Types API Response: $roomTypesData');
         if (roomTypesData['data'] != null) {
           for (var roomData in roomTypesData['data']) {
-            print('🔍 Room Data: $roomData');
-            print('🔍 Room Images: ${roomData['images']}');
-            print('🔍 Room Photos: ${roomData['photos']}');
             try {
               // Convert accommodation data to RoomEntity
               final room = RoomEntity(
@@ -290,7 +281,7 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                       children: [
                         Text(
                           'Room Management',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
@@ -327,7 +318,7 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                                 const SizedBox(height: 16),
                                 Text(
                                   'Failed to load rooms',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.red.shade700,
@@ -336,7 +327,7 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                                 const SizedBox(height: 8),
                                 Text(
                                   _errorMessage!,
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     fontSize: 14,
                                     color: Colors.grey.shade600,
                                   ),
@@ -346,7 +337,7 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                                 ElevatedButton(
                                   onPressed: _refreshData,
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF6366F1),
+                                    backgroundColor: const Color(0xFF1F2937),
                                     foregroundColor: Colors.white,
                                   ),
                                   child: const Text('Retry'),
@@ -408,11 +399,11 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _onAddRoomType,
-        backgroundColor: const Color(0xFF6366F1),
+        backgroundColor: const Color(0xFF1F2937),
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(
           'Add Room Type',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),

@@ -57,7 +57,7 @@ class _AddRoomSheetState extends State<AddRoomSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF6366F1),
+                    color: const Color(0xFF1F2937),
                     borderRadius: BorderRadius.circular(2)
                   ),
                 ),
@@ -65,67 +65,12 @@ class _AddRoomSheetState extends State<AddRoomSheet> {
               const SizedBox(height: 20),
               
               // Header section
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF6366F1),
-                      const Color(0xFF8B5CF6),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF6366F1).withOpacity(0.2),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(
-                        Icons.add_business,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Add New Room',
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                          Text(
-                            'Create a new room configuration',
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white.withOpacity(0.9),
-                              letterSpacing: 0.2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+              Text(
+                'Add New Room',
+                style: GoogleFonts.inter(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF1F2937),
                 ),
               ),
               
@@ -153,52 +98,38 @@ class _AddRoomSheetState extends State<AddRoomSheet> {
               const SizedBox(height: 24),
 
               // Save Button
-              Container(
+              SizedBox(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color(0xFF22C55E),
-                      const Color(0xFF16A34A),
-                    ],
+                child: ElevatedButton(
+                  onPressed: _saveRoom,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1F2937),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF22C55E).withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    onTap: _saveRoom,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.save,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Save Room',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              letterSpacing: 0.3,
-                            ),
-                          ),
-                        ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.save,
+                        color: Colors.white,
+                        size: 20,
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Save Room',
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -212,7 +143,7 @@ class _AddRoomSheetState extends State<AddRoomSheet> {
   Widget _buildFieldLabel(String label) {
     return Text(
       label,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         color: const Color(0xFF1F2937),
@@ -249,15 +180,15 @@ class _AddRoomSheetState extends State<AddRoomSheet> {
         decoration: InputDecoration(
           hintText: hintText,
           prefixText: prefixText,
-          prefixIcon: Icon(icon, color: const Color(0xFF6366F1)),
+          prefixIcon: Icon(icon, color: const Color(0xFF1F2937)),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          hintStyle: GoogleFonts.poppins(
+          hintStyle: GoogleFonts.inter(
             color: const Color(0xFF9CA3AF),
             fontSize: 14,
           ),
         ),
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.inter(
           fontSize: 14,
           color: const Color(0xFF1F2937),
         ),

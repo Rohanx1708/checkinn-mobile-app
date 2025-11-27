@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/common_app_bar.dart';
 import '../models/room_models.dart';
 import '../services/rooms_service.dart';
-import '../widgets/add_room_sheet.dart';
 import '../widgets/empty_state.dart';
+import 'add_room_screen.dart';
 
 class RoomTypesUi extends StatefulWidget {
   final String categoryName;
@@ -122,48 +122,7 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
       ),
       body: Column(
         children: [
-          // Room Listings Header Section
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 16),
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF10B981),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.list,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  'Room Listings',
-                  style: GoogleFonts.poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF1F2937),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
+          const SizedBox(height: 16),
           // Rooms List
           Expanded(
             child: _localRooms.isEmpty
@@ -204,12 +163,12 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFE0F2FE),
+                                  color: const Color(0xFFF3F4F6),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
                                   Icons.key,
-                                  color: Color(0xFF0288D1),
+                                  color: Color(0xFF1F2937),
                                   size: 28,
                                 ),
                               ),
@@ -222,7 +181,7 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
                                   children: [
                                     Text(
                                       room.name,
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: const Color(0xFF1F2937),
@@ -231,7 +190,7 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
                                     const SizedBox(height: 4),
                                     Text(
                                       room.description,
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         fontSize: 14,
                                         color: const Color(0xFF6B7280),
                                       ),
@@ -242,12 +201,12 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFF8B5CF6),
+                                        color: const Color(0xFF1F2937),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Text(
                                         room.roomType,
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white,
@@ -278,109 +237,38 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
           ),
         ],
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFF6366F1),
-              Color(0xFF8B5CF6),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF6366F1).withOpacity(0.3),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _showAddRoomBottomSheet,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+        backgroundColor: const Color(0xFF1F2937),
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(
           'Add Room',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
-        ),
         ),
       ),
     );
   }
 
-  void _showAddRoomBottomSheet() {
-    // Create proper RoomType objects
-    final List<RoomType> roomTypes = [
-      RoomType(
-        id: '1',
-        name: 'Standard',
-        description: 'Standard room with basic amenities',
-        basePrice: 99.99,
-        capacity: 2,
-        createdAt: DateTime.now(),
-      ),
-      RoomType(
-        id: '2',
-        name: 'Deluxe',
-        description: 'Deluxe room with premium amenities',
-        basePrice: 149.99,
-        capacity: 2,
-        createdAt: DateTime.now(),
-      ),
-      RoomType(
-        id: '3',
-        name: 'Suite',
-        description: 'Luxury suite with separate living area',
-        basePrice: 249.99,
-        capacity: 4,
-        createdAt: DateTime.now(),
-      ),
-      RoomType(
-        id: '4',
-        name: 'Family',
-        description: 'Family room with extra space',
-        basePrice: 179.99,
-        capacity: 4,
-        createdAt: DateTime.now(),
-      ),
-      RoomType(
-        id: '5',
-        name: 'Executive',
-        description: 'Executive room with business amenities',
-        basePrice: 199.99,
-        capacity: 2,
-        createdAt: DateTime.now(),
-      ),
-      RoomType(
-        id: '6',
-        name: 'Presidential',
-        description: 'Presidential suite with luxury amenities',
-        basePrice: 499.99,
-        capacity: 6,
-        createdAt: DateTime.now(),
-      ),
-    ];
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => AddRoomSheet(
-        roomTypes: roomTypes,
-        onRoomAdded: (room) {
-          // Add the new room to the local list
-          setState(() {
-            _localRooms.add(room);
-          });
-        },
+  void _showAddRoomBottomSheet() async {
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddRoomScreen(
+          categoryName: widget.categoryName,
+          onRoomAdded: (room) {
+            // Add the new room to the local list
+            setState(() {
+              _localRooms.add(room);
+            });
+          },
+        ),
       ),
     );
+    
+    if (result == true) {
+      // Room was added successfully, list will be updated via callback
+    }
   }
 }

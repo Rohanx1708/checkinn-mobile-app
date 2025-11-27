@@ -94,7 +94,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Room Type', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+        title: Text('Add Room Type', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -140,7 +140,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: Text('Previous', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                        child: Text('Previous', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                       ),
                     ),
                   if (_currentStep > 0) const SizedBox(width: 16),
@@ -152,7 +152,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Text(_currentStep == _stepTitles.length - 1 ? 'Create Room Type' : 'Next', style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white)),
+                      child: Text(_currentStep == _stepTitles.length - 1 ? 'Create Room Type' : 'Next', style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: Colors.white)),
                     ),
                   ),
                 ],
@@ -195,7 +195,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                 value: _floor,
                 items: const ['Ground Floor (G)', 'First Floor (1)', 'Second Floor (2)'],
                 onChanged: (v) => setState(() => _floor = v ?? _floor),
-                textStyle: GoogleFonts.poppins(fontSize: 12, color: Colors.black),
+                textStyle: GoogleFonts.inter(fontSize: 12, color: Colors.black),
               ),
             ),
             const SizedBox(width: 16),
@@ -206,7 +206,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                 items: RoomTypeOption.values,
                 itemLabel: (v) => _accommodationLabel(v),
                 onChanged: (v) => setState(() => _accommodation = v ?? _accommodation),
-                textStyle: GoogleFonts.poppins(fontSize: 12, color: Colors.black),
+                textStyle: GoogleFonts.inter(fontSize: 12, color: Colors.black),
               ),
             ),
           ],
@@ -260,7 +260,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
       children: [
         _multiline('Description *', _descriptionCtrl),
         const SizedBox(height: 16),
-        Text('Bed Configuration', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
+        Text('Bed Configuration', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -285,7 +285,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
         const SizedBox(height: 12),
         _buildChips(_bedConfigs, onRemove: (v) => setState(() => _bedConfigs = _bedConfigs.where((e) => e != v).toList())),
         const SizedBox(height: 16),
-        Text('Room Amenities', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
+        Text('Room Amenities', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -320,7 +320,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Pricing Tiers (Optional)', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600)),
+            Text('Pricing Tiers (Optional)', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600)),
             TextButton.icon(onPressed: _addTier, icon: const Icon(Icons.add), label: const Text('Add Tier')),
           ],
         ),
@@ -345,7 +345,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                           value: tier.type,
                           items: _tierTypes,
                           onChanged: (v) => setState(() => tier.type = v ?? tier.type),
-                          textStyle: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
+                          textStyle: GoogleFonts.inter(fontSize: 14, color: Colors.black),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -357,7 +357,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                   const SizedBox(height: 8),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: TextButton(onPressed: () => _removeTier(tier), child: Text('Remove', style: GoogleFonts.poppins(color: Colors.red))),
+                    child: TextButton(onPressed: () => _removeTier(tier), child: Text('Remove', style: GoogleFonts.inter(color: Colors.red))),
                   ),
                 ],
               ),
@@ -372,7 +372,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Room Type Images', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600)),
+        Text('Room Type Images', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600)),
         const SizedBox(height: 8),
         InkWell(
           onTap: _pickRoomTypeImages,
@@ -390,9 +390,9 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                 children: [
                   const Icon(Icons.add_photo_alternate_outlined, size: 36, color: Color(0xFF94A3B8)),
                   const SizedBox(height: 8),
-                  Text('Click to upload or drag and drop', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                  Text('Click to upload or drag and drop', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 4),
-                  Text('PNG, JPG, JPEG up to 5MB each', style: GoogleFonts.poppins(fontSize: 11, color: const Color(0xFF6B7280))),
+                  Text('PNG, JPG, JPEG up to 5MB each', style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF6B7280))),
                 ],
               ),
             ),
@@ -416,7 +416,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
             Row(
               children: [
                 Checkbox(value: _isActive, onChanged: (v) => setState(() => _isActive = v ?? _isActive)),
-                Text('Active (available for booking)', style: GoogleFonts.poppins(fontSize: 12)),
+                Text('Active (available for booking)', style: GoogleFonts.inter(fontSize: 12)),
               ],
             ),
             const SizedBox(height: 12),
@@ -536,7 +536,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
                 value: _autoNumbering,
                 onChanged: (v) => setState(() => _autoNumbering = v ?? _autoNumbering),
               ),
-              Text('Use automatic floor-based numbering', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600)),
+              Text('Use automatic floor-based numbering', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600)),
             ],
           ),
           const SizedBox(height: 8),
@@ -545,11 +545,11 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
             right: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Preview:', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600)),
+                Text('Preview:', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600)),
                 const SizedBox(width: 8),
                 Text(
                   'This room type will be numbered as G${_floorStartCtrl.text.padLeft(2, '0')}',
-                  style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF374151)),
+                  style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF374151)),
                 ),
               ],
             ),
@@ -628,7 +628,7 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
 
   Widget _buildChips(List<String> items, {required ValueChanged<String> onRemove}) {
     if (items.isEmpty) {
-      return Text('None added yet', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280)));
+      return Text('None added yet', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280)));
     }
     return Wrap(
       spacing: 8,

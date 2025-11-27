@@ -8,7 +8,6 @@ class AgentsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return InkWell(
       onTap: () {
@@ -68,7 +67,7 @@ class AgentsTile extends StatelessWidget {
                 children: [
                   Text(
                     "Agents",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1F2937),
@@ -77,7 +76,7 @@ class AgentsTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     "Manage your travel partners",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF6B7280),

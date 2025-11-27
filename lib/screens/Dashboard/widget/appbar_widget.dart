@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:checkinn/widgets/checkinn_logo.dart';
 
 class AppbarWidget extends StatefulWidget implements PreferredSizeWidget {

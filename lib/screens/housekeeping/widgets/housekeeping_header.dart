@@ -15,7 +15,7 @@ class HousekeepingHeader extends StatelessWidget {
             children: [
               Text(
                 'Housekeeping',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF1F2937),

@@ -57,7 +57,7 @@ class AgentDetailTile extends StatelessWidget {
                 children: [
                   Text(
                     label,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF6B7280),
@@ -67,7 +67,7 @@ class AgentDetailTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     value,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF1F2937),

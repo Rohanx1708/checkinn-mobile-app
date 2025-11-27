@@ -8,25 +8,6 @@ import 'package:checkinn/screens/bookings/models/bookingdetails.dart';
 import 'package:checkinn/screens/bookings/services/bookings_service.dart';
 import 'package:checkinn/screens/bookings/add_booking/add_booking_ui.dart';
 
-// Placeholder for BookingListUi until the actual implementation is available
-class BookingListUi extends StatelessWidget {
-  final bool fromDrawer;
-
-  const BookingListUi({Key? key, required this.fromDrawer}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Booking List'),
-      ),
-      body: const Center(
-        child: Text('Booking List Screen - Coming Soon'),
-      ),
-    );
-  }
-}
-
 class MonthView extends StatefulWidget {
   const MonthView({super.key});
 
@@ -167,19 +148,19 @@ class _MonthViewState extends State<MonthView> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1).withOpacity(0.1),
+                  color: const Color(0xFF1F2937).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
                   Icons.event,
-                  color: Color(0xFF6366F1),
+                  color: Color(0xFF1F2937),
                   size: 24,
                 ),
               ),
               const SizedBox(width: 12),
               Text(
                 'Select Booking',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 19,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
@@ -226,13 +207,13 @@ class _MonthViewState extends State<MonthView> {
                 
                 Color statusColor;
                 if (status.contains('confirmed') || status.contains('upcoming')) {
-                  statusColor = const Color(0xFF6366F1);
+                  statusColor = const Color(0xFF1F2937);
                 } else if (status.contains('checked') || status.contains('completed')) {
                   statusColor = const Color(0xFF22C55E);
                 } else if (status.contains('cancel')) {
                   statusColor = const Color(0xFFEF4444);
                 } else {
-                  statusColor = const Color(0xFF8B5CF6);
+                  statusColor = const Color(0xFF1F2937);
                 }
 
                 return Container(
@@ -247,7 +228,7 @@ class _MonthViewState extends State<MonthView> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   title: Text(
                     guestName,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1F2937),
                     ),
@@ -263,7 +244,7 @@ class _MonthViewState extends State<MonthView> {
                           const SizedBox(width: 4),
                           Text(
                         '$guestsCount Guests',
-                        style: GoogleFonts.poppins(color: const Color(0xFF6B7280), fontSize: 13),
+                        style: GoogleFonts.inter(color: const Color(0xFF6B7280), fontSize: 13),
                           ),
                         ],
                       ),
@@ -272,7 +253,7 @@ class _MonthViewState extends State<MonthView> {
                         children: [
                           const Icon(Icons.login, size: 14, color: Color(0xFF6B7280)),
                           const SizedBox(width: 4),
-                      Text('Check-in: $checkIn', style: GoogleFonts.poppins(color: const Color(0xFF6B7280), fontSize: 13)),
+                      Text('Check-in: $checkIn', style: GoogleFonts.inter(color: const Color(0xFF6B7280), fontSize: 13)),
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -280,7 +261,7 @@ class _MonthViewState extends State<MonthView> {
                         children: [
                           const Icon(Icons.logout, size: 14, color: Color(0xFF6B7280)),
                           const SizedBox(width: 4),
-                      Text('Check-out: $checkOut', style: GoogleFonts.poppins(color: const Color(0xFF6B7280), fontSize: 13)),
+                      Text('Check-out: $checkOut', style: GoogleFonts.inter(color: const Color(0xFF6B7280), fontSize: 13)),
                         ],
                       ),
                     ],
@@ -299,7 +280,7 @@ class _MonthViewState extends State<MonthView> {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: const Color(0xFF6B7280),
                   fontWeight: FontWeight.w500,
                 ),
@@ -324,12 +305,12 @@ class _MonthViewState extends State<MonthView> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1).withOpacity(0.1),
+                  color: const Color(0xFF1F2937).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
                   Icons.event_available,
-                  color: Color(0xFF6366F1),
+                  color: Color(0xFF1F2937),
                   size: 24,
                 ),
               ),
@@ -337,7 +318,7 @@ class _MonthViewState extends State<MonthView> {
               Expanded(
                 child: Text(
                   'No Bookings',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF1F2937),
@@ -369,7 +350,7 @@ class _MonthViewState extends State<MonthView> {
                     const SizedBox(height: 16),
                     Text(
                       'No bookings on',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 16,
                         color: const Color(0xFF6B7280),
                       ),
@@ -377,7 +358,7 @@ class _MonthViewState extends State<MonthView> {
                     const SizedBox(height: 8),
                     Text(
                       DateFormat('EEEE, MMMM d, yyyy').format(date),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF1F2937),
@@ -387,7 +368,7 @@ class _MonthViewState extends State<MonthView> {
                     const SizedBox(height: 12),
                     Text(
                       'This date is available for new bookings',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 14,
                         color: const Color(0xFF6B7280),
                       ),
@@ -403,7 +384,7 @@ class _MonthViewState extends State<MonthView> {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Close',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: const Color(0xFF6B7280),
                   fontWeight: FontWeight.w500,
                 ),
@@ -412,7 +393,7 @@ class _MonthViewState extends State<MonthView> {
             Container(
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                  colors: [Color(0xFF1F2937), Color(0xFF1F2937)],
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -424,7 +405,7 @@ class _MonthViewState extends State<MonthView> {
                 },
                 child: Text(
                   'Add Booking',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -516,13 +497,13 @@ class _MonthViewState extends State<MonthView> {
             decoration: BoxDecoration(
               color: const Color(0xFFF5F5F5),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFF6366F1).withOpacity(0.2), width: 1),
+              border: Border.all(color: const Color(0xFF1F2937).withOpacity(0.2), width: 1),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.chevron_left, color: const Color(0xFF6366F1)),
+                  icon: Icon(Icons.chevron_left, color: const Color(0xFF1F2937)),
                   onPressed: _previousMonth,
                 ),
                 Container(
@@ -540,7 +521,7 @@ class _MonthViewState extends State<MonthView> {
                   ),
                   child: Text(
                     DateFormat('MMMM yyyy').format(_focusedMonth),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * .045,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF1F2937),
@@ -548,7 +529,7 @@ class _MonthViewState extends State<MonthView> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.chevron_right, color: const Color(0xFF6366F1)),
+                  icon: Icon(Icons.chevron_right, color: const Color(0xFF1F2937)),
                   onPressed: _nextMonth,
                 ),
               ],
@@ -559,7 +540,7 @@ class _MonthViewState extends State<MonthView> {
             margin: const EdgeInsets.only(top: 12, bottom: 6),
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF6366F1).withOpacity(0.1),
+              color: const Color(0xFF1F2937).withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -577,7 +558,7 @@ class _MonthViewState extends State<MonthView> {
                   day,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF6366F1),
+                    color: Color(0xFF1F2937),
                     fontSize: 14,
                   ),
                 ),
@@ -608,7 +589,7 @@ class _MonthViewState extends State<MonthView> {
                               const SizedBox(height: 16),
                               Text(
                                 'Failed to load calendar',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.red.shade700,
@@ -617,7 +598,7 @@ class _MonthViewState extends State<MonthView> {
                               const SizedBox(height: 8),
                               Text(
                                 _errorMessage!,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 14,
                                   color: Colors.grey.shade600,
                                 ),
@@ -664,9 +645,9 @@ class _MonthViewState extends State<MonthView> {
                     margin: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? const Color(0xFF6366F1)
+                          ? const Color(0xFF1F2937)
                           : isToday
-                          ? const Color(0xFF6366F1).withOpacity(0.1)
+                          ? const Color(0xFF1F2937).withOpacity(0.1)
                           : Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
@@ -682,11 +663,11 @@ class _MonthViewState extends State<MonthView> {
                         Center(
                           child: Text(
                             '${date.day}',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: isSelected
                                   ? Colors.white
                                   : isToday
-                                  ? const Color(0xFF6366F1)
+                                  ? const Color(0xFF1F2937)
                                   : const Color(0xFF1F2937),
                               fontWeight: isToday || isSelected
                                   ? FontWeight.bold
@@ -708,13 +689,13 @@ class _MonthViewState extends State<MonthView> {
                                   final status = (booking['status'] ?? '').toString().toLowerCase();
                                   Color indicatorColor;
                                   if (status.contains('confirmed') || status.contains('upcoming')) {
-                                    indicatorColor = const Color(0xFF6366F1);
+                                    indicatorColor = const Color(0xFF1F2937);
                                   } else if (status.contains('checked') || status.contains('completed')) {
                                     indicatorColor = const Color(0xFF22C55E);
                                   } else if (status.contains('cancel')) {
                                     indicatorColor = const Color(0xFFEF4444);
                                   } else {
-                                    indicatorColor = const Color(0xFF8B5CF6);
+                                    indicatorColor = const Color(0xFF1F2937);
                                   }
                                   
                                   return Padding(
@@ -731,10 +712,10 @@ class _MonthViewState extends State<MonthView> {
                                     padding: const EdgeInsets.only(left: 2),
                                     child: Text(
                                       '+${bookingCount - 3}',
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         fontSize: 8,
                                         fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF6366F1),
+                                        color: const Color(0xFF1F2937),
                                       ),
                                     ),
                                 ),
@@ -765,7 +746,7 @@ class _MonthViewState extends State<MonthView> {
             const SizedBox(height: 16),
             Text(
               'Calendar Error',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 color: Colors.red.shade700,
@@ -774,7 +755,7 @@ class _MonthViewState extends State<MonthView> {
             const SizedBox(height: 8),
             Text(
               'Please try again',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14,
                 color: Colors.grey.shade600,
               ),

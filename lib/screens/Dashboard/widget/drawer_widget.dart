@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/checkinn_logo.dart';
+import '../../../services/auth_service.dart';
+import '../../login/services/login_service.dart';
+import '../../../utils/routes.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -315,16 +318,106 @@ class DrawerWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pop(context); // Close dialog
                   Navigator.pop(context); // Close drawer
                   
-                  // Navigate to login screen and remove all previous routes
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/login',
-                    (route) => false,
+                  // Show loading indicator
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                      ),
+                    ),
                   );
+                  
+                  try {
+                    // Get token
+                    final token = await AuthService.getToken();
+                    
+                    if (token != null && token.isNotEmpty) {
+                      // Call logout API
+                      final result = await LoginService.logout(token);
+                      
+                      // Close loading dialog
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
+                      
+                      if (result['success'] == true) {
+                        // Clear local auth data
+                        await AuthService.clearAuth();
+                        
+                        // Navigate to login screen and remove all previous routes
+                        if (context.mounted) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            AppRoutes.login,
+                            (route) => false,
+                          );
+                        }
+                      } else {
+                        // Show error message but still logout locally
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(result['message'] ?? 'Logout failed'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                        // Still clear local auth and navigate
+                        await AuthService.clearAuth();
+                        if (context.mounted) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/login',
+                            (route) => false,
+                          );
+                        }
+                      }
+                    } else {
+                      // No token, just clear local data and navigate
+                      await AuthService.clearAuth();
+                      if (context.mounted) {
+                        Navigator.pop(context); // Close loading
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/login',
+                          (route) => false,
+                        );
+                      }
+                    }
+                  } catch (e) {
+                    // Close loading dialog
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
+                    
+                    // Show error but still logout locally
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Error during logout. Logging out locally.'),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                    }
+                    
+                    // Clear local auth data anyway
+                    await AuthService.clearAuth();
+                    
+                    // Navigate to login
+                    if (context.mounted) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/login',
+                        (route) => false,
+                      );
+                    }
+                  }
                 },
                 child: Text(
                   'Logout',

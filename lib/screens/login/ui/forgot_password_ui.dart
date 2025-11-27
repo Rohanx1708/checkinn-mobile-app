@@ -100,7 +100,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
             const SizedBox(width: 12),
             Text(
               'Email Sent!',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -109,7 +109,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
         ),
         content: Text(
           'We\'ve sent a password reset link to your email address. Please check your inbox and follow the instructions to reset your password.',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             color: Colors.grey.shade600,
           ),
@@ -122,7 +122,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
             },
             child: Text(
               'OK',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 color: const Color(0xFF6366F1),
                 fontWeight: FontWeight.w600,
               ),
@@ -157,7 +157,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
             children: [
               TextSpan(
                 text: 'CHECK',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF1F2937),
@@ -165,7 +165,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
               ),
               TextSpan(
                 text: 'INN',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   background: Paint()
@@ -224,7 +224,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
 
                 Text(
                   "Forgot Password?",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF1F2937),
@@ -235,7 +235,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
 
                 Text(
                   "Don't worry! It happens. Please enter the email address associated with your account.",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 16,
                     color: const Color(0xFF6B7280),
                     height: 1.5,
@@ -291,7 +291,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
                   children: [
                     Text(
                       "Remember your password? ",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 14,
                         color: const Color(0xFF6B7280),
                       ),
@@ -300,7 +300,7 @@ class _ForgotPasswordUiState extends State<ForgotPasswordUi> {
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(
                         "Sign In",
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFF6366F1),

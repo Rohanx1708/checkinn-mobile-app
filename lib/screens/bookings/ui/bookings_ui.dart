@@ -48,7 +48,6 @@ class BookingsUiState extends State<BookingsUi> {
   }
 
   Future<void> loadBookings() async {
-    print('🔄 BookingsUiState.loadBookings() called');
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -113,13 +112,6 @@ class BookingsUiState extends State<BookingsUi> {
         }
       }
 
-      print('🔍 API Params => status: $apiStatus, range: '
-          '${checkInDate?.toIso8601String().split('T').first} - '
-          '${checkOutDate?.toIso8601String().split('T').first}');
-      print('🔍 Selected Date Filter: $_selectedDateFilter');
-      print('🔍 CheckInDate: $checkInDate');
-      print('🔍 CheckOutDate: $checkOutDate');
-
       final result = await BookingsService.getBookings(
         page: 1,
         limit: 50,
@@ -135,30 +127,25 @@ class BookingsUiState extends State<BookingsUi> {
         List<Booking> bookings = [];
         final data = result['data'];
         final List<dynamic> list = (data['data'] ?? data['bookings'] ?? []) as List<dynamic>;
-        print('🧾 UI: bookings in payload: ${list.length}');
 
         if (data['bookings'] != null) {
           // Handle bookings array response
-          print('🔍 UI: Found bookings array with ${(data['bookings'] as List).length} items');
           for (var bookingData in data['bookings']) {
             try {
               bookings.add(Booking.fromJson(bookingData));
             } catch (e) {
-              print('❌ Error parsing booking: $e');
+              // Error parsing booking
             }
           }
         } else if (data['data'] != null) {
           // Handle paginated response
-          print('🔍 UI: Found paginated data array with ${(data['data'] as List).length} items');
           for (var bookingData in data['data']) {
             try {
               bookings.add(Booking.fromJson(bookingData));
             } catch (e) {
-              print('❌ Error parsing booking: $e');
+              // Error parsing booking
             }
           }
-        } else {
-          print('🔍 UI: No bookings or data array found in response');
         }
 
         // If backend returns pagination meta, fetch remaining pages
@@ -198,9 +185,6 @@ class BookingsUiState extends State<BookingsUi> {
           allBookings = bookings;
           _isLoading = false;
         });
-
-        print('📅 Loaded ${bookings.length} bookings (after pagination)');
-        print('✅ BookingsUiState.loadBookings() completed successfully');
       } else {
         setState(() {
           _errorMessage = result['message'] ?? 'Failed to load bookings';
@@ -246,7 +230,6 @@ class BookingsUiState extends State<BookingsUi> {
         currentStatus: _selectedStatus,
         currentDateFilter: _selectedDateFilter,
         onApplyFilters: (status, dateFilter) {
-          print('🔍 Applied filters - Status: $status, Date Filter: $dateFilter');
           setState(() {
             _selectedStatus = status;
             _selectedDateFilter = dateFilter;
@@ -401,7 +384,7 @@ class BookingsUiState extends State<BookingsUi> {
             const SizedBox(height: 16),
             Text(
               'Failed to load bookings',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 color: Colors.red.shade700,
@@ -410,7 +393,7 @@ class BookingsUiState extends State<BookingsUi> {
             const SizedBox(height: 8),
             Text(
               _errorMessage!,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14,
                 color: Colors.grey.shade600,
               ),

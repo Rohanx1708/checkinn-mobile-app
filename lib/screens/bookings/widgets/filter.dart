@@ -78,7 +78,7 @@ class _FiltersModalState extends State<FiltersModal> {
             // Title
             Text(
               'Filter Bookings',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF1F2937),
@@ -87,9 +87,9 @@ class _FiltersModalState extends State<FiltersModal> {
             const SizedBox(height: 8),
             Text(
               'Apply filters to find specific bookings',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14,
-                color: Colors.grey.shade600,
+                color: const Color(0xFF6B7280),
               ),
             ),
             const SizedBox(height: 24),
@@ -127,17 +127,17 @@ class _FiltersModalState extends State<FiltersModal> {
                   selectedDateFilter = "All Dates";
                 });
               },
-              icon: const Icon(Icons.clear_all, color: Color(0xFF6366F1)),
+              icon: const Icon(Icons.clear_all, color: Color(0xFF1F2937)),
               label: Text(
                 'Clear All Filters',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF6366F1),
+                  color: const Color(0xFF1F2937),
                 ),
               ),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFF6366F1)),
+                side: const BorderSide(color: Color(0xFF1F2937)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -160,13 +160,13 @@ class _FiltersModalState extends State<FiltersModal> {
               icon: const Icon(Icons.search, color: Colors.white),
               label: Text(
                 "Apply Filters",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6366F1),
+                backgroundColor: const Color(0xFF1F2937),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -193,10 +193,10 @@ class _FiltersModalState extends State<FiltersModal> {
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: const Color(0xFF374151),
+            color: const Color(0xFF1F2937),
           ),
         ),
         const SizedBox(height: 8),
@@ -212,7 +212,7 @@ class _FiltersModalState extends State<FiltersModal> {
                 padding: const EdgeInsets.only(left: 16),
                 child: Icon(
                   icon,
-                  color: const Color(0xFF6366F1),
+                  color: const Color(0xFF1F2937),
                   size: 20,
                 ),
               ),
@@ -222,24 +222,24 @@ class _FiltersModalState extends State<FiltersModal> {
                    items: items.map((String item) {
                      return DropdownMenuItem<String>(
                        value: item,
-                       child: Text(
-                         item,
-                         style: GoogleFonts.poppins(
-                           fontSize: 14,
-                           color: Colors.black,
-                         ),
-                       ),
+                      child: Text(
+                        item,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: const Color(0xFF1F2937),
+                        ),
+                      ),
                      );
                    }).toList(),
                    onChanged: onChanged,
-                   style: GoogleFonts.poppins(
+                   style: GoogleFonts.inter(
                      fontSize: 14,
-                     color: Colors.black,
+                     color: const Color(0xFF1F2937),
                    ),
                    dropdownColor: Colors.white,
                    icon: const Icon(
                      Icons.keyboard_arrow_down,
-                     color: Color(0xFF6366F1),
+                     color: Color(0xFF1F2937),
                    ),
                    isExpanded: true,
                    underline: Container(),

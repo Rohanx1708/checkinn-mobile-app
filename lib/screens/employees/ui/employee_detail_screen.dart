@@ -27,7 +27,7 @@ class EmployeeDetailScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text('Employee Details', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
-        leading: IconButton(icon: const Icon(Icons.arrow_back, color: Color(0xFF6366F1)), onPressed: () => Navigator.of(context).pop()),
+        leading: IconButton(icon: const Icon(Icons.arrow_back, color: Color(0xFF1F2937)), onPressed: () => Navigator.of(context).pop()),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -106,7 +106,7 @@ class EmployeeDetailScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          CircleAvatar(radius: 26, backgroundColor: const Color(0xFFEFF2FF), child: Text(initials, style: theme.textTheme.titleMedium?.copyWith(color: const Color(0xFF4F46E5), fontWeight: FontWeight.w800))),
+          CircleAvatar(radius: 26, backgroundColor: const Color(0xFFF3F4F6), child: Text(initials, style: theme.textTheme.titleMedium?.copyWith(color: const Color(0xFF1F2937), fontWeight: FontWeight.w800))),
           const SizedBox(width: 12),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -131,7 +131,7 @@ class EmployeeDetailScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Container(width: 6, height: 18, decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]), borderRadius: BorderRadius.all(Radius.circular(4)))),
+          Container(width: 6, height: 18, decoration: const BoxDecoration(color: Color(0xFF1F2937), borderRadius: BorderRadius.all(Radius.circular(4)))),
           const SizedBox(width: 8),
           Text(title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
         ]),

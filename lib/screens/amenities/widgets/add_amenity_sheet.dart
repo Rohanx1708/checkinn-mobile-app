@@ -122,7 +122,7 @@ class _AddAmenitySheetState extends State<AddAmenitySheet> {
                         children: [
                           Text(
                             'Add New ${widget.selectedType} Amenity',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
@@ -131,7 +131,7 @@ class _AddAmenitySheetState extends State<AddAmenitySheet> {
                           ),
                           Text(
                             'Create a new amenity entry',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: Colors.white.withOpacity(0.9),
@@ -255,7 +255,7 @@ class _AddAmenitySheetState extends State<AddAmenitySheet> {
                           const SizedBox(width: 8),
                           Text(
                             'Save Amenity',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -278,7 +278,7 @@ class _AddAmenitySheetState extends State<AddAmenitySheet> {
   Widget _buildFieldLabel(String label) {
     return Text(
       label,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         color: const Color(0xFF1F2937),
@@ -314,12 +314,12 @@ class _AddAmenitySheetState extends State<AddAmenitySheet> {
           prefixIcon: Icon(icon, color: const Color(0xFF6366F1)),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          hintStyle: GoogleFonts.poppins(
+          hintStyle: GoogleFonts.inter(
             color: const Color(0xFF9CA3AF),
             fontSize: 14,
           ),
         ),
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.inter(
           fontSize: 14,
           color: const Color(0xFF1F2937),
         ),

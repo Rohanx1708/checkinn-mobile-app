@@ -172,7 +172,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
                   children: [
                     Text(
                   'Create New Booking',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 24,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF333333),
@@ -440,7 +440,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
   Widget _buildSectionTitle(String title) {
     return Text(
           title,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
         color: const Color(0xFF333333),
@@ -460,7 +460,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
@@ -504,7 +504,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
@@ -524,7 +524,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
               children: [
                 Text(
                   DateFormat('MM/dd/yyyy').format(date),
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 14,
                     color: const Color(0xFF333333),
                   ),
@@ -549,7 +549,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
@@ -569,7 +569,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
             children: [
                 Text(
                   time.format(context),
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 14,
                     color: const Color(0xFF333333),
                   ),
@@ -595,7 +595,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
@@ -608,7 +608,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
             value: item,
             child: Text(
               item.toUpperCase(),
-              style: GoogleFonts.poppins(fontSize: 14),
+              style: GoogleFonts.inter(fontSize: 14),
             ),
           )).toList(),
           onChanged: onChanged,
@@ -644,7 +644,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
       children: [
         Text(
           label,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF333333),
@@ -695,7 +695,7 @@ class _AddBookingBottomSheetState extends State<AddBookingBottomSheet> {
       ),
       child: Text(
         label,
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.inter(
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),

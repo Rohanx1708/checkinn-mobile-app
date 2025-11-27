@@ -68,7 +68,7 @@ class BookingTile extends StatelessWidget {
                 children: [
                   Text(
                     "Bookings",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1F2937),
@@ -77,7 +77,7 @@ class BookingTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     "Create and manage reservations",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF6B7280),

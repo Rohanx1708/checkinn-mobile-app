@@ -131,7 +131,7 @@ class _AmenitiesUiState extends State<AmenitiesUi> {
             children: [
               TextSpan(
                 text: 'CHECK',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: screenWidth * 0.07,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF1F2937),
@@ -139,7 +139,7 @@ class _AmenitiesUiState extends State<AmenitiesUi> {
               ),
               TextSpan(
                 text: 'INN',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: screenWidth * 0.07,
                   fontWeight: FontWeight.bold,
                   background: Paint()
@@ -193,7 +193,7 @@ class _AmenitiesUiState extends State<AmenitiesUi> {
           ),
           label: Text(
             'Add ${selectedType} Amenity',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.white,
               fontWeight: FontWeight.w600,
               fontSize: 14,
@@ -265,7 +265,7 @@ class _AmenitiesUiState extends State<AmenitiesUi> {
                     const SizedBox(width: 12),
                     Text(
                       '${selectedType} Amenities (${amenities.length})',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF1F2937),
@@ -300,7 +300,7 @@ class _AmenitiesUiState extends State<AmenitiesUi> {
                             const SizedBox(height: 16),
                             Text(
                               'No ${selectedType.toLowerCase()} amenities yet',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF6B7280),
@@ -309,7 +309,7 @@ class _AmenitiesUiState extends State<AmenitiesUi> {
                             const SizedBox(height: 8),
                             Text(
                               'Add your first ${selectedType.toLowerCase()} amenity',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 14,
                                 color: const Color(0xFF9CA3AF),
                               ),

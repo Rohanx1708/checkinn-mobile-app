@@ -59,7 +59,7 @@ class StatusTile extends StatelessWidget {
               ),
               Text(
                 count,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: screenWidth * 0.07,
                   fontWeight: FontWeight.w800,
                   color: color,
@@ -71,7 +71,7 @@ class StatusTile extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: screenWidth * 0.045,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF1F2937),
@@ -81,7 +81,7 @@ class StatusTile extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             description,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: screenWidth * 0.035,
               color: const Color(0xFF6B7280),
               fontWeight: FontWeight.w500,

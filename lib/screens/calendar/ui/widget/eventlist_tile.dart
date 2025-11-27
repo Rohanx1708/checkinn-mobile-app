@@ -90,7 +90,7 @@ class _BookingListTileState extends State<BookingListTile> {
                     widget.guestName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * .04,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1F2937),
@@ -105,7 +105,7 @@ class _BookingListTileState extends State<BookingListTile> {
                   ),
                   child: Text(
                     "Booked",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * .026,
                       fontWeight: FontWeight.w500,
                       color: Colors.green.shade800,
@@ -122,7 +122,7 @@ class _BookingListTileState extends State<BookingListTile> {
                 const SizedBox(width: 4),
                 Text(
                   "$guestsCountValue Guests",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: screenWidth * .03,
                     color: Colors.black87,
                   ),
@@ -137,7 +137,7 @@ class _BookingListTileState extends State<BookingListTile> {
                 const SizedBox(width: 4),
                 Text(
                   "Check-in: ${widget.checkInDate}",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: screenWidth * .03,
                     color: Colors.black87,
                   ),
@@ -152,7 +152,7 @@ class _BookingListTileState extends State<BookingListTile> {
                 const SizedBox(width: 4),
                 Text(
                   "Check-out: ${widget.checkOutDate}",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: screenWidth * .03,
                     color: Colors.black87,
                   ),

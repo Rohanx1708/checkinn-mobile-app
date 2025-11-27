@@ -8,21 +8,17 @@ class FontConfig {
     if (_fontsLoaded) return;
     
     try {
-      // Preload Inter and Poppins fonts to avoid runtime errors
+      // Preload Inter fonts to avoid runtime errors
       await GoogleFonts.pendingFonts([
         GoogleFonts.inter(),
         GoogleFonts.inter(fontWeight: FontWeight.w300),
         GoogleFonts.inter(fontWeight: FontWeight.w400),
         GoogleFonts.inter(fontWeight: FontWeight.w500),
-        GoogleFonts.poppins(),
-        GoogleFonts.poppins(fontWeight: FontWeight.w500),
-        GoogleFonts.poppins(fontWeight: FontWeight.w600),
-        GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        GoogleFonts.inter(fontWeight: FontWeight.w600),
+        GoogleFonts.inter(fontWeight: FontWeight.bold),
       ]);
       _fontsLoaded = true;
-      print('✅ Google Fonts loaded successfully');
     } catch (e) {
-      print('⚠️ Google Fonts failed to load, using system fonts: $e');
       _fontsLoaded = false;
     }
   }
@@ -37,28 +33,15 @@ class AppFonts {
     double? height,
     TextDecoration? decoration,
   }) {
-    // Always try Google Fonts first, but provide fallback
-    try {
-      return GoogleFonts.poppins(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: color,
-        letterSpacing: letterSpacing,
-        height: height,
-        decoration: decoration,
-      );
-    } catch (e) {
-      // Fallback to system font if Google Fonts fails
-      return TextStyle(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: color,
-        letterSpacing: letterSpacing,
-        height: height,
-        decoration: decoration,
-        fontFamily: 'Roboto', // Android default
-      );
-    }
+    // Use Inter font instead of Poppins
+    return inter(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      letterSpacing: letterSpacing,
+      height: height,
+      decoration: decoration,
+    );
   }
 
   static TextStyle poppinsBold({

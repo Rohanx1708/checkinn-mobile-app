@@ -262,16 +262,11 @@ class _PmsUiState extends State<PmsUi> {
       drawer: const DrawerWidget(),
       floatingActionButton: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFF6366F1),
-              const Color(0xFF8B5CF6),
-            ],
-          ),
+          color: const Color(0xFF1F2937),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6366F1).withOpacity(0.3),
+              color: const Color(0xFF1F2937).withOpacity(0.3),
               blurRadius: 15,
               offset: const Offset(0, 8),
             ),
@@ -284,7 +279,7 @@ class _PmsUiState extends State<PmsUi> {
           icon: const Icon(Icons.add_business, color: Colors.white),
           label: Text(
             'Add Property',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
@@ -316,7 +311,7 @@ class _PmsUiState extends State<PmsUi> {
                       children: [
                         Text(
                           'Property Management',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
@@ -359,7 +354,7 @@ class _PmsUiState extends State<PmsUi> {
                               const SizedBox(height: 16),
                               Text(
                                 'Failed to load properties',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.red.shade700,
@@ -368,7 +363,7 @@ class _PmsUiState extends State<PmsUi> {
                               const SizedBox(height: 8),
                               Text(
                                 _errorMessage!,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                   fontSize: 14,
                                   color: Colors.red.shade600,
                                 ),
@@ -378,7 +373,7 @@ class _PmsUiState extends State<PmsUi> {
                               ElevatedButton(
                                 onPressed: _refreshProperties,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF6366F1),
+                                  backgroundColor: const Color(0xFF1F2937),
                                   foregroundColor: Colors.white,
                                 ),
                                 child: const Text('Retry'),

@@ -43,9 +43,7 @@ class EnhancedChartCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                    ),
+                    color: const Color(0xFF1F2937),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(
@@ -61,7 +59,7 @@ class EnhancedChartCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF1F2937),
@@ -69,7 +67,7 @@ class EnhancedChartCard extends StatelessWidget {
                       ),
                       Text(
                         subtitle,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 14,
                           color: const Color(0xFF6B7280),
                         ),
@@ -135,7 +133,7 @@ class QuickStatCard extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF1F2937),
@@ -144,7 +142,7 @@ class QuickStatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: const Color(0xFF6B7280),
               fontWeight: FontWeight.w500,
@@ -370,7 +368,7 @@ class _BookingsTrendChartState extends State<BookingsTrendChart> {
                       getTitlesWidget: (value, meta) {
                         return Text(
                           value.toInt().toString(),
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 10,
                             color: const Color(0xFF9CA3AF),
                             fontWeight: FontWeight.w500,
@@ -393,7 +391,7 @@ class _BookingsTrendChartState extends State<BookingsTrendChart> {
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
                             _shortLabel(labels[idx]),
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12,
                               color: const Color(0xFF6B7280),
                               fontWeight: FontWeight.w500,
@@ -419,7 +417,7 @@ class _BookingsTrendChartState extends State<BookingsTrendChart> {
                     getTooltipItems: (spots) => spots.map((s) {
                       return LineTooltipItem(
                         '${labels[s.x.toInt()]}\n${s.y.toStringAsFixed(0)}',
-                        GoogleFonts.poppins(
+                        GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFF111827),
@@ -544,7 +542,7 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
     flex: 1,
     child: Text(
       text,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.inter(
         fontSize: 9,
         fontWeight: FontWeight.w700,
         color: const Color(0xFF6B7280),
@@ -558,7 +556,7 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
     child: Text(
       text,
       overflow: TextOverflow.ellipsis,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.inter(
         fontSize: 10,
         fontWeight: weight,
         color: color,
@@ -597,7 +595,7 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
         children: [
           Text(
             k,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 12,
               color: const Color(0xFF6B7280),
               fontWeight: FontWeight.w600,
@@ -609,7 +607,7 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
               v,
               textAlign: TextAlign.right,
               overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 13,
                 color: const Color(0xFF111827),
                 fontWeight: FontWeight.w600,
@@ -667,10 +665,10 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF6366F1).withOpacity(0.1),
+                          color: const Color(0xFF1F2937).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.apartment, color: Color(0xFF6366F1), size: 20),
+                        child: const Icon(Icons.apartment, color: Color(0xFF1F2937), size: 20),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -678,7 +676,7 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
                           property,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),

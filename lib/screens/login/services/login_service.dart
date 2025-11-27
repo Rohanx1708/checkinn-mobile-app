@@ -9,9 +9,6 @@ class LoginService {
     required String password,
   }) async {
     try {
-      print('🔐 Attempting login with email: $email');
-      print('🌐 API URL: ${ApiConfig.login}');
-      
       // Try different common API formats
       final requestBody = {
         'email': email,
@@ -26,20 +23,14 @@ class LoginService {
         body: jsonEncode(requestBody),
       );
 
-      print('📡 Response status: ${response.statusCode}');
-      print('📄 Response body: ${response.body}');
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('✅ Login successful');
         
         // Store token if available
         if (data['token'] != null) {
           await AuthService.storeToken(data['token']);
-          print('🔑 Token stored successfully');
         } else if (data['access_token'] != null) {
           await AuthService.storeToken(data['access_token']);
-          print('🔑 Access token stored successfully');
         }
         
         // Store user data
@@ -52,7 +43,6 @@ class LoginService {
           'data': data,
         };
       } else {
-        print('❌ Login failed with status: ${response.statusCode}');
         try {
           final error = jsonDecode(response.body);
           return {
@@ -67,7 +57,6 @@ class LoginService {
         }
       }
     } catch (e) {
-      print('💥 Exception during login: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -150,7 +139,7 @@ class LoginService {
   static Future<Map<String, dynamic>> logout(String token) async {
     try {
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/auth/logout'),
+        Uri.parse('${ApiConfig.baseUrl}/v1/logout'),
         headers: ApiConfig.getAuthHeaders(token),
       );
 

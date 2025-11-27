@@ -73,17 +73,11 @@ class _RoomCardState extends State<RoomCard> {
   }
 
   List<dynamic> _getRoomImages() {
-    print('🔍 RoomCard - Room ID: ${widget.room.id}');
-    print('🔍 RoomCard - Image URLs: ${widget.room.imageUrls}');
-    print('🔍 RoomCard - Photos: ${widget.room.photos}');
-    
     // Only return actual uploaded images, no fallback colors
     if (widget.room.imageUrls != null && widget.room.imageUrls!.isNotEmpty) {
-      print('🔍 RoomCard - Returning image URLs: ${widget.room.imageUrls}');
       return widget.room.imageUrls!;
     }
     
-    print('🔍 RoomCard - No image URLs, returning empty list');
     // Return empty list if no images are uploaded
     return [];
   }
@@ -174,7 +168,6 @@ class _RoomCardState extends State<RoomCard> {
                       final imageData = roomImages[index];
                       
                       // Display actual uploaded image
-                      print('🔍 RoomCard - Loading image: $imageData');
                       return FutureBuilder<String?>(
                         future: _getAuthToken(),
                         builder: (context, tokenSnapshot) {
@@ -185,7 +178,6 @@ class _RoomCardState extends State<RoomCard> {
                                 ? {'Authorization': 'Bearer ${tokenSnapshot.data}'}
                                 : {},
                             loadingBuilder: (context, child, loadingProgress) {
-                              print('🔍 RoomCard - Image loading progress: $loadingProgress');
                               if (loadingProgress == null) return child;
                               return Container(
                                 color: Colors.grey[300],
@@ -197,8 +189,6 @@ class _RoomCardState extends State<RoomCard> {
                               );
                             },
                             errorBuilder: (context, error, stackTrace) {
-                              print('🔍 RoomCard - Image load error: $error');
-                              print('🔍 RoomCard - Image URL: $imageData');
                               return Container(
                                 color: Colors.grey[100],
                                 child: const Center(
@@ -301,7 +291,7 @@ class _RoomCardState extends State<RoomCard> {
                   ),
                   child: Text(
                     '\$${widget.room.price.toStringAsFixed(0)}',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -335,7 +325,7 @@ class _RoomCardState extends State<RoomCard> {
                         ),
                         child: const Icon(
                           Icons.chevron_left,
-                          color: Color(0xFF6366F1),
+                          color: Color(0xFF1F2937),
                           size: 24,
                         ),
                       ),
@@ -367,7 +357,7 @@ class _RoomCardState extends State<RoomCard> {
                         ),
                         child: const Icon(
                           Icons.chevron_right,
-                          color: Color(0xFF6366F1),
+                          color: Color(0xFF1F2937),
                           size: 24,
                         ),
                       ),
@@ -419,7 +409,7 @@ class _RoomCardState extends State<RoomCard> {
               children: [
                 Text(
                   widget.room.name,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF1F2937),
@@ -429,7 +419,7 @@ class _RoomCardState extends State<RoomCard> {
                 const SizedBox(height: 8),
                 Text(
                   widget.room.description,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 14,
                     color: const Color(0xFF6B7280),
                     height: 1.5,
@@ -438,21 +428,8 @@ class _RoomCardState extends State<RoomCard> {
                 const SizedBox(height: 10),
                 
                 // Amenities section
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFFF8FAFC),
-                        const Color(0xFFF1F5F9),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: const Color(0xFFE2E8F0),
-                      width: 1,
-                    ),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: widget.room.amenities.isNotEmpty
                       ? Wrap(
                           spacing: 12,
@@ -475,16 +452,11 @@ class _RoomCardState extends State<RoomCard> {
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1),
-                        const Color(0xFF8B5CF6),
-                      ],
-                    ),
+                    color: const Color(0xFF1F2937),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF6366F1).withOpacity(0.3),
+                        color: const Color(0xFF1F2937).withOpacity(0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
@@ -508,7 +480,7 @@ class _RoomCardState extends State<RoomCard> {
                             const SizedBox(width: 8),
                             Text(
                               'View Rooms',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
@@ -535,19 +507,19 @@ class _RoomCardState extends State<RoomCard> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color(0xFF6366F1).withOpacity(0.1),
+            color: const Color(0xFF1F2937).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
             icon,
             size: 16,
-            color: const Color(0xFF6366F1),
+            color: const Color(0xFF1F2937),
           ),
         ),
         const SizedBox(height: 6),
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 10,
             color: const Color(0xFF1F2937),
             fontWeight: FontWeight.w500,

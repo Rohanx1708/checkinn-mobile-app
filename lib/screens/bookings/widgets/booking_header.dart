@@ -20,7 +20,7 @@ class BookingHeader extends StatelessWidget {
               children: [
                 Text(
                   'Bookings',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF1F2937),

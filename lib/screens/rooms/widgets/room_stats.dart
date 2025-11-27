@@ -46,7 +46,7 @@ class RoomStats extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 'Room Statistics',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
@@ -145,7 +145,7 @@ class RoomStats extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF1F2937),
@@ -154,7 +154,7 @@ class RoomStats extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 12,
               color: const Color(0xFF6B7280),
             ),

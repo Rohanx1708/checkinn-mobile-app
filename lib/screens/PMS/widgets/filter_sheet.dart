@@ -96,7 +96,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 const SizedBox(width: 12),
                 Text(
                   'Filter Properties',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF1F2937),
@@ -116,7 +116,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   },
                   child: Text(
                     'Clear',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       color: const Color(0xFF6366F1),
                       fontWeight: FontWeight.w600,
                     ),
@@ -144,7 +144,7 @@ class _FilterSheetState extends State<FilterSheet> {
                       return FilterChip(
                         label: Text(
                           PropertyHelper.getTypeLabel(type),
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -180,7 +180,7 @@ class _FilterSheetState extends State<FilterSheet> {
                       return FilterChip(
                         label: Text(
                           PropertyHelper.getStatusLabel(status),
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -306,7 +306,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   child: Center(
                     child: Text(
                       'Apply Filters',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -325,7 +325,7 @@ class _FilterSheetState extends State<FilterSheet> {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: GoogleFonts.poppins(
+      style: GoogleFonts.inter(
         fontSize: 16,
         fontWeight: FontWeight.w600,
         color: const Color(0xFF1F2937),
@@ -346,7 +346,7 @@ class _FilterSheetState extends State<FilterSheet> {
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.poppins(
+        labelStyle: GoogleFonts.inter(
           color: const Color(0xFF6B7280),
           fontSize: 14,
         ),

@@ -74,7 +74,7 @@ class AmenityCard extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       amenity.label,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF1F2937),
@@ -87,7 +87,7 @@ class AmenityCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         amenity.description,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 11,
                           color: const Color(0xFF6B7280),
                         ),
@@ -165,7 +165,7 @@ class AmenityCard extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 'Delete Amenity',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -173,7 +173,7 @@ class AmenityCard extends StatelessWidget {
           ),
           content: Text(
             'Are you sure you want to delete "${amenity.label}"? This action cannot be undone.',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: 14,
               color: const Color(0xFF6B7280),
             ),
@@ -183,7 +183,7 @@ class AmenityCard extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: const Color(0xFF6B7280),
                   fontWeight: FontWeight.w500,
                 ),
@@ -204,7 +204,7 @@ class AmenityCard extends StatelessWidget {
               ),
               child: Text(
                 'Delete',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontWeight: FontWeight.w600,
                 ),
               ),

@@ -50,7 +50,7 @@ class _CrmUiState extends State<CrmUi> {
                       children: [
                         Text(
                           'Customer Relationship Management',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
@@ -71,11 +71,13 @@ class _CrmUiState extends State<CrmUi> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const TabBar(
-                  labelColor: Color(0xFF1F2937),
-                  unselectedLabelColor: Color(0xFF6B7280),
-                  indicatorColor: Color(0xFF6366F1),
-                  tabs: [
+                child: TabBar(
+                  labelColor: const Color(0xFF1F2937),
+                  unselectedLabelColor: const Color(0xFF6B7280),
+                  indicatorColor: const Color(0xFF1F2937),
+                  labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
+                  unselectedLabelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500),
+                  tabs: const [
                     Tab(text: 'Customers'),
                     Tab(text: 'Leads'),
                     Tab(text: 'Analytics'),

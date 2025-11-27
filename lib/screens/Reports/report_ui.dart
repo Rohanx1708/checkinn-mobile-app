@@ -18,6 +18,7 @@ class ReportsUi extends StatefulWidget {
 class _ReportsUiState extends State<ReportsUi> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
+  bool _loading = true;
 
   @override
   void initState() {
@@ -27,6 +28,14 @@ class _ReportsUiState extends State<ReportsUi> with SingleTickerProviderStateMix
       setState(() {
         _selectedIndex = _tabController.index;
       });
+    });
+    // Simulate initial loading
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     });
   }
 
@@ -47,18 +56,37 @@ class _ReportsUiState extends State<ReportsUi> with SingleTickerProviderStateMix
         notificationCount: 5,
       ),
       drawer: const DrawerWidget(),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Color(0xFFF8FAFC),
-            ],
-          ),
-        ),
-        child: Column(
+      body: _loading
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Loading reports...',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: const Color(0xFF6B7280),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white,
+                    Color(0xFFF8FAFC),
+                  ],
+                ),
+              ),
+              child: Column(
           children: [
             // Header Section
             Container(
@@ -72,7 +100,7 @@ class _ReportsUiState extends State<ReportsUi> with SingleTickerProviderStateMix
                       children: [
                         Text(
                           'Reports & Analytics',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
@@ -103,16 +131,16 @@ class _ReportsUiState extends State<ReportsUi> with SingleTickerProviderStateMix
                 controller: _tabController,
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: const Color(0xFF8B5CF6).withOpacity(0.1),
+                  color: const Color(0xFF1F2937).withOpacity(0.1),
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: const Color(0xFF8B5CF6),
+                labelColor: const Color(0xFF1F2937),
                 unselectedLabelColor: const Color(0xFF6B7280),
-                labelStyle: GoogleFonts.poppins(
+                labelStyle: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
-                unselectedLabelStyle: GoogleFonts.poppins(
+                unselectedLabelStyle: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),

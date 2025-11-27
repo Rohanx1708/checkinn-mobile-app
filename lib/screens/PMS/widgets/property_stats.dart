@@ -64,7 +64,7 @@ class PropertyStats extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 'Property Statistics',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
@@ -153,7 +153,7 @@ class PropertyStats extends StatelessWidget {
               const Spacer(),
               Text(
                 value,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class PropertyStats extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.white.withOpacity(0.8),
               fontSize: 12,
               fontWeight: FontWeight.w500,

@@ -112,7 +112,7 @@ class BookingCard extends StatelessWidget {
                         children: [
                           Text(
                             booking.title,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF1F2937),
@@ -123,7 +123,7 @@ class BookingCard extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             booking.companyName,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: const Color(0xFF6B7280),
@@ -155,7 +155,7 @@ class BookingCard extends StatelessWidget {
                                return word[0].toUpperCase() + word.substring(1).toLowerCase();
                              })
                              .join(' '),
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: statusColor,
@@ -173,7 +173,7 @@ class BookingCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         "${booking.customer.name} • ${booking.totalGuests} guest${booking.totalGuests > 1 ? 's' : ''}",
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: 13,
                           color: Colors.grey.shade600,
                         ),
@@ -191,7 +191,7 @@ class BookingCard extends StatelessWidget {
                   children: [
                     Text(
                       "Check-in: ${DateFormat('dd MMM').format(booking.checkInDate)}",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 13,
                         color: Colors.grey.shade600,
                       ),
@@ -199,7 +199,7 @@ class BookingCard extends StatelessWidget {
                     const SizedBox(width: 16),
                     Text(
                       "Check-out: ${DateFormat('dd MMM').format(booking.checkOutDate)}",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 13,
                         color: Colors.grey.shade600,
                       ),

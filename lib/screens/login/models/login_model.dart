@@ -130,12 +130,13 @@ class LoginState {
   LoginState copyWith({
     bool? isLoading,
     String? errorMessage,
+    bool clearErrorMessage = false,
     bool? isPasswordVisible,
     bool? rememberMe,
   }) {
     return LoginState(
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
       rememberMe: rememberMe ?? this.rememberMe,
     );

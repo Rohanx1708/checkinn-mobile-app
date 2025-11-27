@@ -41,7 +41,7 @@ class SearchFilterSection extends StatelessWidget {
                 controller: searchController,
                 decoration: InputDecoration(
                   hintText: 'Search by name, ID, role or ph...',
-                  hintStyle: GoogleFonts.poppins(
+                  hintStyle: GoogleFonts.inter(
                     color: const Color(0xFF9CA3AF),
                     fontSize: 14,
                   ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'widget/appbar_widget.dart';
 import 'widget/drawer_widget.dart';
 import 'widget/dashboard_calendar_widget.dart';
-import 'widget/revenue_trend_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../bookings/services/bookings_service.dart';
 import '../employees/services/employees_service.dart';
@@ -103,11 +101,10 @@ class _DashboardUiState extends State<DashboardUi> {
         // Estimate rooms count based on properties (assuming average rooms per property)
         _roomsCount = properties.length * 10; // Estimate 10 rooms per property
       } else {
-        print('⚠️ Properties API failed: ${resProperties['message']}');
         // Estimate rooms from bookings data
         final bookingsData = resBookings['data'];
         final List<dynamic> bookings = (bookingsData['data'] ?? bookingsData['bookings'] ?? []) as List<dynamic>;
-        _roomsCount = bookings.length > 0 ? (bookings.length * 2) : 20; // Estimate based on bookings
+        _roomsCount = bookings.isNotEmpty ? (bookings.length * 2) : 20; // Estimate based on bookings
       }
 
       setState(() => _loading = false);
@@ -201,7 +198,7 @@ class _DashboardUiState extends State<DashboardUi> {
               }
             }
           } catch (e) {
-            print('Error processing booking: $e');
+            // Error processing booking
           }
         }
         
@@ -216,7 +213,6 @@ class _DashboardUiState extends State<DashboardUi> {
         });
       }
     } catch (e) {
-      print('Error loading calendar bookings: $e');
       setState(() {
         _calendarBookings = [];
         _calendarLoading = false;
@@ -243,7 +239,7 @@ class _DashboardUiState extends State<DashboardUi> {
         }).length;
         
         // Estimate occupancy based on booking activity
-        if (bookings.length > 0) {
+        if (bookings.isNotEmpty) {
           // Simple estimation: higher booking activity = higher occupancy
           final bookingRatio = activeBookings / bookings.length;
           occupancyRate = 30.0 + (bookingRatio * 40.0); // Range: 30-70%
@@ -268,7 +264,6 @@ class _DashboardUiState extends State<DashboardUi> {
         _guestRating = avgRating;
       });
     } catch (e) {
-      print('⚠️ Error loading occupancy and rating: $e');
       setState(() {
         _occupancyRate = 46.0;
         _guestRating = 4.8;
@@ -294,7 +289,7 @@ class _DashboardUiState extends State<DashboardUi> {
           children: [
             Text(
               "Revenue Trend",
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
@@ -387,21 +382,9 @@ class _DashboardUiState extends State<DashboardUi> {
   }
 
 
-  String _formatDate(DateTime? date) {
-    if (date == null) return '';
-    final now = DateTime.now();
-    final difference = date.difference(now).inDays;
-    
-    if (difference == 0) return 'Today';
-    if (difference == 1) return 'Tomorrow';
-    if (difference == -1) return 'Yesterday';
-    if (difference > 0) return 'In $difference days';
-    return '${date.day}/${date.month}';
-  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -461,7 +444,6 @@ class _DashboardUiState extends State<DashboardUi> {
                     loading: _calendarLoading,
                     onDateSelected: (date) {
                       // Handle date selection if needed
-                      print('Selected date: $date');
                     },
                   ),
                   const SizedBox(height: 16),
@@ -509,7 +491,7 @@ class _DashboardUiState extends State<DashboardUi> {
           children: [
             Text(
               value,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: valueColor,
@@ -518,7 +500,7 @@ class _DashboardUiState extends State<DashboardUi> {
             const SizedBox(height: 4),
             Text(
               title,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontSize: 12  ,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF6B7280),
@@ -574,77 +556,6 @@ class _DashboardUiState extends State<DashboardUi> {
     ]);
   }
 
-  Widget _buildFinancialCard(String title, String currentValue, String previousValue, String change, bool isPositive, Color valueColor) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  currentValue,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: valueColor,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isPositive ? const Color(0xFF22C55E).withOpacity(0.1) : const Color(0xFFEF4444).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  change,
-                  style: GoogleFonts.poppins(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: isPositive ? const Color(0xFF22C55E) : const Color(0xFFEF4444),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            previousValue,
-            style: GoogleFonts.poppins(
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF9CA3AF),
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF6B7280),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildStatTile({
     required String title,
@@ -669,14 +580,14 @@ class _DashboardUiState extends State<DashboardUi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF374151))),
+          Text(title, style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF374151))),
           const SizedBox(height: 6),
-          Text(value, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
+          Text(value, style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
           const SizedBox(height: 10),
           Row(children: [
             const Icon(Icons.trending_up, size: 16, color: Color(0xFF10B981)),
             const SizedBox(width: 6),
-            Text(changeText, style: GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w500, color: changeColor)),
+            Text(changeText, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500, color: changeColor)),
           ]),
         ],
       ),
@@ -708,7 +619,7 @@ class _DashboardUiState extends State<DashboardUi> {
               children: [
                 Text(
                   'Counts',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF1F2937),
@@ -735,7 +646,7 @@ class _DashboardUiState extends State<DashboardUi> {
               children: [
                 Text(
                   'Occupancy (%)',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF1F2937),
@@ -757,7 +668,7 @@ class _DashboardUiState extends State<DashboardUi> {
                     ),
                     Text(
                       _loading ? '—' : _occupancyRate.toStringAsFixed(0),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF1F2937),
@@ -772,96 +683,8 @@ class _DashboardUiState extends State<DashboardUi> {
       ),
     );
   }
-
-  Widget _revenueTrendCard() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFF1F5F9)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Revenue Trend', style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 10, color: const Color(0xFF1F2937))),
-          const SizedBox(height: 8),
-          // Simple custom painted mini line chart (static values)
-          SizedBox(
-            height: 100,
-            child: CustomPaint(
-              painter: _MiniLineChartPainter([
-                32000, 35000, 38000, 42000, 45000, 45200
-              ]),
-              child: Container(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Painter to draw a simple smooth-ish line and fill
-  // Not production-grade, but lightweight and dependency-free
-  // Values expected as monthly revenue numbers
-  // X axis is evenly spaced across width
-  // Y axis scaled to max of data
 }
 
-class _MiniLineChartPainter extends CustomPainter {
-  final List<double> values;
-  _MiniLineChartPainter(List<num> raw)
-      : values = raw.map((e) => e.toDouble()).toList();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (values.isEmpty) return;
-    final maxY = values.reduce((a, b) => a > b ? a : b);
-    final minY = 0.0;
-    final dx = size.width / (values.length - 1);
-
-    final fillPath = Path();
-    final linePath = Path();
-
-    for (int i = 0; i < values.length; i++) {
-      final x = dx * i;
-      final y = size.height - ((values[i] - minY) / (maxY - minY)) * size.height;
-      if (i == 0) {
-        linePath.moveTo(x, y);
-        fillPath.moveTo(x, size.height);
-        fillPath.lineTo(x, y);
-      } else {
-        linePath.lineTo(x, y);
-        fillPath.lineTo(x, y);
-      }
-    }
-    fillPath.lineTo(size.width, size.height);
-    fillPath.close();
-
-    final fillPaint = Paint()
-      ..color = const Color(0xFF6366F1).withOpacity(0.08)
-      ..style = PaintingStyle.fill;
-    final linePaint = Paint()
-      ..color = const Color(0xFF6366F1)
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawPath(fillPath, fillPaint);
-    canvas.drawPath(linePath, linePaint);
-
-    // points
-    final dotPaint = Paint()..color = const Color(0xFF6366F1);
-    for (int i = 0; i < values.length; i++) {
-      final x = dx * i;
-      final y = size.height - ((values[i] - minY) / (maxY - minY)) * size.height;
-      canvas.drawCircle(Offset(x, y), 2.5, dotPaint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
 
   Widget _buildCountItem(String label, String value) {
     return Row(
@@ -869,7 +692,7 @@ class _MiniLineChartPainter extends CustomPainter {
       children: [
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 10,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF6B7280),
@@ -877,7 +700,7 @@ class _MiniLineChartPainter extends CustomPainter {
         ),
         Text(
           value,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 10,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF1F2937),

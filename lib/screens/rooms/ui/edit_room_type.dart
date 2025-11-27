@@ -94,7 +94,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Room Type', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+        title: Text('Edit Room Type', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -140,7 +140,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: Text('Previous', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                        child: Text('Previous', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                       ),
                     ),
                   if (_currentStep > 0) const SizedBox(width: 16),
@@ -154,7 +154,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                       ),
                       child: Text(
                         _currentStep == _stepTitles.length - 1 ? 'Create Room Type' : 'Next',
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white),
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: Colors.white),
                       ),
                     ),
                   ),
@@ -202,7 +202,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                                   'Second Floor (2)',
                                 ],
                                 onChanged: (v) => setState(() => _floor = v ?? _floor),
-                                textStyle: GoogleFonts.poppins(fontSize: 10, color: Colors.black),
+                                textStyle: GoogleFonts.inter(fontSize: 10, color: Colors.black),
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -213,7 +213,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                                 items: RoomTypeOption.values,
                                 itemLabel: (v) => _accommodationLabel(v),
                                 onChanged: (v) => setState(() => _accommodation = v ?? _accommodation),
-                                textStyle: GoogleFonts.poppins(fontSize: 10, color: Colors.black),
+                                textStyle: GoogleFonts.inter(fontSize: 10, color: Colors.black),
                               ),
                             ),
                           ],
@@ -267,7 +267,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
       children: [
                         _multiline('Description *', _descriptionCtrl),
                         const SizedBox(height: 16),
-                        Text('Bed Configuration', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
+                        Text('Bed Configuration', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
                         const SizedBox(height: 8),
                         Row(
                           children: [
@@ -292,7 +292,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                         const SizedBox(height: 12),
                         _buildChips(_bedConfigs, onRemove: (v) => setState(() => _bedConfigs = _bedConfigs.where((e) => e != v).toList())),
                         const SizedBox(height: 16),
-                        Text('Room Amenities', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
+                        Text('Room Amenities', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
                         const SizedBox(height: 8),
                         Row(
                           children: [
@@ -327,7 +327,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Pricing Tiers (Optional)', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600)),
+                            Text('Pricing Tiers (Optional)', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600)),
                             TextButton.icon(
                               onPressed: _addTier,
                               icon: const Icon(Icons.add),
@@ -356,7 +356,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                                           value: tier.type,
                                           items: _tierTypes,
                                           onChanged: (v) => setState(() => tier.type = v ?? tier.type),
-                                          textStyle: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
+                                          textStyle: GoogleFonts.inter(fontSize: 14, color: Colors.black),
                                         ),
                                       ),
                                       const SizedBox(width: 12),
@@ -373,7 +373,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                                     alignment: Alignment.centerRight,
                                     child: TextButton(
                                       onPressed: () => _removeTier(tier),
-                                      child: Text('Remove', style: GoogleFonts.poppins(color: Colors.red)),
+                                      child: Text('Remove', style: GoogleFonts.inter(color: Colors.red)),
                                     ),
                                   ),
                                 ],
@@ -389,7 +389,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-                        Text('Room Type Images', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600)),
+                        Text('Room Type Images', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600)),
                         const SizedBox(height: 8),
                         InkWell(
                           onTap: _pickRoomTypeImages,
@@ -407,9 +407,9 @@ class _EditRoomTypeState extends State<EditRoomType> {
                                 children: [
                                   const Icon(Icons.add_photo_alternate_outlined, size: 36, color: Color(0xFF94A3B8)),
                                   const SizedBox(height: 8),
-                                  Text('Click to upload or drag and drop', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                  Text('Click to upload or drag and drop', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                                   const SizedBox(height: 4),
-                                  Text('PNG, JPG, JPEG up to 5MB each', style: GoogleFonts.poppins(fontSize: 11, color: const Color(0xFF6B7280))),
+                                  Text('PNG, JPG, JPEG up to 5MB each', style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF6B7280))),
                                 ],
                               ),
                             ),
@@ -439,7 +439,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                                   value: _isActive,
                                   onChanged: (v) => setState(() => _isActive = v ?? _isActive),
                                 ),
-                                Text('Active (available for booking)', style: GoogleFonts.poppins(fontSize: 12)),
+                                Text('Active (available for booking)', style: GoogleFonts.inter(fontSize: 12)),
                               ],
                             ),
                             const SizedBox(height: 12),
@@ -561,7 +561,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
                 value: _autoNumbering,
                 onChanged: (v) => setState(() => _autoNumbering = v ?? _autoNumbering),
               ),
-              Text('Use automatic floor-based numbering', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600)),
+              Text('Use automatic floor-based numbering', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600)),
             ],
           ),
           const SizedBox(height: 8),
@@ -570,11 +570,11 @@ class _EditRoomTypeState extends State<EditRoomType> {
             right: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Preview:', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600)),
+                Text('Preview:', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600)),
                 const SizedBox(width: 8),
                 Text(
                   'This room type will be numbered as G${_floorStartCtrl.text.padLeft(2, '0')}',
-                  style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF374151)),
+                  style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF374151)),
                 ),
               ],
             ),
@@ -646,7 +646,7 @@ class _EditRoomTypeState extends State<EditRoomType> {
 
   Widget _buildChips(List<String> items, {required ValueChanged<String> onRemove}) {
     if (items.isEmpty) {
-      return Text('None added yet', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280)));
+      return Text('None added yet', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280)));
     }
     return Wrap(
       spacing: 8,
@@ -711,31 +711,6 @@ class _EditRoomTypeState extends State<EditRoomType> {
         'sort_order': 0, // Default sort order
       }..removeWhere((k, v) => v == null || (v is String && v.trim().isEmpty));
 
-      // Debug: Check if room type ID exists
-      print('🔍 Attempting to update room type with ID: ${widget.room.id}');
-      print('🔍 Room type ID type: ${widget.room.id.runtimeType}');
-      
-      // First, let's verify the room type exists by fetching it directly
-      try {
-        final roomTypeResult = await RoomsService.getRoomType(widget.room.id);
-        if (roomTypeResult['success'] == true) {
-          print('✅ Room type ${widget.room.id} exists and accessible');
-          print('🔍 Room type data: ${roomTypeResult['data']}');
-        } else {
-          print('❌ Room type ${widget.room.id} NOT found or not accessible');
-          print('❌ Error: ${roomTypeResult['message']}');
-          
-          // Also try to get the list to see what IDs are available
-          final roomTypesList = await RoomsService.getRoomTypes();
-          if (roomTypesList['data'] != null) {
-            final roomTypes = roomTypesList['data'] as List;
-            print('🔍 Available room type IDs: ${roomTypes.map((rt) => rt['id']).toList()}');
-          }
-        }
-      } catch (e) {
-        print('❌ Error fetching room type: $e');
-      }
-      
       final resp = await RoomsService.updateRoomType(
         roomTypeId: widget.room.id,
         updateData: updateData,

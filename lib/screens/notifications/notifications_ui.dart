@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../widgets/common_app_bar.dart';
 
 class NotificationsUi extends StatelessWidget {
   const NotificationsUi({super.key});
@@ -29,25 +30,10 @@ class NotificationsUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F5F5),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        centerTitle: true,
-        title: Text(
-          'Notifications',
-          style: GoogleFonts.poppins(
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
-            fontSize: screenWidth * 0.055,
-          ),
-        ),
+      backgroundColor: Colors.white,
+      appBar: CommonAppBar.withBackButton(
+        title: 'Notifications',
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
@@ -69,15 +55,23 @@ class NotificationsUi extends StatelessWidget {
             ),
             child: ListTile(
               leading: const CircleAvatar(
-                backgroundColor: Color(0xFF9E8C6D),
+                backgroundColor: Color(0xFF1F2937),
                 child: Icon(Icons.book_online, color: Colors.white),
               ),
               title: Text(
                 item['title']!,
-                style: const TextStyle(fontWeight: FontWeight.w700),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF1F2937),
+                ),
               ),
-              subtitle: Text(item['subtitle']!),
-              trailing: const Icon(Icons.chevron_right, color: Colors.black38),
+              subtitle: Text(
+                item['subtitle']!,
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF6B7280),
+                ),
+              ),
+              trailing: const Icon(Icons.chevron_right, color: Color(0xFF6B7280)),
               onTap: () {},
             ),
           );

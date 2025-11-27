@@ -154,7 +154,7 @@ class _OverviewTabState extends State<OverviewTab> {
                       title: 'Total Employees',
                       value: _loading ? '—' : _totalEmployees.toString(),
                       icon: Icons.people,
-                      color: const Color(0xFF8B5CF6),
+                      color: const Color(0xFF1F2937),
                     ),
                   ),
                   const SizedBox(width: 12),

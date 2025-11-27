@@ -20,14 +20,14 @@ class AppFormStyles {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+        borderSide: const BorderSide(color: Color(0xFF1F2937), width: 1.5),
       ),
-      helperStyle: GoogleFonts.poppins(fontSize: 11, color: const Color(0xFF64748B)),
-      errorStyle: GoogleFonts.poppins(fontSize: 11, color: const Color(0xFFEF4444)),
+      helperStyle: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF64748B)),
+      errorStyle: GoogleFonts.inter(fontSize: 11, color: const Color(0xFFEF4444)),
     );
   }
 
-  static TextStyle labelStyle() => GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF334155));
+  static TextStyle labelStyle() => GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF334155));
 
   static Widget stepHeader(String title, int current, int total) {
     return Column(
@@ -39,15 +39,15 @@ class AppFormStyles {
               child: LinearProgressIndicator(
                 value: (current + 1) / total,
                 backgroundColor: const Color(0xFFE2E8F0),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
               ),
             ),
             const SizedBox(width: 12),
-            Text('${current + 1}/$total', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF64748B))),
+            Text('${current + 1}/$total', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF64748B))),
           ],
         ),
         const SizedBox(height: 8),
-        Text(title, style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w700, color: const Color(0xFF1F2937))),
+        Text(title, style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700, color: const Color(0xFF1F2937))),
       ],
     );
   }

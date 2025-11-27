@@ -210,7 +210,7 @@ class _PropertyPerformanceGridState extends State<_PropertyPerformanceGrid> {
                 const SizedBox(height: 16),
                 Text(
                   value,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF111827),
@@ -219,7 +219,7 @@ class _PropertyPerformanceGridState extends State<_PropertyPerformanceGrid> {
                 const SizedBox(height: 6),
                 Text(
                   label,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF6B7280),
@@ -254,9 +254,9 @@ class _PropertyPerformanceGridState extends State<_PropertyPerformanceGrid> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Failed to load properties', style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600)),
+            Text('Failed to load properties', style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
-            Text(_error!, style: GoogleFonts.poppins(color: const Color(0xFF6B7280))),
+            Text(_error!, style: GoogleFonts.inter(color: const Color(0xFF6B7280))),
             const SizedBox(height: 12),
             ElevatedButton(onPressed: _load, child: const Text('Retry')),
           ],

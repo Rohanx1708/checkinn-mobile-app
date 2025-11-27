@@ -317,7 +317,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF6366F1), foregroundColor: Colors.white),
+                        style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1F2937), foregroundColor: Colors.white),
                         onPressed: () async {
                           // Update the main state with the temporary values
                           setState(() {
@@ -354,7 +354,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
       ),
       drawer: const DrawerWidget(),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xFF6366F1),
+        backgroundColor: const Color(0xFF1F2937),
         foregroundColor: Colors.white,
         onPressed: () async {
           final result = await Navigator.of(context).push(
@@ -425,7 +425,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
                       ),
                       focusedBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(12)),
-                        borderSide: BorderSide(color: Color(0xFF6366F1), width: 2),
+                        borderSide: BorderSide(color: Color(0xFF1F2937), width: 2),
                       ),
                     ),
                   ),
@@ -534,11 +534,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
                                         topLeft: Radius.circular(14),
                                         bottomLeft: Radius.circular(14),
                                       ),
-                                      gradient: LinearGradient(
-                                        colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
+                                      color: const Color(0xFF1F2937),
                                     ),
                                   ),
                                   Expanded(
@@ -549,7 +545,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
                                         children: [
                                           CircleAvatar(
                                             radius: 22,
-                                            backgroundColor: const Color(0xFFEFF2FF),
+                                            backgroundColor: const Color(0xFFF3F4F6),
                                             child: (finalName.isNotEmpty)
                                                 ? Text(
                                                     () {
@@ -559,11 +555,11 @@ class _EmployeesUiState extends State<EmployeesUi> {
                                                       return (parts.first.substring(0, 1) + parts.last.substring(0, 1)).toUpperCase();
                                                     }(),
                                                     style: theme.textTheme.titleMedium?.copyWith(
-                                                      color: const Color(0xFF4F46E5),
+                                                      color: const Color(0xFF1F2937),
                                                       fontWeight: FontWeight.w800,
                                                     ),
                                                   )
-                                                : const Icon(Icons.person, color: Color(0xFF4F46E5)),
+                                                : const Icon(Icons.person, color: Color(0xFF1F2937)),
                                           ),
                                           const SizedBox(width: 12),
                                           Expanded(

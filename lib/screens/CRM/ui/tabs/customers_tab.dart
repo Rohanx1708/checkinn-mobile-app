@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/crm_service.dart';
 import 'package:checkinn/services/auth_service.dart';
+import '../add_customer_screen.dart';
 
 class CustomersTab extends StatefulWidget {
   const CustomersTab({super.key});
@@ -56,7 +57,7 @@ class _CustomersTabState extends State<CustomersTab> {
     if (name.isEmpty) {
       final first = (m['first_name'] ?? m['firstName'] ?? '').toString();
       final last = (m['last_name'] ?? m['lastName'] ?? '').toString();
-      name = (first + ' ' + last).trim();
+      name = ('$first $last').trim();
       if (name.isEmpty) name = (m['full_name'] ?? m['fullName'] ?? 'Unknown').toString();
     }
     final email = (m['email'] ?? '').toString();
@@ -64,8 +65,9 @@ class _CustomersTabState extends State<CustomersTab> {
     String status = (m['status'] ?? 'prospect').toString();
     if (status.isNotEmpty) {
       final s = status.toLowerCase();
-      if (s == 'active') status = 'Active';
-      else if (s == 'inactive') status = 'Inactive';
+      if (s == 'active') {
+        status = 'Active';
+      } else if (s == 'inactive') status = 'Inactive';
       else status = 'Prospect';
     } else {
       status = 'Prospect';
@@ -127,9 +129,9 @@ class _CustomersTabState extends State<CustomersTab> {
                     controller: _searchCtrl,
                     decoration: InputDecoration(
                       hintText: 'Search customers...',
-                      hintStyle: GoogleFonts.poppins(color: const Color(0xFF94A3B8), fontSize: 14),
+                      hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 14),
                       border: InputBorder.none,
-                      prefixIcon: const Icon(Icons.search, color: Color(0xFF6366F1)),
+                      prefixIcon: const Icon(Icons.search, color: Color(0xFF1F2937)),
                     ),
                     onChanged: (_) => setState(() {}),
                   ),
@@ -177,7 +179,7 @@ class _CustomersTabState extends State<CustomersTab> {
                 : (_error != null
                     ? ListView(children: [
                         SizedBox(height: 120),
-                        Center(child: Text('Failed to load customers', style: GoogleFonts.poppins(color: Colors.red))),
+                        Center(child: Text('Failed to load customers', style: GoogleFonts.inter(color: Colors.red))),
                         const SizedBox(height: 6),
                         Center(child: Text('Tap to retry', style: TextStyle(color: Colors.black54))),
                         const SizedBox(height: 12),
@@ -214,19 +216,19 @@ class _CustomersTabState extends State<CustomersTab> {
                           height: 44,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]),
+                            color: const Color(0xFF1F2937),
                           ),
                           alignment: Alignment.center,
-                          child: Text(_initials(c.name), style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w700)),
+                          child: Text(_initials(c.name), style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.w700)),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(c.name, style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF111827))),
+                              Text(c.name, style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF111827))),
                               const SizedBox(height: 2),
-                              Text(c.source, style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                              Text(c.source, style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                             ],
                           ),
                         ),
@@ -250,15 +252,13 @@ class _CustomersTabState extends State<CustomersTab> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(Icons.person_outline, size: 16, color: Color(0xFF9CA3AF)),
-                        const SizedBox(width: 6),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${c.email}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                              Text(c.email, style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                               const SizedBox(height: 2),
-                              Text(c.phone, style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                              Text(c.phone, style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                             ],
                           ),
                         ),
@@ -269,20 +269,22 @@ class _CustomersTabState extends State<CustomersTab> {
                             color: const Color(0xFFF1F5F9),
                             borderRadius: BorderRadius.circular(999),
                           ),
-                          child: Text('${c.bookings} booking${c.bookings == 1 ? '' : 's'}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF374151), fontWeight: FontWeight.w600)),
+                          child: Text('${c.bookings} booking${c.bookings == 1 ? '' : 's'}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF374151), fontWeight: FontWeight.w600)),
                         ),
                       ],
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(Icons.login_rounded, size: 16, color: Color(0xFF9CA3AF)),
-                        const SizedBox(width: 6),
-                        Text('Last booking: ${_fmtDate(c.lastBooking)}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                        const SizedBox(width: 16),
-                        const Icon(Icons.payments_outlined, size: 16, color: Color(0xFF9CA3AF)),
-                        const SizedBox(width: 6),
-                        Text('Total: ${_formatCurrency(c.totalSpent)}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                        Expanded(
+                          flex: 2,
+                          child: Text('Last booking: ${_fmtDate(c.lastBooking)}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280)), overflow: TextOverflow.ellipsis),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          flex: 1,
+                          child: Text('Total: ${_formatCurrency(c.totalSpent)}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280)), overflow: TextOverflow.ellipsis, textAlign: TextAlign.end),
+                        ),
                       ],
                     ),
 
@@ -299,231 +301,25 @@ class _CustomersTabState extends State<CustomersTab> {
           right: 16,
           bottom: 16,
           child: FloatingActionButton.extended(
-            onPressed: _openAddCustomerSheet,
+            onPressed: () async {
+              final result = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AddCustomerScreen(),
+                ),
+              );
+              if (result == true) {
+                _loadCustomers();
+              }
+            },
             icon: const Icon(Icons.person_add_alt_1),
             label: const Text('Add Customer'),
-            backgroundColor: const Color(0xFF6366F1),
+            backgroundColor: const Color(0xFF1F2937),
           ),
         ),
       ],
     );
   }
 
-  Future<void> _openAddCustomerSheet() async {
-    final nameCtrl = TextEditingController();
-    final emailCtrl = TextEditingController();
-    final phoneCtrl = TextEditingController();
-    final ratingCtrl = TextEditingController();
-    final notesCtrl = TextEditingController();
-    String status = 'Prospect';
-    String source = '';
-
-    final _formKey = GlobalKey<FormState>();
-
-    final result = await showModalBottomSheet<_Customer>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (ctx) {
-        final bottomInset = MediaQuery.of(ctx).viewInsets.bottom;
-        final double screenWidth = MediaQuery.of(ctx).size.width;
-        return Padding(
-          padding: EdgeInsets.only(bottom: bottomInset),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Add New Customer', style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
-                    const SizedBox(height: 16),
-                    Text('Name *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                    const SizedBox(height: 6),
-                    TextFormField(
-                      controller: nameCtrl,
-                      validator: (v) => (v == null || v.trim().isEmpty) ? 'Name is required' : null,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Full name'),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Email *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: emailCtrl,
-                                validator: (v) => (v == null || v.trim().isEmpty) ? 'Email is required' : null,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'email@example.com'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Phone', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: phoneCtrl,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: '+91 9999999999'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Status *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              DropdownButtonFormField<String>(
-                                value: status,
-                                decoration: const InputDecoration(border: OutlineInputBorder()),
-                                items: const [
-                                  DropdownMenuItem(value: 'Prospect', child: Text('Prospect')),
-                                  DropdownMenuItem(value: 'Active', child: Text('Active')),
-                                  DropdownMenuItem(value: 'Inactive', child: Text('Inactive')),
-                                ],
-                                onChanged: (v) { if (v != null) status = v; },
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Source *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              DropdownButtonFormField<String>(
-                                value: source.isEmpty ? null : source,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Select Source'),
-                                items: const [
-                                  DropdownMenuItem(value: 'direct', child: Text('Direct')),
-                                  DropdownMenuItem(value: 'website', child: Text('Website')),
-                                  DropdownMenuItem(value: 'phone', child: Text('Phone')),
-                                  DropdownMenuItem(value: 'ota', child: Text('OTA')),
-                                  DropdownMenuItem(value: 'walk_in', child: Text('Walk-in')),
-                                ],
-                                validator: (v) => (v == null || v.isEmpty) ? 'Source is required' : null,
-                                onChanged: (v) { if (v != null) source = v; },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Text('Rating (0-5)', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                    const SizedBox(height: 6),
-                    TextFormField(
-                      controller: ratingCtrl,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'e.g. 4.5'),
-                    ),
-                    const SizedBox(height: 12),
-                    Text('Notes', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                    const SizedBox(height: 6),
-                    TextFormField(
-                      controller: notesCtrl,
-                      maxLines: 4,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Additional details'),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(),
-                          style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFF111827),
-                            backgroundColor: const Color(0xFFE5E7EB),
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: const Text('Cancel'),
-                        ),
-                        const SizedBox(width: 12),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) return;
-                            final newCustomer = _Customer(
-                              name: nameCtrl.text.trim(),
-                              source: source,
-                              email: emailCtrl.text.trim(),
-                              phone: phoneCtrl.text.trim(),
-                              status: status,
-                              bookings: 0,
-                              totalSpent: 0,
-                              lastBooking: DateTime.now(),
-                            );
-                            Navigator.of(ctx).pop(newCustomer);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF2563EB),
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            elevation: 0,
-                          ),
-                          child: const Text('Create Customer'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-
-    if (result != null) {
-      try {
-        await CrmService.createCustomer(
-          name: result.name,
-          email: result.email,
-          phone: result.phone,
-          status: result.status,
-          source: result.source,
-          rating: null,
-          notes: '',
-        );
-        setState(() {
-          _all.insert(0, result);
-        });
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Customer created')),
-          );
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('API error: $e')),
-          );
-        }
-      }
-    }
-  }
 
   String _initials(String name) {
     final parts = name.trim().split(' ');
@@ -548,7 +344,7 @@ class _CustomersTabState extends State<CustomersTab> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(status, style: GoogleFonts.poppins(fontSize: 12, color: fg, fontWeight: FontWeight.w600)),
+      child: Text(status, style: GoogleFonts.inter(fontSize: 12, color: fg, fontWeight: FontWeight.w600)),
     );
   }
 
@@ -558,7 +354,7 @@ class _CustomersTabState extends State<CustomersTab> {
   }
 
   String _formatCurrency(double v) {
-    return '₹' + v.toStringAsFixed(2);
+    return '₹${v.toStringAsFixed(2)}';
   }
 
   Future<void> _confirmDeleteCustomer(_Customer c) async {
@@ -596,7 +392,7 @@ class _CustomersTabState extends State<CustomersTab> {
     final phoneCtrl = TextEditingController(text: customer.phone);
     String status = customer.status;
     String source = customer.source;
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     final updated = await showModalBottomSheet<_Customer>(
       context: context,
@@ -612,33 +408,33 @@ class _CustomersTabState extends State<CustomersTab> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 16),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Edit Customer', style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
+                    Text('Edit Customer', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
                     const SizedBox(height: 16),
-                    Text('Name *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                    Text('Name *', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                     const SizedBox(height: 6),
                     TextFormField(controller: nameCtrl, validator: (v) => (v == null || v.trim().isEmpty) ? 'Name is required' : null, decoration: const InputDecoration(border: OutlineInputBorder())),
                     const SizedBox(height: 12),
                     Row(children: [
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text('Email *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                        Text('Email *', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                         TextFormField(controller: emailCtrl, validator: (v) => (v == null || v.trim().isEmpty) ? 'Email is required' : null, decoration: const InputDecoration(border: OutlineInputBorder())),
                       ])),
                       const SizedBox(width: 12),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text('Phone', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                        Text('Phone', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                         TextFormField(controller: phoneCtrl, decoration: const InputDecoration(border: OutlineInputBorder())),
                       ])),
                     ]),
                     const SizedBox(height: 12),
                     Row(children: [
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text('Status *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
-                        DropdownButtonFormField<String>(value: status, decoration: const InputDecoration(border: OutlineInputBorder()), items: const [
+                        Text('Status *', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                        DropdownButtonFormField<String>(initialValue: status, decoration: const InputDecoration(border: OutlineInputBorder()), items: const [
                           DropdownMenuItem(value: 'Prospect', child: Text('Prospect')),
                           DropdownMenuItem(value: 'Active', child: Text('Active')),
                           DropdownMenuItem(value: 'Inactive', child: Text('Inactive')),
@@ -646,8 +442,8 @@ class _CustomersTabState extends State<CustomersTab> {
                       ])),
                       const SizedBox(width: 12),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text('Source *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
-                        DropdownButtonFormField<String>(value: source.isEmpty ? null : source, decoration: const InputDecoration(border: OutlineInputBorder()), items: const [
+                        Text('Source *', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                        DropdownButtonFormField<String>(initialValue: source.isEmpty ? null : source, decoration: const InputDecoration(border: OutlineInputBorder()), items: const [
                           DropdownMenuItem(value: 'direct', child: Text('Direct')),
                           DropdownMenuItem(value: 'website', child: Text('Website')),
                           DropdownMenuItem(value: 'phone', child: Text('Phone')),
@@ -661,7 +457,7 @@ class _CustomersTabState extends State<CustomersTab> {
                       TextButton(onPressed: () => Navigator.of(ctx).pop(), style: TextButton.styleFrom(foregroundColor: const Color(0xFF111827), backgroundColor: const Color(0xFFE5E7EB), padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), child: const Text('Cancel')),
                       const SizedBox(width: 12),
                       ElevatedButton(onPressed: () {
-                        if (!_formKey.currentState!.validate()) return;
+                        if (!formKey.currentState!.validate()) return;
                         Navigator.of(ctx).pop(_Customer(name: nameCtrl.text.trim(), source: source, email: emailCtrl.text.trim(), phone: phoneCtrl.text.trim(), status: status, bookings: customer.bookings, totalSpent: customer.totalSpent, lastBooking: customer.lastBooking));
                       }, style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2563EB), foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), elevation: 0), child: const Text('Save Changes')),
                     ]),

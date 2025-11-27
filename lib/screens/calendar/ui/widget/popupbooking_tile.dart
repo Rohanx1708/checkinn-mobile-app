@@ -132,7 +132,7 @@ class _PopupbookingTileState extends State<PopupbookingTile> {
                       Expanded(
                         child: Text(
                           roomName,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: screenWidth * .035,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF1F2937),
@@ -145,7 +145,7 @@ class _PopupbookingTileState extends State<PopupbookingTile> {
                   const SizedBox(height: 4),
                   Text(
                     guestName,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * .04,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF1F2937),
@@ -164,7 +164,7 @@ class _PopupbookingTileState extends State<PopupbookingTile> {
                       Expanded(
                         child: Text(
                           "${checkIn.isEmpty ? '-' : checkIn} - ${checkOut.isEmpty ? '-' : checkOut}",
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: screenWidth * .03,
                             color: Colors.grey,
                           ),
@@ -188,7 +188,7 @@ class _PopupbookingTileState extends State<PopupbookingTile> {
                   ),
                   child: Text(
                     status.toUpperCase(),
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * .025,
                       fontWeight: FontWeight.w600,
                       color: statusColor,
@@ -206,7 +206,7 @@ class _PopupbookingTileState extends State<PopupbookingTile> {
                     const SizedBox(width: 4),
                     Text(
                       guestCount.toString(),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: screenWidth * .03,
                         fontWeight: FontWeight.w500,
                         color: Colors.grey,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/crm_service.dart';
 import 'package:checkinn/services/auth_service.dart';
+import '../add_lead_screen.dart';
 
 class LeadsTab extends StatefulWidget {
   const LeadsTab({super.key});
@@ -106,9 +107,9 @@ class _LeadsTabState extends State<LeadsTab> {
                     controller: _leadSearchCtrl,
                     decoration: InputDecoration(
                       hintText: 'Search leads...',
-                      hintStyle: GoogleFonts.poppins(color: const Color(0xFF94A3B8), fontSize: 14),
+                      hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 14),
                       border: InputBorder.none,
-                      prefixIcon: const Icon(Icons.search, color: Color(0xFF6366F1)),
+                      prefixIcon: const Icon(Icons.search, color: Color(0xFF1F2937)),
                     ),
                     onChanged: (_) => setState(() {}),
                   ),
@@ -158,7 +159,7 @@ class _LeadsTabState extends State<LeadsTab> {
                 : (_error != null
                     ? ListView(children: [
                         SizedBox(height: 120),
-                        Center(child: Text('Failed to load leads', style: GoogleFonts.poppins(color: Colors.red))),
+                        Center(child: Text('Failed to load leads', style: GoogleFonts.inter(color: Colors.red))),
                         const SizedBox(height: 6),
                         Center(child: OutlinedButton(onPressed: _loadLeads, child: const Text('Retry'))),
                       ])
@@ -193,19 +194,19 @@ class _LeadsTabState extends State<LeadsTab> {
                           height: 44,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]),
+                            color: const Color(0xFF1F2937),
                           ),
                           alignment: Alignment.center,
-                          child: Text(_initials(l.name), style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w700)),
+                          child: Text(_initials(l.name), style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.w700)),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(l.name, style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF111827))),
+                              Text(l.name, style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF111827))),
                               const SizedBox(height: 2),
-                              Text(l.source, style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                              Text(l.source, style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                             ],
                           ),
                         ),
@@ -232,7 +233,7 @@ class _LeadsTabState extends State<LeadsTab> {
                         const Icon(Icons.alternate_email, size: 16, color: Color(0xFF9CA3AF)),
                         const SizedBox(width: 6),
                         Expanded(
-                          child: Text('${l.email} • ${l.phone}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                          child: Text('${l.email} • ${l.phone}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                         ),
                       ],
                     ),
@@ -241,11 +242,11 @@ class _LeadsTabState extends State<LeadsTab> {
                       children: [
                         const Icon(Icons.interests_outlined, size: 16, color: Color(0xFF9CA3AF)),
                         const SizedBox(width: 6),
-                        Text('Interest: ${l.interest}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                        Text('Interest: ${l.interest}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                         const SizedBox(width: 16),
                         const Icon(Icons.payments_outlined, size: 16, color: Color(0xFF9CA3AF)),
                         const SizedBox(width: 6),
-                        Text('Budget: ₹${l.budget.toStringAsFixed(2)}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                        Text('Budget: ₹${l.budget.toStringAsFixed(2)}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -253,7 +254,7 @@ class _LeadsTabState extends State<LeadsTab> {
                       children: [
                         const Icon(Icons.schedule, size: 16, color: Color(0xFF9CA3AF)),
                         const SizedBox(width: 6),
-                        Text('Timeline: ${l.timeline}', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                        Text('Timeline: ${l.timeline}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                       ],
                     ),
                   ],
@@ -269,427 +270,25 @@ class _LeadsTabState extends State<LeadsTab> {
           right: 16,
           bottom: 16,
           child: FloatingActionButton.extended(
-            onPressed: _openAddLeadSheet,
+            onPressed: () async {
+              final result = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AddLeadScreen(),
+                ),
+              );
+              if (result == true) {
+                _loadLeads();
+              }
+            },
             icon: const Icon(Icons.person_add_alt),
             label: const Text('Add Lead'),
-            backgroundColor: const Color(0xFF10B981),
+            backgroundColor: const Color(0xFF1F2937),
           ),
         ),
       ],
     );
   }
 
-  Future<void> _openAddLeadSheet() async {
-    final nameCtrl = TextEditingController();
-    final emailCtrl = TextEditingController();
-    final phoneCtrl = TextEditingController();
-    final interestCtrl = TextEditingController();
-    final budgetCtrl = TextEditingController();
-    final timelineCtrl = TextEditingController();
-    final adultsCtrl = TextEditingController(text: '1');
-    final childrenCtrl = TextEditingController(text: '0');
-    final infantsCtrl = TextEditingController(text: '0');
-    final notesCtrl = TextEditingController();
-    final specialRequestsCtrl = TextEditingController();
-    DateTime? expectedIn;
-    DateTime? expectedOut;
-
-    String status = 'New';
-    String source = '';
-
-    final _formKey = GlobalKey<FormState>();
-
-    final result = await showModalBottomSheet<_Lead>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (ctx) {
-        final bottomInset = MediaQuery.of(ctx).viewInsets.bottom;
-        final media = MediaQuery.of(ctx);
-        final double screenWidth = media.size.width;
-        final double sheetHeight = media.size.height * 0.8;
-        return Padding(
-          padding: EdgeInsets.only(bottom: bottomInset),
-          child: SizedBox(
-            height: sheetHeight,
-            child: SingleChildScrollView(
-              child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Add New Lead', style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
-                    const SizedBox(height: 16),
-
-                    // Basic info
-                    Text('Basic Information', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Name *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: nameCtrl,
-                                validator: (v) => (v == null || v.trim().isEmpty) ? 'Name is required' : null,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Full name'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Email *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: emailCtrl,
-                                validator: (v) => (v == null || v.trim().isEmpty) ? 'Email is required' : null,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'email@example.com'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Phone', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: phoneCtrl,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: '+91 9999999999'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Status', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              DropdownButtonFormField<String>(
-                                value: status,
-                                decoration: const InputDecoration(border: OutlineInputBorder()),
-                                items: const [
-                                  DropdownMenuItem(value: 'New', child: Text('New')),
-                                  DropdownMenuItem(value: 'Contacted', child: Text('Contacted')),
-                                  DropdownMenuItem(value: 'Qualified', child: Text('Qualified')),
-                                  DropdownMenuItem(value: 'Converted', child: Text('Converted')),
-                                  DropdownMenuItem(value: 'Lost', child: Text('Lost')),
-                                ],
-                                onChanged: (v) { if (v != null) status = v; },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Source', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              DropdownButtonFormField<String>(
-                                value: source.isEmpty ? null : source,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Select Source'),
-                                items: const [
-                                  DropdownMenuItem(value: 'direct', child: Text('Direct')),
-                                  DropdownMenuItem(value: 'website', child: Text('Website')),
-                                  DropdownMenuItem(value: 'phone', child: Text('Phone')),
-                                  DropdownMenuItem(value: 'ota', child: Text('OTA')),
-                                  DropdownMenuItem(value: 'walk_in', child: Text('Walk-in')),
-                                ],
-                                onChanged: (v) { if (v != null) source = v; },
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Interest (Room Type)', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: interestCtrl,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'e.g., Deluxe'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Booking Details', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Budget', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: budgetCtrl,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'e.g., 5000'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Timeline', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: timelineCtrl,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'e.g., Next month'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Expected Check-in', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              InkWell(
-                                onTap: () async {
-                                  final picked = await showDatePicker(context: ctx, initialDate: DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100));
-                                  if (picked != null) {
-                                    expectedIn = picked;
-                                  }
-                                },
-                                child: InputDecorator(
-                                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'mm/dd/yyyy'),
-                                  child: Text(expectedIn == null ? 'mm/dd/yyyy' : '${expectedIn!.month}/${expectedIn!.day}/${expectedIn!.year}', style: GoogleFonts.poppins(fontSize: 14)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Expected Check-out', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              InkWell(
-                                onTap: () async {
-                                  final picked = await showDatePicker(context: ctx, initialDate: expectedIn ?? DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100));
-                                  if (picked != null) {
-                                    expectedOut = picked;
-                                  }
-                                },
-                                child: InputDecorator(
-                                  decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'mm/dd/yyyy'),
-                                  child: Text(expectedOut == null ? 'mm/dd/yyyy' : '${expectedOut!.month}/${expectedOut!.day}/${expectedOut!.year}', style: GoogleFonts.poppins(fontSize: 14)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    // Guest Details
-                    Text('Guest Details', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Adults', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: adultsCtrl,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: '1'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Children', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                              const SizedBox(height: 6),
-                              TextFormField(
-                                controller: childrenCtrl,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(border: OutlineInputBorder(), hintText: '0'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Infants', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                        const SizedBox(height: 6),
-                        TextFormField(
-                          controller: infantsCtrl,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), hintText: '0'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    // Additional Information
-                    Text('Additional Information', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 10),
-                    Text('Notes', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                    const SizedBox(height: 6),
-                    TextFormField(
-                      controller: notesCtrl,
-                      maxLines: 3,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), hintText: ''),
-                    ),
-                    const SizedBox(height: 12),
-                    Text('Special Requests', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
-                    const SizedBox(height: 6),
-                    TextFormField(
-                      controller: specialRequestsCtrl,
-                      maxLines: 3,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), hintText: ''),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(),
-                          style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFF111827),
-                            backgroundColor: const Color(0xFFE5E7EB),
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: const Text('Cancel'),
-                        ),
-                        const SizedBox(width: 12),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) return;
-                            final newLead = _Lead(
-                              id: '',
-                              name: nameCtrl.text.trim(),
-                              source: source,
-                              email: emailCtrl.text.trim(),
-                              phone: phoneCtrl.text.trim(),
-                              status: status,
-                              interest: interestCtrl.text.trim(),
-                              budget: double.tryParse(budgetCtrl.text.trim()).toDoubleSafely(),
-                              timeline: timelineCtrl.text.trim(),
-                              expectedCheckIn: expectedIn,
-                              expectedCheckOut: expectedOut,
-                              adults: int.tryParse(adultsCtrl.text.trim()) ?? 1,
-                              children: int.tryParse(childrenCtrl.text.trim()) ?? 0,
-                              infants: int.tryParse(infantsCtrl.text.trim()) ?? 0,
-                              notes: notesCtrl.text.trim(),
-                              specialRequests: specialRequestsCtrl.text.trim(),
-                              score: 0,
-                            );
-                            Navigator.of(ctx).pop(newLead);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF2563EB),
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            elevation: 0,
-                          ),
-                          child: const Text('Create Lead'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          ),
-        );
-
-      },
-    );
-
-    if (result != null) {
-      try {
-        final token = await AuthService.getToken();
-        CrmService.authToken = token;
-        final payload = {
-          'name': result.name,
-          'email': result.email,
-          'phone': result.phone,
-          'status': result.status.toLowerCase(),
-          'source': result.source,
-          'interest': result.interest,
-          'budget': result.budget,
-          'timeline': result.timeline,
-          'expected_check_in': _dateOnly(result.expectedCheckIn),
-          'expected_check_out': _dateOnly(result.expectedCheckOut),
-          'adults': result.adults,
-          'children': result.children,
-          'infants': result.infants,
-          'notes': result.notes,
-          'special_requests': result.specialRequests,
-        };
-        final created = await CrmService.createLead(payload);
-        final createdLead = _parseLead(created['data'] ?? created);
-        setState(() { _leads.insert(0, createdLead); });
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Lead created')));
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('API error: $e')));
-        }
-      }
-    }
-  }
 
   String _initials(String name) {
     final parts = name.trim().split(' ');
@@ -716,7 +315,7 @@ class _LeadsTabState extends State<LeadsTab> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(status, style: GoogleFonts.poppins(fontSize: 12, color: fg, fontWeight: FontWeight.w600)),
+      child: Text(status, style: GoogleFonts.inter(fontSize: 12, color: fg, fontWeight: FontWeight.w600)),
     );
   }
 
@@ -799,28 +398,28 @@ class _LeadsTabState extends State<LeadsTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Edit Lead', style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
+                      Text('Edit Lead', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700, color: const Color(0xFF111827))),
                       const SizedBox(height: 16),
                       Row(children: [
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Name *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Name *', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: nameCtrl, validator: (v) => (v == null || v.trim().isEmpty) ? 'Name is required' : null, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                         const SizedBox(width: 12),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Email *', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Email *', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: emailCtrl, validator: (v) => (v == null || v.trim().isEmpty) ? 'Email is required' : null, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                       ]),
                       const SizedBox(height: 12),
                       Row(children: [
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Phone', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Phone', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: phoneCtrl, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                         const SizedBox(width: 12),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Status', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Status', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           DropdownButtonFormField<String>(value: status, decoration: const InputDecoration(border: OutlineInputBorder()), items: const [
                             DropdownMenuItem(value: 'New', child: Text('New')),
                             DropdownMenuItem(value: 'Contacted', child: Text('Contacted')),
@@ -833,7 +432,7 @@ class _LeadsTabState extends State<LeadsTab> {
                       const SizedBox(height: 12),
                       Row(children: [
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Source', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Source', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           DropdownButtonFormField<String>(value: source.isEmpty ? null : source, decoration: const InputDecoration(border: OutlineInputBorder()), items: const [
                             DropdownMenuItem(value: 'direct', child: Text('Direct')),
                             DropdownMenuItem(value: 'website', child: Text('Website')),
@@ -844,63 +443,76 @@ class _LeadsTabState extends State<LeadsTab> {
                         ])),
                         const SizedBox(width: 12),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Interest (Room Type)', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Interest (Room Type)', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: interestCtrl, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                       ]),
                       const SizedBox(height: 12),
                       Row(children: [
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Budget', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Budget', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: budgetCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                         const SizedBox(width: 12),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Timeline', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Timeline', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: timelineCtrl, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                       ]),
                       const SizedBox(height: 12),
                       Row(children: [
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Expected Check-in', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Expected Check-in', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           InkWell(onTap: () async { final picked = await showDatePicker(context: ctx, initialDate: expectedIn ?? DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100)); if (picked != null) { expectedIn = picked; } }, child: InputDecorator(decoration: const InputDecoration(border: OutlineInputBorder()), child: Text(expectedIn == null ? 'mm/dd/yyyy' : '${expectedIn!.month}/${expectedIn!.day}/${expectedIn!.year}'))),
                         ])),
                         const SizedBox(width: 12),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Expected Check-out', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Expected Check-out', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           InkWell(onTap: () async { final picked = await showDatePicker(context: ctx, initialDate: expectedOut ?? expectedIn ?? DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2100)); if (picked != null) { expectedOut = picked; } }, child: InputDecorator(decoration: const InputDecoration(border: OutlineInputBorder()), child: Text(expectedOut == null ? 'mm/dd/yyyy' : '${expectedOut!.month}/${expectedOut!.day}/${expectedOut!.year}'))),
                         ])),
                       ]),
                       const SizedBox(height: 12),
                       Row(children: [
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Adults', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Adults', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: adultsCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                         const SizedBox(width: 12),
                         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text('Children', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                          Text('Children', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                           TextFormField(controller: childrenCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder())),
                         ])),
                       ]),
                       const SizedBox(height: 12),
-                      Text('Infants', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                      Text('Infants', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                       TextFormField(controller: infantsCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(border: OutlineInputBorder())),
                       const SizedBox(height: 12),
-                      Text('Notes', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                      Text('Notes', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                       TextFormField(controller: notesCtrl, maxLines: 3, decoration: const InputDecoration(border: OutlineInputBorder())),
                       const SizedBox(height: 12),
-                      Text('Special Requests', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
+                      Text('Special Requests', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))), const SizedBox(height: 6),
                       TextFormField(controller: specialRequestsCtrl, maxLines: 3, decoration: const InputDecoration(border: OutlineInputBorder())),
                       const SizedBox(height: 16),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         TextButton(onPressed: () => Navigator.of(ctx).pop(), style: TextButton.styleFrom(foregroundColor: const Color(0xFF111827), backgroundColor: const Color(0xFFE5E7EB), padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), child: const Text('Cancel')),
                         const SizedBox(width: 12),
-                        ElevatedButton(onPressed: () {
+                        ElevatedButton(
+                          onPressed: () {
                           if (!_formKey.currentState!.validate()) return;
                           Navigator.of(ctx).pop(_Lead(id: lead.id, name: nameCtrl.text.trim(), source: source, email: emailCtrl.text.trim(), phone: phoneCtrl.text.trim(), status: status, interest: interestCtrl.text.trim(), budget: double.tryParse(budgetCtrl.text.trim()).toDoubleSafely(), timeline: timelineCtrl.text.trim(), expectedCheckIn: expectedIn, expectedCheckOut: expectedOut, adults: int.tryParse(adultsCtrl.text.trim()) ?? 1, children: int.tryParse(childrenCtrl.text.trim()) ?? 0, infants: int.tryParse(infantsCtrl.text.trim()) ?? 0, notes: notesCtrl.text.trim(), specialRequests: specialRequestsCtrl.text.trim(), score: lead.score));
-                        }, style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2563EB), foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), elevation: 0), child: const Text('Save Changes')),
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1F2937),
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            'Save Changes',
+                            style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ]),
                     ],
                   ),

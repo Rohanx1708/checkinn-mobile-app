@@ -206,7 +206,7 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                     if (!_loading)
                       Text(
                         _sources.fold<int>(0, (sum, s) => sum + s.value) > 0 ? 'Sources' : 'No data',
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: const Color(0xFF6B7280)),
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: const Color(0xFF6B7280)),
                       ),
                   ],
                 ),
@@ -224,7 +224,7 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                               children: [
                                 Container(width: 14, height: 10, decoration: BoxDecoration(color: s.color, borderRadius: BorderRadius.circular(2))),
                                 const SizedBox(width: 6),
-                                Text(s.label, style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280))),
+                                Text(s.label, style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280))),
                               ],
                             ))
                         .toList(),
@@ -242,9 +242,9 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_analyticsFailed ? 'N/A' : '${_avgRating.toStringAsFixed(1)}/5.0', style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w700, color: const Color(0xFF6366F1))),
+                    Text(_analyticsFailed ? 'N/A' : '${_avgRating.toStringAsFixed(1)}/5.0', style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700, color: const Color(0xFF1F2937))),
                     const SizedBox(height: 4),
-                    Text('Average Rating', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF94A3B8))),
+                    Text('Average Rating', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF94A3B8))),
                   ],
                 ),
               ),
@@ -256,9 +256,9 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_analyticsFailed ? 'N/A' : '₹${_avgCustomerValue.toStringAsFixed(2)}', style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w700, color: const Color(0xFF16A34A))),
+                    Text(_analyticsFailed ? 'N/A' : '₹${_avgCustomerValue.toStringAsFixed(2)}', style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w700, color: const Color(0xFF1F2937))),
                     const SizedBox(height: 4),
-                    Text('Per Customer', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF94A3B8))),
+                    Text('Per Customer', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF94A3B8))),
                   ],
                 ),
               ),
@@ -280,7 +280,7 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: const Color(0xFF111827))),
+          Text(title, style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: const Color(0xFF111827))),
           const SizedBox(height: 12),
           child,
         ],

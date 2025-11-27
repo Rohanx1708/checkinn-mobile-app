@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/common_app_bar.dart';
 import '../models/agent_model.dart';
 import '../widgets/agent_card.dart';
-import '../widgets/add_agent_sheet.dart';
+import 'add_agent_screen.dart';
 import 'agent_detail_ui.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
 
@@ -38,42 +38,27 @@ class _AgentUiState extends State<AgentUi> {
     ),
   ];
 
-  void _showAddAgentBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => AddAgentSheet(
-        onSave: _saveAgent,
+  Future<void> _showAddAgentScreen() async {
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AddAgentScreen(),
       ),
     );
-  }
 
-  void _saveAgent(String name, String status, String company, String mobile, String altMobile, String email, String address) {
-    final newAgent = Agent(
-      name: name,
-      status: status,
-      company: company,
-      photoUrl: "https://via.placeholder.com/150",
-      mobile: mobile,
-      altMobile: altMobile,
-      email: email,
-      address: address,
-    );
+    if (result != null && result is Agent) {
+      setState(() {
+        _agents.add(result);
+      });
 
-    setState(() {
-      _agents.add(newAgent);
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Agent added successfully: $name'),
-        backgroundColor: const Color(0xFF22C55E),
-      ),
-    );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Agent added successfully: ${result.name}'),
+            backgroundColor: const Color(0xFF1F2937),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -89,23 +74,18 @@ class _AgentUiState extends State<AgentUi> {
       drawer: const DrawerWidget(),
       floatingActionButton: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFF6366F1),
-              const Color(0xFF8B5CF6),
-            ],
-          ),
+          color: const Color(0xFF1F2937),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6366F1).withOpacity(0.3),
+              color: const Color(0xFF1F2937).withOpacity(0.3),
               blurRadius: 15,
               offset: const Offset(0, 8),
             ),
           ],
         ),
         child: FloatingActionButton.extended(
-          onPressed: _showAddAgentBottomSheet,
+          onPressed: _showAddAgentScreen,
           backgroundColor: Colors.transparent,
           elevation: 0,
           icon: const Icon(
@@ -115,7 +95,7 @@ class _AgentUiState extends State<AgentUi> {
           ),
           label: Text(
             'Add Agent',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               color: Colors.white,
               fontWeight: FontWeight.w600,
               fontSize: 14,
@@ -148,7 +128,7 @@ class _AgentUiState extends State<AgentUi> {
                       children: [
                         Text(
                           'Agent Management',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1F2937),
@@ -179,13 +159,13 @@ class _AgentUiState extends State<AgentUi> {
                               child: const Icon(
                                 Icons.people_outline,
                                 size: 60,
-                                color: Color(0xFF6366F1),
+                                color: Color(0xFF1F2937),
                               ),
                             ),
                             const SizedBox(height: 16),
                             Text(
                               'No agents added yet',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF6B7280),
@@ -194,7 +174,7 @@ class _AgentUiState extends State<AgentUi> {
                             const SizedBox(height: 8),
                             Text(
                               'Add your first agent to get started',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 14,
                                 color: const Color(0xFF9CA3AF),
                               ),

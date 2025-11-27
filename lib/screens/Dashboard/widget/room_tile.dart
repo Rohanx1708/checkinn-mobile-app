@@ -63,7 +63,7 @@ class RoomTile extends StatelessWidget {
                 children: [
                   Text(
                     "Room Management",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1F2937),
@@ -72,7 +72,7 @@ class RoomTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     "Manage rooms and types",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF6B7280),

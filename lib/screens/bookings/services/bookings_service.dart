@@ -15,8 +15,6 @@ class BookingsService {
     DateTime? checkOutDate,
   }) async {
     try {
-      print('📅 Fetching bookings from: ${ApiConfig.baseUrl}/v1/bookings');
-      
       final queryParams = <String, String>{
         'page': page.toString(),
         // Many Laravel APIs expect per_page rather than limit
@@ -41,22 +39,17 @@ class BookingsService {
         queryParams['check_in_date'] = checkInDate.toIso8601String().split('T')[0];
         queryParams['start_date'] = checkInDate.toIso8601String().split('T')[0];
         queryParams['date_from'] = checkInDate.toIso8601String().split('T')[0];
-        print('📅 Check-in date filter: ${checkInDate.toIso8601String().split('T')[0]}');
       }
       
       if (checkOutDate != null) {
         queryParams['check_out_date'] = checkOutDate.toIso8601String().split('T')[0];
         queryParams['end_date'] = checkOutDate.toIso8601String().split('T')[0];
         queryParams['date_to'] = checkOutDate.toIso8601String().split('T')[0];
-        print('📅 Check-out date filter: ${checkOutDate.toIso8601String().split('T')[0]}');
       }
       
       final uri = Uri.parse(ApiConfig.bookings).replace(
         queryParameters: queryParams,
       );
-      
-      print('🔍 Query parameters: $queryParams');
-      print('🔍 Final URI: $uri');
       
       // Get auth token
       final token = await AuthService.getToken();
@@ -69,13 +62,11 @@ class BookingsService {
         headers: headers,
       ).timeout(const Duration(seconds: 30));
 
-      print('📡 Bookings API Response Status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final List<dynamic> list = (data['data'] ?? data['bookings'] ?? []) as List<dynamic>;
         final sampleId = list.isNotEmpty ? list.first is Map ? (list.first as Map)['id'] : null : null;
-        print('🧾 Bookings received: ${list.length}${sampleId != null ? ' (sample id: ' + sampleId.toString() + ')' : ''}');
         return {
           'success': true,
           'data': data,
@@ -95,7 +86,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Bookings API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -106,7 +96,6 @@ class BookingsService {
   // Get single booking by ID
   static Future<Map<String, dynamic>> getBooking(String bookingId) async {
     try {
-      print('📅 Fetching booking: $bookingId');
       
       // Get auth token
       final token = await AuthService.getToken();
@@ -119,8 +108,6 @@ class BookingsService {
         headers: headers,
       ).timeout(const Duration(seconds: 30));
 
-      print('📡 Booking API Response Status: ${response.statusCode}');
-      print('📄 Booking API Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -143,7 +130,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Booking API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -181,7 +167,6 @@ class BookingsService {
     String? roomType,
   }) async {
     try {
-      print('📅 Creating booking for: $customerName');
       
       final requestBody = {
         'guest_name': customerName,
@@ -262,8 +247,6 @@ class BookingsService {
     required Map<String, dynamic> updateData,
   }) async {
     try {
-      print('📅 Updating booking: $bookingId');
-      print('📝 Update data: $updateData');
       
       // Validate required fields
       final requiredFields = ['guest_name', 'guest_phone', 'check_in_date', 'check_out_date'];
@@ -272,25 +255,12 @@ class BookingsService {
       ).toList();
       
       if (missingFields.isNotEmpty) {
-        print('❌ Missing required fields: $missingFields');
         return {
           'success': false,
           'message': 'Missing required fields: ${missingFields.join(', ')}',
         };
       }
       
-      // Log specific fields being updated
-      print('🔍 Key fields being updated:');
-      print('  - Guest Name: ${updateData['guest_name']}');
-      print('  - Guest Phone: ${updateData['guest_phone']}');
-      print('  - Guest Email: ${updateData['guest_email']}');
-      print('  - Check-in Date: ${updateData['check_in_date']}');
-      print('  - Check-out Date: ${updateData['check_out_date']}');
-      print('  - Room Type: ${updateData['room_type']}');
-      print('  - Selected Room: ${updateData['selected_room']}');
-      print('  - Total Amount: ${updateData['total_amount']}');
-      print('  - Payment Status: ${updateData['payment_status']}');
-      print('  - Booking Status: ${updateData['booking_status']}');
       
       // Get auth token
       final token = await AuthService.getToken();
@@ -299,13 +269,6 @@ class BookingsService {
           : ApiConfig.defaultHeaders;
 
       final url = '${ApiConfig.bookings}/$bookingId';
-      print('🌐 Update Booking URL: $url');
-      print('🔑 Headers: $headers');
-      
-      // Log the exact JSON being sent
-      final jsonBody = jsonEncode(updateData);
-      print('📤 JSON Body Length: ${jsonBody.length} characters');
-      print('📤 JSON Body Preview: ${jsonBody.length > 500 ? jsonBody.substring(0, 500) + '...' : jsonBody}');
 
       // Try PATCH method first, then PUT if PATCH fails
       var response = await http.patch(
@@ -316,7 +279,6 @@ class BookingsService {
       
       // If PATCH method is not supported, try PUT
       if (response.statusCode == 405) {
-        print('🔄 PATCH not supported, trying PUT method');
         response = await http.put(
           Uri.parse(url),
           headers: headers,
@@ -326,7 +288,6 @@ class BookingsService {
       
       // If PUT also fails, try POST with _method override
       if (response.statusCode == 405) {
-        print('🔄 PUT not supported, trying POST with _method override');
         final postData = Map<String, dynamic>.from(updateData);
         postData['_method'] = 'PUT';
         
@@ -337,56 +298,9 @@ class BookingsService {
         ).timeout(const Duration(seconds: 30));
       }
 
-      print('📡 Update Booking API Response Status: ${response.statusCode}');
-      print('📄 Update Booking API Response Body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = jsonDecode(response.body);
-        print('✅ Booking update successful');
-        
-        // Check if the response indicates the update actually worked
-        if (data['data'] != null) {
-          final responseData = data['data'];
-          print('🔍 Response data analysis:');
-          print('  - Response has data: ${responseData != null}');
-          print('  - Response data type: ${responseData.runtimeType}');
-          if (responseData is Map) {
-            print('  - Response data keys: ${responseData.keys.toList()}');
-            print('  - Has updated_at: ${responseData.containsKey('updated_at')}');
-            print('  - Updated_at value: ${responseData['updated_at']}');
-          }
-        } else {
-          print('⚠️ Response data is null - update may not have worked');
-        }
-        
-        // Verify the update by fetching the booking again
-        print('🔍 Verifying update by fetching booking data...');
-        try {
-          final verifyResponse = await http.get(
-            Uri.parse('${ApiConfig.bookings}/$bookingId'),
-            headers: headers,
-          ).timeout(const Duration(seconds: 10));
-          
-          if (verifyResponse.statusCode == 200) {
-            final verifyData = jsonDecode(verifyResponse.body);
-            print('🔍 Verification response: ${verifyData}');
-            
-            // Check if key fields were actually updated
-            if (verifyData['data'] != null) {
-              final bookingData = verifyData['data'];
-              print('🔍 Updated booking verification:');
-              print('  - Guest Name: ${bookingData['guest_name']}');
-              print('  - Guest Phone: ${bookingData['guest_phone']}');
-              print('  - Guest Email: ${bookingData['guest_email']}');
-              print('  - Total Amount: ${bookingData['total_amount']}');
-              print('  - Updated At: ${bookingData['updated_at']}');
-            }
-          } else {
-            print('⚠️ Could not verify update: ${verifyResponse.statusCode}');
-          }
-        } catch (e) {
-          print('⚠️ Verification failed: $e');
-        }
         
         return {
           'success': true,
@@ -418,7 +332,6 @@ class BookingsService {
           };
         }
       } else if (response.statusCode == 401) {
-        print('🔐 Authentication failed - redirecting to login');
         return {
           'success': false,
           'message': 'Authentication failed. Please login again.',
@@ -469,7 +382,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Update Booking API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -480,7 +392,6 @@ class BookingsService {
   // Delete booking
   static Future<Map<String, dynamic>> deleteBooking(String bookingId) async {
     try {
-      print('📅 Deleting booking: $bookingId');
       
       // Get auth token
       final token = await AuthService.getToken();
@@ -493,8 +404,6 @@ class BookingsService {
         headers: headers,
       ).timeout(const Duration(seconds: 30));
 
-      print('📡 Delete Booking API Response Status: ${response.statusCode}');
-      print('📄 Delete Booking API Response Body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         return {
@@ -522,7 +431,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Delete Booking API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -538,7 +446,6 @@ class BookingsService {
     DateTime? endDate,
   }) async {
     try {
-      print('📊 Fetching booking stats: ${bookingId ?? 'all'}');
       
       String url = ApiConfig.bookings;
       if (bookingId != null) {
@@ -571,8 +478,6 @@ class BookingsService {
         headers: headers,
       ).timeout(const Duration(seconds: 30));
 
-      print('📡 Booking Stats API Response Status: ${response.statusCode}');
-      print('📄 Booking Stats API Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -595,7 +500,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Booking Stats API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -606,13 +510,8 @@ class BookingsService {
   // Create new booking
   static Future<Map<String, dynamic>> createBooking(Map<String, dynamic> bookingData) async {
     try {
-      print('📅 Creating new booking: ${bookingData['customer_name']}');
-      
       final token = await AuthService.getToken();
       final headers = token != null ? ApiConfig.getAuthHeaders(token) : ApiConfig.defaultHeaders;
-      
-      print('📅 Create Booking API - Headers: $headers');
-      print('📅 Create Booking API - Data: $bookingData');
       
       final response = await http.post(
         Uri.parse(ApiConfig.bookings),
@@ -660,9 +559,6 @@ class BookingsService {
     required DateTime checkOutDate,
   }) async {
     try {
-      print('🏨 Fetching available rooms for room type: $roomTypeId');
-      print('📅 Check-in: ${checkInDate.toIso8601String().split('T')[0]}');
-      print('📅 Check-out: ${checkOutDate.toIso8601String().split('T')[0]}');
       
       final queryParams = <String, String>{
         'room_type_id': roomTypeId.toString(),
@@ -674,7 +570,6 @@ class BookingsService {
         queryParameters: queryParams,
       );
       
-      print('🔍 Available Rooms API URI: $uri');
       
       // Get auth token
       final token = await AuthService.getToken();
@@ -687,11 +582,9 @@ class BookingsService {
         headers: headers,
       ).timeout(const Duration(seconds: 30));
 
-      print('📡 Available Rooms API Response Status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('🏨 Available rooms received: ${data['data']?.length ?? 0}');
         return {
           'success': true,
           'data': data,
@@ -711,7 +604,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Available Rooms API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -745,8 +637,6 @@ class BookingsService {
         body: jsonEncode(requestBody),
       ).timeout(const Duration(seconds: 30));
 
-      print('📡 Update Booking Status API Response Status: ${response.statusCode}');
-      print('📄 Update Booking Status API Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -770,7 +660,6 @@ class BookingsService {
         }
       }
     } catch (e) {
-      print('💥 Update Booking Status API Error: $e');
       return {
         'success': false,
         'message': 'Network error: ${e.toString()}',
@@ -784,7 +673,6 @@ class BookingsService {
     required int roomId,
   }) async {
     try {
-      print('🏨 Alternative room allocation: booking=$bookingId, roomId=$roomId');
 
       final token = await AuthService.getToken();
       final headers = token != null

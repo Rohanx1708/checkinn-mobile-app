@@ -21,9 +21,32 @@ class _LoginUiState extends State<LoginUi> {
   final TextEditingController _passwordController = TextEditingController();
   
   LoginState _loginState = const LoginState();
+  bool _hasAttemptedValidation = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Clear error message when user starts editing email
+    _usernameController.addListener(_clearErrorOnEdit);
+    // Clear error message when user starts editing password
+    _passwordController.addListener(_clearErrorOnEdit);
+  }
+
+  void _clearErrorOnEdit() {
+    // Clear API error message
+    if (_loginState.errorMessage != null) {
+      setState(() {
+        _loginState = _loginState.copyWith(clearErrorMessage: true);
+      });
+    }
+    // Note: Form validation errors will clear automatically with autovalidateMode
+    // when the user types valid input, so we don't need to manually validate here
+  }
 
   @override
   void dispose() {
+    _usernameController.removeListener(_clearErrorOnEdit);
+    _passwordController.removeListener(_clearErrorOnEdit);
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -43,6 +66,11 @@ class _LoginUiState extends State<LoginUi> {
 
 
   void _handleLogin() async {
+    // Mark that validation has been attempted
+    setState(() {
+      _hasAttemptedValidation = true;
+    });
+    
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -71,16 +99,12 @@ class _LoginUiState extends State<LoginUi> {
       }
 
       // Call the login API
-      print('🚀 Starting login process...');
       final result = await LoginService.login(
         email: loginData.username,
         password: loginData.password,
       );
 
-      print('📊 Login result: $result');
-
       if (result['success']) {
-        print('🎉 Login successful, navigating to dashboard');
         // Store user data/token if needed
         // You can add SharedPreferences or other storage here
         
@@ -89,7 +113,6 @@ class _LoginUiState extends State<LoginUi> {
           Navigator.of(context).pushReplacementNamed(AppRoutes.dashboard);
         }
       } else {
-        print('💔 Login failed: ${result['message']}');
         setState(() {
           _loginState = _loginState.copyWith(
             isLoading: false,
@@ -132,6 +155,9 @@ class _LoginUiState extends State<LoginUi> {
                   prefixIcon: Icons.person_outline,
                   validator: LoginValidator.validateUsername,
                   keyboardType: TextInputType.emailAddress,
+                  autovalidateMode: _hasAttemptedValidation 
+                      ? AutovalidateMode.always 
+                      : AutovalidateMode.disabled,
                 ),
 
                 const SizedBox(height: 24),
@@ -145,6 +171,9 @@ class _LoginUiState extends State<LoginUi> {
                   isPasswordVisible: _loginState.isPasswordVisible,
                   onPasswordToggle: _togglePasswordVisibility,
                   validator: LoginValidator.validatePassword,
+                  autovalidateMode: _hasAttemptedValidation 
+                      ? AutovalidateMode.always 
+                      : AutovalidateMode.disabled,
                 ),
 
                 // Forgot password link
@@ -181,8 +210,6 @@ class _LoginUiState extends State<LoginUi> {
 
                 const SizedBox(height: 30),
 
-                // Decorative footer
-                const DecorativeFooter(),
               ],
             ),
           ),

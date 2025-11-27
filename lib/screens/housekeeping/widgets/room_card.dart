@@ -80,7 +80,7 @@ class RoomCard extends StatelessWidget {
                 children: [
                   Text(
                     'Room ${room.roomNo} • ${room.type}',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * 0.042,
                       fontWeight: FontWeight.w600,
                     ),
@@ -88,7 +88,7 @@ class RoomCard extends StatelessWidget {
                   const SizedBox(height: 3),
                   Text(
                     'Floor ${room.floor} • ${room.building}',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * 0.034,
                       color: Colors.black54,
                     ),
@@ -96,7 +96,7 @@ class RoomCard extends StatelessWidget {
                   const SizedBox(height: 3),
                   Text(
                     lastCleanedText,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: screenWidth * 0.032,
                       color: Colors.black45,
                     ),
@@ -113,7 +113,7 @@ class RoomCard extends StatelessWidget {
               ),
               child: Text(
                 statusLabel,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: screenWidth * 0.032,
                   fontWeight: FontWeight.w600,
                   color: badgeColor,

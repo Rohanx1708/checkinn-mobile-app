@@ -159,10 +159,10 @@ class _PropertyCardState extends State<PropertyCard> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                const Color(0xFF6366F1),
-                                const Color(0xFF8B5CF6),
-                                const Color(0xFFEC4899),
-                                const Color(0xFFF59E0B),
+                                const Color(0xFF1F2937),
+                                const Color(0xFF374151),
+                                const Color(0xFF4B5563),
+                                const Color(0xFF6B7280),
                               ],
                             ) : null,
                           ),
@@ -204,7 +204,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                             const SizedBox(height: 8),
                                             Text(
                                               'Failed to load image',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
                                                 color: Colors.white.withOpacity(0.8),
@@ -213,7 +213,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                             const SizedBox(height: 4),
                                             Text(
                                               'URL: ${imageUrl?.substring(0, imageUrl.length > 30 ? 30 : imageUrl.length)}...',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.w400,
                                                 color: Colors.white.withOpacity(0.6),
@@ -250,7 +250,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                             const SizedBox(height: 16),
                                             Text(
                                               'Loading image...',
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.inter(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
                                                 color: Colors.white.withOpacity(0.8),
@@ -276,7 +276,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                       const SizedBox(height: 16),
                                       Text(
                                         '${widget.property.name}',
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white,
@@ -286,7 +286,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                       const SizedBox(height: 8),
                                       Text(
                                         'No images available',
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.inter(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.white.withOpacity(0.8),
@@ -430,7 +430,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         children: [
                           Text(
                             widget.property.name,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF1F2937),
@@ -442,13 +442,13 @@ class _PropertyCardState extends State<PropertyCard> {
                               Icon(
                                 Icons.location_on,
                                 size: 16,
-                                color: const Color(0xFF6366F1),
+                                color: const Color(0xFF1F2937),
                               ),
                               const SizedBox(width: 4),
                               Expanded(
                                 child: Text(
                                   widget.property.location,
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     fontSize: 14,
                                     color: const Color(0xFF6B7280),
                                     fontWeight: FontWeight.w500,
@@ -524,7 +524,7 @@ class _PropertyCardState extends State<PropertyCard> {
                 if (widget.property.description.isNotEmpty) ...[
                   Text(
                     widget.property.description,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
                       color: const Color(0xFF6B7280),
                       height: 1.5,
@@ -546,19 +546,19 @@ class _PropertyCardState extends State<PropertyCard> {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color(0xFF6366F1).withOpacity(0.1),
+            color: const Color(0xFF1F2937).withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
             icon,
             size: 16,
-            color: const Color(0xFF6366F1),
+            color: const Color(0xFF1F2937),
           ),
         ),
         const SizedBox(height: 6),
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 10,
             color: const Color(0xFF1F2937),
             fontWeight: FontWeight.w500,

@@ -268,7 +268,7 @@ class _DayViewState extends State<DayView> {
             color: const Color(0xFFF5F5F5),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-                color: const Color(0xFF6366F1).withOpacity(0.2), width: 1),
+                color: const Color(0xFF1F2937).withOpacity(0.2), width: 1),
           ),
           child: Column(
             children: [
@@ -279,7 +279,7 @@ class _DayViewState extends State<DayView> {
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios,
                         size: screenWidth * .04,
-                        color: const Color(0xFF6366F1)),
+                        color: const Color(0xFF1F2937)),
                     onPressed: () => _changeDate(-1),
                   ),
                   GestureDetector(
@@ -300,7 +300,7 @@ class _DayViewState extends State<DayView> {
                       ),
                       child: Text(
                         DateFormat('MMMM').format(selectedDate),
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.inter(
                           fontSize: screenWidth * .035,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF1F2937),
@@ -311,7 +311,7 @@ class _DayViewState extends State<DayView> {
                   IconButton(
                     icon: Icon(Icons.arrow_forward_ios,
                         size: screenWidth * .04,
-                        color: const Color(0xFF6366F1)),
+                        color: const Color(0xFF1F2937)),
                     onPressed: () => _changeDate(1),
                   ),
                 ],
@@ -335,11 +335,11 @@ class _DayViewState extends State<DayView> {
                             horizontal: screenWidth * .012),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF6366F1)
+                              ? const Color(0xFF1F2937)
                               : Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                              color: const Color(0xFF6366F1).withOpacity(0.2)),
+                              color: const Color(0xFF1F2937).withOpacity(0.2)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.05),
@@ -351,7 +351,7 @@ class _DayViewState extends State<DayView> {
                         child: Center(
                           child: Text(
                             day.toString(),
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               color: isSelected
                                   ? Colors.white
                                   : const Color(0xFF1F2937),
@@ -391,7 +391,7 @@ class _DayViewState extends State<DayView> {
                           padding: const EdgeInsets.all(16),
                           child: Text(
                             _errorMessage!,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                                 color: Colors.red, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                           ),
@@ -403,7 +403,7 @@ class _DayViewState extends State<DayView> {
                               padding: const EdgeInsets.all(16),
                               child: Text(
                                 'No bookings on ${DateFormat('dd MMM').format(selectedDate)}',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.inter(
                                     color: Colors.grey.shade600,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -420,7 +420,7 @@ class _DayViewState extends State<DayView> {
                                       vertical: 8),
                                   child: Text(
                                     "Bookings",
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.inter(
                                       fontSize: screenWidth * .045,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black87,
@@ -474,7 +474,7 @@ class _DayViewState extends State<DayView> {
                                   final Color tileColor = status
                                               .contains('confirmed') ||
                                           status.contains('upcoming')
-                                      ? const Color(0xFF6366F1).withOpacity(.3)
+                                      ? const Color(0xFF1F2937).withOpacity(.3)
                                       : status.contains('checked') ||
                                               status.contains('completed')
                                           ? const Color(0xFF22C55E)
@@ -482,7 +482,7 @@ class _DayViewState extends State<DayView> {
                                           : status.contains('cancel')
                                               ? const Color(0xFFEF4444)
                                                   .withOpacity(.25)
-                                              : const Color(0xFF8B5CF6)
+                                              : const Color(0xFF1F2937)
                                                   .withOpacity(.25);
 
                                   return Padding(

@@ -134,7 +134,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: Text('Previous', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                        child: Text('Previous', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                       ),
                     ),
                   if (_currentStep > 0) const SizedBox(width: 16),
@@ -148,7 +148,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
                       ),
                       child: Text(
                         _currentStep == _stepTitles.length - 1 ? 'Save Changes' : 'Next',
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white),
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: Colors.white),
                       ),
                     ),
                   ),
@@ -245,7 +245,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Amenities *', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
+        Text('Amenities *', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
                   const SizedBox(height: 8),
         Row(
           children: [
@@ -279,7 +279,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
       children: [
         Text(
           'Property Images',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF1F2937),
@@ -288,7 +288,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
         const SizedBox(height: 8),
         Text(
           'Upload a logo and additional images to showcase your property',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             color: const Color(0xFF6B7280),
           ),
@@ -393,7 +393,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
                 Expanded(
                   child: Text(
                     'A property logo is required to complete the setup',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 12,
                       color: const Color(0xFF92400E),
                     ),
@@ -435,7 +435,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
 
   Widget _buildAmenityChips() {
     if (_amenities.isEmpty) {
-      return Text('No amenities added yet', style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF6B7280)));
+      return Text('No amenities added yet', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280)));
     }
     return Wrap(
       spacing: 8,
@@ -636,7 +636,7 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w500)),
+        Text(title, style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
         InkWell(
           onTap: onTap,
@@ -655,9 +655,9 @@ class _AddPropertySheetState extends State<AddPropertySheet> {
                 children: [
                   if (preview != null) preview else const Icon(Icons.image_outlined, size: 36, color: Color(0xFF94A3B8)),
                   const SizedBox(height: 10),
-                  Text('Click to upload', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                  Text('Click to upload', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 2),
-                  Text(hint, textAlign: TextAlign.center, style: GoogleFonts.poppins(fontSize: 11, color: Color(0xFF6B7280))),
+                  Text(hint, textAlign: TextAlign.center, style: GoogleFonts.inter(fontSize: 11, color: Color(0xFF6B7280))),
                 ],
               ),
             ),

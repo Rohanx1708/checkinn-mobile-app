@@ -36,7 +36,7 @@ class SearchFilterSection extends StatelessWidget {
               controller: searchController,
               decoration: InputDecoration(
                 hintText: 'Search room, building, or type...',
-                hintStyle: GoogleFonts.poppins(
+                hintStyle: GoogleFonts.inter(
                   color: const Color(0xFF9CA3AF),
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
@@ -97,7 +97,7 @@ class SearchFilterSection extends StatelessWidget {
             icon: const Icon(Icons.filter_list, size: 22),
             label: Text(
               'Filter',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.inter(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
                 letterSpacing: 0.3,

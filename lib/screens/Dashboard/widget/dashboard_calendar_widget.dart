@@ -107,7 +107,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
             children: [
               Text(
                 DateFormat('MMMM yyyy').format(_focusedDate),
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
@@ -125,7 +125,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                       onPressed: _previousWeek,
                       icon: const Icon(
                         Icons.chevron_left,
-                        color: Color(0xFF6366F1),
+                        color: Color(0xFF1F2937),
                         size: 20,
                       ),
                       padding: const EdgeInsets.all(8),
@@ -146,7 +146,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                       onPressed: _nextWeek,
                       icon: const Icon(
                         Icons.chevron_right,
-                        color: Color(0xFF6366F1),
+                        color: Color(0xFF1F2937),
                         size: 20,
                       ),
                       padding: const EdgeInsets.all(8),
@@ -170,7 +170,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                 child: Center(
                   child: Text(
                     day,
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF6B7280),
@@ -207,9 +207,9 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF6366F1)
+                              ? const Color(0xFF1F2937)
                               : isToday
-                                  ? const Color(0xFFFEF3C7)
+                                  ? const Color(0xFFF3F4F6)
                                   : Colors.transparent,
                           borderRadius: BorderRadius.circular(6),
                         ),
@@ -217,18 +217,18 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                           children: [
                             Text(
                               date.day.toString(),
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: isSelected
                                     ? Colors.white
                                     : isToday
-                                        ? const Color(0xFFD97706)
+                                        ? const Color(0xFF1F2937)
                                         : isWeekend
-                                            ? const Color(0xFF9CA3AF)
+                                            ? const Color(0xFF6B7280)
                                             : isCurrentMonth
                                                 ? const Color(0xFF1F2937)
-                                                : const Color(0xFF9CA3AF),
+                                                : const Color(0xFF6B7280),
                               ),
                             ),
                             if (hasBooking)
@@ -272,7 +272,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                 children: [
                   Text(
                     "Bookings for ${DateFormat('MMMM d').format(_selectedDate!)}",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF1F2937),
@@ -291,7 +291,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                   else if (selectedDateBookings.isEmpty)
                     Text(
                       "No bookings for this date",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF9CA3AF),
@@ -315,7 +315,7 @@ class _DashboardCalendarWidgetState extends State<DashboardCalendarWidget> {
                           Expanded(
                             child: Text(
                               booking['title'] ?? 'Booking',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF6B7280),

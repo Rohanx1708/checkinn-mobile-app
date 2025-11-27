@@ -59,7 +59,7 @@ class AmenityTypeToggle extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       "Room",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
                         color: selectedType == "Room" ? Colors.white : const Color(0xFF6366F1),
@@ -107,7 +107,7 @@ class AmenityTypeToggle extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       "Property",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
                         color: selectedType == "Property" ? Colors.white : const Color(0xFF6366F1),

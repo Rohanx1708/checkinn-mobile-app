@@ -47,7 +47,7 @@ class SearchFilterSection extends StatelessWidget {
               onChanged: onSearchChanged,
               decoration: InputDecoration(
                 hintText: 'Search properties...',
-                hintStyle: GoogleFonts.poppins(
+                hintStyle: GoogleFonts.inter(
                   color: const Color(0xFF9CA3AF),
                   fontSize: 16,
                 ),
@@ -83,7 +83,7 @@ class SearchFilterSection extends StatelessWidget {
                         child: FilterChip(
                           label: Text(
                             PropertyHelper.getTypeLabel(type),
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),

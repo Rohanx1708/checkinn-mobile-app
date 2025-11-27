@@ -444,7 +444,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               Expanded(
                 child: Text(
                   message,
-                  style: AppFonts.poppins(fontWeight: FontWeight.w500),
+                  style: AppFonts.inter(fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -469,7 +469,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               Expanded(
                 child: Text(
                   message,
-                  style: AppFonts.poppins(fontWeight: FontWeight.w500),
+                  style: AppFonts.inter(fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -494,7 +494,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               Expanded(
                 child: Text(
                   message,
-                  style: AppFonts.poppins(fontWeight: FontWeight.w500),
+                  style: AppFonts.inter(fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -709,7 +709,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               widget.existingBooking != null 
                   ? 'Updating booking...'
                   : 'Creating booking...',
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              style: GoogleFonts.inter(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -1054,7 +1054,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
                           child: Center(
                             child: Text(
                               'Previous',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.inter(
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF6B7280),
                               ),
@@ -1102,7 +1102,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
                                     const SizedBox(width: 8),
                                     Text(
                                       'Processing...',
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.inter(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white,
                                       ),
@@ -1113,7 +1113,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
                                   _currentStep == _totalSteps - 1 
                                       ? (widget.existingBooking != null ? 'Update Booking' : 'Create Booking')
                                       : 'Next',
-                                  style: GoogleFonts.poppins(
+                                  style: GoogleFonts.inter(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),
@@ -1136,7 +1136,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       onTap: () => _goToStep(step),
       child: Text(
         label,
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.inter(
           fontSize: 12,
           fontWeight: step <= _currentStep ? FontWeight.w600 : FontWeight.w400,
           color: step <= _currentStep ? const Color(0xFF6366F1) : const Color(0xFF6B7280),
@@ -1281,7 +1281,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
       children: [
         Text(
           'Booking Status',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF374151),
@@ -1310,7 +1310,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               value: status,
               child: Text(
                 status.toUpperCase(),
-                style: AppFonts.poppins(),
+                style: AppFonts.inter(),
               ),
             );
           }).toList(),
@@ -1350,7 +1350,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               value: status,
               child: Text(
                 status.toUpperCase(),
-                style: AppFonts.poppins(),
+                style: AppFonts.inter(),
               ),
             );
           }).toList(),
@@ -1391,7 +1391,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               value: src,
               child: Text(
                 src.toUpperCase(),
-                style: AppFonts.poppins(),
+                style: AppFonts.inter(),
               ),
             );
           }).toList(),
@@ -1428,7 +1428,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Room Type ${index + 1}', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                Text('Room Type ${index + 1}', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   value: roomTypeId == 0 || roomTypeName.isEmpty ? null : '$roomTypeId|$roomTypeName',
@@ -1453,7 +1453,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
                     final id = roomType['id'] ?? roomType['room_type_id'] ?? 0;
                     return DropdownMenuItem<String>(
                       value: '$id|$name',
-                      child: Text(name, style: AppFonts.poppins()),
+                      child: Text(name, style: AppFonts.inter()),
             );
           }).toList(),
                   onChanged: (value) async {
@@ -1531,7 +1531,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
                             final id = room['id']?.toString() ?? roomNumber;
             return DropdownMenuItem<String>(
                               value: '$id|$roomNumber',
-                              child: Text(roomNumber, style: AppFonts.poppins()),
+                              child: Text(roomNumber, style: AppFonts.inter()),
                             );
                           }).toList();
                         }(),
@@ -1643,7 +1643,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
             children: [
               Text(
                 'Total Amount',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF1F2937),
@@ -1651,7 +1651,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
               ),
               Text(
                 '₹${_finalAmount.toStringAsFixed(2)}',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF6366F1),
@@ -1742,7 +1742,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
         children: [
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: isTotal ? 16 : 14,
               fontWeight: isTotal ? FontWeight.w600 : FontWeight.w500,
               color: isTotal ? const Color(0xFF1F2937) : const Color(0xFF6B7280),
@@ -1750,7 +1750,7 @@ class _AddBookingUiState extends ConsumerState<AddBookingUi> {
           ),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.inter(
               fontSize: isTotal ? 18 : 14,
               fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
               color: isTotal ? const Color(0xFF6366F1) : const Color(0xFF1F2937),
