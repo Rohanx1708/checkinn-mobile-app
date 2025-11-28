@@ -121,13 +121,13 @@ class AgentCard extends StatelessWidget {
                 if (onEdit != null)
                   Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF1F5F9),
-                      borderRadius: BorderRadius.circular(8),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.edit,
-                      color: const Color(0xFF1F2937),
+                      color: Color(0xFF1F2937),
                       size: 20,
                     ),
                   ),

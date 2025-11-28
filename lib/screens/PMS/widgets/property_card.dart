@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../models/property_models.dart';
 import '../../../services/auth_service.dart';
 
@@ -95,6 +96,22 @@ class _PropertyCardState extends State<PropertyCard> {
     return null;
   }
 
+  // Pre-cache all images for this property
+  Future<void> _precacheImages(BuildContext context) async {
+    final headers = await _getImageHeaders();
+    for (final imageUrl in widget.property.images) {
+      final absoluteUrl = _getAbsoluteImageUrl(imageUrl);
+      try {
+        precacheImage(
+          CachedNetworkImageProvider(absoluteUrl, headers: headers),
+          context,
+        );
+      } catch (e) {
+        // Error pre-caching image, continue with others
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -170,48 +187,62 @@ class _PropertyCardState extends State<PropertyCard> {
                               ? FutureBuilder<Map<String, String>?>(
                                   future: _getImageHeaders(),
                                   builder: (context, snapshot) {
-                                    return Image.network(
-                                      imageUrl,
+                                    return CachedNetworkImage(
+                                      imageUrl: imageUrl,
                                       fit: BoxFit.cover,
                                       width: double.infinity,
                                       height: double.infinity,
-                                      headers: snapshot.data,
-                                      errorBuilder: (context, error, stackTrace) {
-                                    // Image load error
-                                    
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            const Color(0xFF6366F1),
-                                            const Color(0xFF8B5CF6),
-                                            const Color(0xFFEC4899),
-                                            const Color(0xFFF59E0B),
-                                          ],
+                                      httpHeaders: snapshot.data,
+                                      placeholder: (context, url) => Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Color(0xFFF3F4F6),
+                                              Color(0xFFE5E7EB),
+                                            ],
+                                          ),
+                                        ),
+                                        child: const Center(
+                                          child: CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+                                          ),
                                         ),
                                       ),
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.image_not_supported,
-                                              size: 60,
-                                              color: Colors.white.withOpacity(0.7),
-                                            ),
-                                            const SizedBox(height: 8),
-                                            Text(
-                                              'Failed to load image',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white.withOpacity(0.8),
+                                      errorWidget: (context, url, error) => Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              Color(0xFF6366F1),
+                                              Color(0xFF8B5CF6),
+                                              Color(0xFFEC4899),
+                                              Color(0xFFF59E0B),
+                                            ],
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.image_not_supported,
+                                                size: 60,
+                                                color: Colors.white.withOpacity(0.7),
                                               ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                'Failed to load image',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white.withOpacity(0.8),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
                                               'URL: ${imageUrl?.substring(0, imageUrl.length > 30 ? 30 : imageUrl.length)}...',
                                               style: GoogleFonts.inter(
                                                 fontSize: 10,
@@ -222,46 +253,8 @@ class _PropertyCardState extends State<PropertyCard> {
                                           ],
                                         ),
                                       ),
+                                    )
                                     );
-                                  },
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            const Color(0xFF6366F1),
-                                            const Color(0xFF8B5CF6),
-                                            const Color(0xFFEC4899),
-                                            const Color(0xFFF59E0B),
-                                          ],
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            const CircularProgressIndicator(
-                                              color: Colors.white,
-                                              strokeWidth: 2,
-                                            ),
-                                            const SizedBox(height: 16),
-                                            Text(
-                                              'Loading image...',
-                                              style: GoogleFonts.inter(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white.withOpacity(0.8),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
                                   },
                                 )
                               : Center(
@@ -394,7 +387,11 @@ class _PropertyCardState extends State<PropertyCard> {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(12),
-                      onTap: widget.onEditPressed,
+                      onTap: () async {
+                        // Pre-cache images before navigation
+                        await _precacheImages(context);
+                        widget.onEditPressed?.call();
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(

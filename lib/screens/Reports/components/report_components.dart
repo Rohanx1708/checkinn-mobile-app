@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/reports_service.dart';
+import '../../Dashboard/widget/dashboard_skeleton.dart' show SkeletonBox;
 
 class EnhancedChartCard extends StatelessWidget {
   final String title;
@@ -569,9 +570,18 @@ class _TopPropertiesTableState extends State<TopPropertiesTable> {
     if (_loading) {
       return Container(
         height: 180,
-        alignment: Alignment.center,
-        child: const CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SkeletonBox(width: 200, height: 18, borderRadius: 4),
+            const SizedBox(height: 8),
+            const SkeletonBox(width: 150, height: 14, borderRadius: 4),
+            const SizedBox(height: 16),
+            Expanded(
+              child: SkeletonBox(width: double.infinity, height: double.infinity, borderRadius: 8),
+            ),
+          ],
         ),
       );
     }

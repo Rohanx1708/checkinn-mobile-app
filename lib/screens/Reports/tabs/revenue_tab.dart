@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/report_components.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../services/reports_service.dart';
+import '../../../widgets/skeleton_loader.dart';
 
 
 class RevenueTab extends StatefulWidget {
@@ -40,12 +40,16 @@ class _RevenueTabState extends State<RevenueTab> {
       final totalRevenue = _toDouble(data['total_revenue'] ?? data['revenue_total'] ?? data['revenue']);
       final providedAvgMonthly = _toDouble(data['avg_monthly'] ?? data['average_monthly']);
       final avgMonthly = providedAvgMonthly > 0 ? providedAvgMonthly : (totalRevenue / _monthsWindow);
-      setState(() {
-        _totalRevenue = totalRevenue;
-        _avgMonthly = avgMonthly;
-        _growthRate = _toDouble(data['growth_rate'] ?? data['growth'] ?? 0);
-        _loading = false;
-      });
+      final growthRate = _toDouble(data['growth_rate'] ?? data['growth'] ?? 0);
+
+      if (mounted) {
+        setState(() {
+          _totalRevenue = totalRevenue;
+          _avgMonthly = avgMonthly;
+          _growthRate = growthRate;
+          _loading = false;
+        });
+      }
     } else {
       setState(() => _loading = false);
     }
@@ -159,13 +163,41 @@ class _RevenueAnalysisTiles extends StatelessWidget {
       );
     }
 
+    if (loading) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: const [
+              Expanded(child: SkeletonStatCard()),
+              SizedBox(width: 12),
+              Expanded(child: SkeletonStatCard()),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: const [
+              Expanded(child: SkeletonStatCard()),
+              SizedBox(width: 12),
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: SizedBox.shrink(),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             tile(
-              value: loading ? '—' : '\u20B9' + totalRevenue.toStringAsFixed(2),
+              value: '\u20B9' + totalRevenue.toStringAsFixed(2),
               label: 'Total Revenue',
               color: const Color(0xFF059669),
               icon: Icons.attach_money,
@@ -173,7 +205,7 @@ class _RevenueAnalysisTiles extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             tile(
-              value: loading ? '—' : '\u20B9' + avgMonthly.toStringAsFixed(2),
+              value: '\u20B9' + avgMonthly.toStringAsFixed(2),
               label: 'Average Monthly',
               color: const Color(0xFF2563EB),
               icon: Icons.calendar_month,
@@ -185,7 +217,7 @@ class _RevenueAnalysisTiles extends StatelessWidget {
         Row(
           children: [
             tile(
-              value: loading ? '—' : '${growthRate.toStringAsFixed(1)}%',
+              value: '${growthRate.toStringAsFixed(1)}%',
               label: 'Growth Rate',
               color: const Color(0xFFD97706),
               icon: Icons.trending_up,

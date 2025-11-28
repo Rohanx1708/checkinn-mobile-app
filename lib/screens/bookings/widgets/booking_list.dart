@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/bookingdetails.dart';
 import 'booking_card.dart';
+import '../../../widgets/list_item_animation.dart';
 
 class BookingList extends StatelessWidget {
   final List<Booking> bookings;
@@ -55,7 +56,10 @@ class BookingList extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final booking = bookings[index];
-        return BookingCard(booking: booking);
+        return ListItemAnimation(
+          delay: ListItemAnimationConfig.getDelayForIndex(index),
+          child: BookingCard(booking: booking),
+        );
       },
     );
   }

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/crm_service.dart';
 import 'package:checkinn/services/auth_service.dart';
+import '../../../../services/generic_cache_service.dart';
 import '../add_customer_screen.dart';
+import '../../../../widgets/skeleton_loader.dart';
+import '../../../../widgets/list_item_animation.dart';
 
 class CustomersTab extends StatefulWidget {
   const CustomersTab({super.key});
@@ -166,15 +169,13 @@ class _CustomersTabState extends State<CustomersTab> {
           child: RefreshIndicator(
             onRefresh: _loadCustomers,
             child: _loading
-                ? ListView(
-                    children: const [
-                      SizedBox(height: 200),
-                      Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                        ),
-                      ),
-                    ],
+                ? ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 8),
+                    itemCount: 5,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      return const SkeletonListCard();
+                    },
                   )
                 : (_error != null
                     ? ListView(children: [
@@ -191,7 +192,9 @@ class _CustomersTabState extends State<CustomersTab> {
             separatorBuilder: (_, __) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final c = _filtered[index];
-              return Container(
+              return ListItemAnimation(
+                delay: ListItemAnimationConfig.getDelayForIndex(index),
+                child: Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -265,9 +268,9 @@ class _CustomersTabState extends State<CustomersTab> {
                         const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF1F5F9),
-                            borderRadius: BorderRadius.circular(999),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFF1F5F9),
+                            borderRadius: BorderRadius.all(Radius.circular(999)),
                           ),
                           child: Text('${c.bookings} booking${c.bookings == 1 ? '' : 's'}', style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF374151), fontWeight: FontWeight.w600)),
                         ),
@@ -289,6 +292,7 @@ class _CustomersTabState extends State<CustomersTab> {
                     ),
 
                 ],
+                ),
                 ),
               );
             },

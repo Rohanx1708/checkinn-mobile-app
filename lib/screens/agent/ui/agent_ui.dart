@@ -6,6 +6,7 @@ import '../widgets/agent_card.dart';
 import 'add_agent_screen.dart';
 import 'agent_detail_ui.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
+import '../../../widgets/list_item_animation.dart';
 
 class AgentUi extends StatefulWidget {
   const AgentUi({super.key});
@@ -152,9 +153,9 @@ class _AgentUiState extends State<AgentUi> {
                           children: [
                             Container(
                               padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF1F5F9),
-                                borderRadius: BorderRadius.circular(50),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFF1F5F9),
+                                borderRadius: BorderRadius.all(Radius.circular(50)),
                               ),
                               child: const Icon(
                                 Icons.people_outline,
@@ -187,7 +188,9 @@ class _AgentUiState extends State<AgentUi> {
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final agent = _agents[index];
-                          return AgentCard(
+                          return ListItemAnimation(
+                            delay: ListItemAnimationConfig.getDelayForIndex(index),
+                            child: AgentCard(
                             agent: agent,
                             onTap: () {
                               Navigator.push(
@@ -209,6 +212,7 @@ class _AgentUiState extends State<AgentUi> {
                             onEdit: () {
                               // TODO: Implement edit functionality
                             },
+                          ),
                           );
                         },
                       ),

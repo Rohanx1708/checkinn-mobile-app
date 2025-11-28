@@ -6,6 +6,7 @@ import 'tabs/bookings_tab.dart';
 import 'tabs/revenue_tab.dart';
 import 'tabs/properties_tab.dart';
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/skeleton_loader.dart';
 import '../Dashboard/widget/drawer_widget.dart';
 
 class ReportsUi extends StatefulWidget {
@@ -57,24 +58,7 @@ class _ReportsUiState extends State<ReportsUi> with SingleTickerProviderStateMix
       ),
       drawer: const DrawerWidget(),
       body: _loading
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Loading reports...',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      color: const Color(0xFF6B7280),
-                    ),
-                  ),
-                ],
-              ),
-            )
+          ? const SkeletonReportsScreen()
           : Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(

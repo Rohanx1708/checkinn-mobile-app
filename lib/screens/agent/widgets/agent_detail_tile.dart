@@ -29,10 +29,10 @@ class AgentDetailTile extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(
-          color: const Color(0xFFF1F5F9),
+        border: const Border.fromBorderSide(BorderSide(
+          color: Color(0xFFF1F5F9),
           width: 1,
-        ),
+        )),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),

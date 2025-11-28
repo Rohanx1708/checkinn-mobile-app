@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/report_components.dart';
 import '../services/reports_service.dart';
+import '../../../widgets/skeleton_loader.dart';
 
 class OverviewTab extends StatefulWidget {
   const OverviewTab({super.key});
@@ -96,13 +97,15 @@ class _OverviewTabState extends State<OverviewTab> {
         }
       }
 
-      setState(() {
-        _totalBookings = totalBookings;
-        _totalProperties = totalProperties;
-        _totalEmployees = totalEmployees;
-        _totalRevenue = totalRevenue;
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _totalBookings = totalBookings;
+          _totalProperties = totalProperties;
+          _totalEmployees = totalEmployees;
+          _totalRevenue = totalRevenue;
+          _loading = false;
+        });
+      }
     } catch (_) {
       if (!mounted) return;
       setState(() => _loading = false);
@@ -123,53 +126,73 @@ class _OverviewTabState extends State<OverviewTab> {
           SizedBox(height: screenHeight * 0.02),
 
           // Quick Stats Grid (2x2)
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: QuickStatCard(
-                      title: 'Total Bookings',
-                      value: _loading ? '—' : _totalBookings.toString(),
-                      icon: Icons.description,
-                      color: const Color(0xFF3B82F6),
+          _loading
+              ? Column(
+                  children: [
+                    Row(
+                      children: const [
+                        Expanded(child: SkeletonStatCard()),
+                        SizedBox(width: 12),
+                        Expanded(child: SkeletonStatCard()),
+                      ],
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: QuickStatCard(
-                      title: 'Total Properties',
-                      value: _loading ? '—' : _totalProperties.toString(),
-                      icon: Icons.business,
-                      color: const Color(0xFF10B981),
+                    SizedBox(height: screenHeight * 0.02),
+                    Row(
+                      children: const [
+                        Expanded(child: SkeletonStatCard()),
+                        SizedBox(width: 12),
+                        Expanded(child: SkeletonStatCard()),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              Row(
-                children: [
-                  Expanded(
-                    child: QuickStatCard(
-                      title: 'Total Employees',
-                      value: _loading ? '—' : _totalEmployees.toString(),
-                      icon: Icons.people,
-                      color: const Color(0xFF1F2937),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: QuickStatCard(
+                            title: 'Total Bookings',
+                            value: _totalBookings.toString(),
+                            icon: Icons.description,
+                            color: const Color(0xFF3B82F6),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: QuickStatCard(
+                            title: 'Total Properties',
+                            value: _totalProperties.toString(),
+                            icon: Icons.business,
+                            color: const Color(0xFF10B981),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: QuickStatCard(
-                      title: 'Total Revenue',
-                      value: _loading ? '—' : _currency(_totalRevenue),
-                      icon: Icons.attach_money,
-                      color: const Color(0xFFF59E0B),
+                    SizedBox(height: screenHeight * 0.02),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: QuickStatCard(
+                            title: 'Total Employees',
+                            value: _totalEmployees.toString(),
+                            icon: Icons.people,
+                            color: const Color(0xFF1F2937),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: QuickStatCard(
+                            title: 'Total Revenue',
+                            value: _currency(_totalRevenue),
+                            icon: Icons.attach_money,
+                            color: const Color(0xFFF59E0B),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                  ],
+                ),
 
           SizedBox(height: screenHeight * 0.02),
 

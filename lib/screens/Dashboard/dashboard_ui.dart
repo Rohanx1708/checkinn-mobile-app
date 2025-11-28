@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'widget/drawer_widget.dart';
 import 'widget/dashboard_calendar_widget.dart';
+import 'widget/staggered_animation.dart';
+import 'widget/dashboard_skeleton.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../bookings/services/bookings_service.dart';
 import '../employees/services/employees_service.dart';
@@ -45,8 +47,10 @@ class _DashboardUiState extends State<DashboardUi> {
     await _loadCalendarBookings();
   }
 
+  /// Load dashboard data from API
   Future<void> _loadDashboardData() async {
     setState(() => _loading = true);
+    
     try {
       final results = await Future.wait([
         BookingsService.getBookings(page: 1, limit: 200),
@@ -107,11 +111,16 @@ class _DashboardUiState extends State<DashboardUi> {
         _roomsCount = bookings.isNotEmpty ? (bookings.length * 2) : 20; // Estimate based on bookings
       }
 
+      if (mounted) {
       setState(() => _loading = false);
+      }
     } catch (_) {
+      if (mounted) {
       setState(() => _loading = false);
     }
   }
+  }
+
 
   Future<void> _loadRevenueTrend() async {
     try {
@@ -280,7 +289,7 @@ class _DashboardUiState extends State<DashboardUi> {
   Widget _buildRevenueTrendCard() {
     return Card(
       color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
       elevation: 1,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -331,7 +340,7 @@ class _DashboardUiState extends State<DashboardUi> {
               getTitlesWidget: (value, meta) {
                 return Text(
                   value.toInt().toString(),
-                  style: const TextStyle(fontSize: 10),
+                  style: const TextStyle(fontSize: 10, color: Colors.black),
                 );
               },
             ),
@@ -394,16 +403,7 @@ class _DashboardUiState extends State<DashboardUi> {
       drawer: const DrawerWidget(),
       body: SafeArea(
         child: _loading
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                    ),
-                  ],
-                ),
-              )
+            ? const DashboardSkeleton()
             : Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -424,7 +424,10 @@ class _DashboardUiState extends State<DashboardUi> {
                   const SizedBox(height: 16),
                   
                   // KPI Stats Tile (4 sections)
-                  _buildKpiStatsTile(),
+                  StaggeredAnimation(
+                    delay: 0,
+                      child: _buildKpiStatsTile(),
+                  ),
                   const SizedBox(height: 16),
                   
                   // Financial Metrics (2x2 Grid)
@@ -432,19 +435,28 @@ class _DashboardUiState extends State<DashboardUi> {
                   const SizedBox(height: 16),
                   
                   // Counts and Occupancy Section
-                  _buildCountsAndOccupancy(),
+                  StaggeredAnimation(
+                    delay: 300,
+                      child: _buildCountsAndOccupancy(),
+                  ),
                   const SizedBox(height: 16),
                   
                   // Revenue Trend - separate card above calendar
-                  _buildRevenueTrendCard(),
+                  StaggeredAnimation(
+                    delay: 350,
+                      child: _buildRevenueTrendCard(),
+                  ),
                   const SizedBox(height: 16),
                   // Calendar Section
-                  DashboardCalendarWidget(
-                    bookings: _calendarBookings,
-                    loading: _calendarLoading,
-                    onDateSelected: (date) {
-                      // Handle date selection if needed
-                    },
+                  StaggeredAnimation(
+                    delay: 400,
+                      child: DashboardCalendarWidget(
+                        bookings: _calendarBookings,
+                        loading: _calendarLoading,
+                        onDateSelected: (date) {
+                          // Handle date selection if needed
+                        },
+                    ),
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -458,17 +470,17 @@ class _DashboardUiState extends State<DashboardUi> {
 
   Widget _buildKpiStatsTile() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Color.fromRGBO(0, 0, 0, 0.05),
             blurRadius: 12,
-            offset: const Offset(0, 6),
+            offset: Offset(0, 6),
           ),
         ],
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1),
+        border: Border.fromBorderSide(BorderSide(color: Color(0xFFF1F5F9), width: 1)),
       ),
       child: Row(
         children: [
@@ -513,45 +525,67 @@ class _DashboardUiState extends State<DashboardUi> {
   }
 
   Widget _buildDivider() {
-    return Container(
+    return const SizedBox(
       width: 1,
       height: 40,
-      color: const Color(0xFFF1F5F9),
+      child: ColoredBox(
+        color: Color(0xFFF1F5F9),
+      ),
     );
   }
 
   Widget _buildFinancialMetrics() {
     return Column(children: [
       Row(children: [
-        Expanded(child: _buildStatTile(
+        Expanded(
+          child: StaggeredAnimation(
+            delay: 100,
+            child: _buildStatTile(
           title: 'Total Bookings',
           value: _loading ? '—' : _bookingsCount.toString(),
           changeText: '+12%  vs last month',
           changeColor: const Color(0xFF10B981),
-        )),
+            ),
+          ),
+        ),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatTile(
+        Expanded(
+          child: StaggeredAnimation(
+            delay: 150,
+            child: _buildStatTile(
           title: 'Revenue',
           value: _loading ? '—' : _revenueTotal.toStringAsFixed(2),
           changeText: '+8%  vs last month',
           changeColor: const Color(0xFF10B981),
-        )),
+            ),
+          ),
+        ),
       ]),
       const SizedBox(height: 12),
       Row(children: [
-        Expanded(child: _buildStatTile(
+        Expanded(
+          child: StaggeredAnimation(
+            delay: 200,
+            child: _buildStatTile(
           title: 'Occupancy Rate',
           value: _loading ? '—' : '${_occupancyRate.toStringAsFixed(1)}%',
           changeText: '+5%  vs last month',
           changeColor: const Color(0xFF10B981),
-        )),
+            ),
+          ),
+        ),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatTile(
+        Expanded(
+          child: StaggeredAnimation(
+            delay: 250,
+            child: _buildStatTile(
           title: 'Guest Rating',
           value: _loading ? '—' : _guestRating.toStringAsFixed(1),
           changeText: '+0.2  vs last month',
           changeColor: const Color(0xFF10B981),
-        )),
+            ),
+          ),
+        ),
       ]),
     ]);
   }
@@ -565,17 +599,17 @@ class _DashboardUiState extends State<DashboardUi> {
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Color.fromRGBO(0, 0, 0, 0.05),
             blurRadius: 12,
-            offset: const Offset(0, 6),
+            offset: Offset(0, 6),
           ),
         ],
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1),
+        border: Border.fromBorderSide(BorderSide(color: Color(0xFFF1F5F9), width: 1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -597,17 +631,17 @@ class _DashboardUiState extends State<DashboardUi> {
   Widget _buildCountsAndOccupancy() {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Color.fromRGBO(0, 0, 0, 0.05),
             blurRadius: 12,
-            offset: const Offset(0, 6),
+            offset: Offset(0, 6),
           ),
         ],
-        border: Border.all(color: const Color(0xFFF1F5F9), width: 1),
+        border: Border.fromBorderSide(BorderSide(color: Color(0xFFF1F5F9), width: 1)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -634,10 +668,12 @@ class _DashboardUiState extends State<DashboardUi> {
               ],
             ),
           ),
-          Container(
+          const SizedBox(
             width: 1,
             height: 80,
-            color: const Color(0xFFF1F5F9),
+            child: ColoredBox(
+              color: Color(0xFFF1F5F9),
+            ),
           ),
           const SizedBox(width: 20),
           // Occupancy Section

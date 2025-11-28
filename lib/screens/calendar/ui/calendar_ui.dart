@@ -14,6 +14,14 @@ class CalendarUi extends StatefulWidget {
 
 class _CalendarUiState extends State<CalendarUi> {
   bool isDayView = true; // Variable to track the selected view
+  DateTime? _selectedDateForDayView; // Date to show in day view when switching from month view
+
+  void _onDateSelectedFromMonth(DateTime date) {
+    setState(() {
+      _selectedDateForDayView = date;
+      isDayView = true; // Switch to day view
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +75,10 @@ class _CalendarUiState extends State<CalendarUi> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           GestureDetector(
-                            onTap: () => setState(() => isDayView = true),
+                            onTap: () => setState(() {
+                              isDayView = true;
+                              _selectedDateForDayView = null; // Reset to today when manually switching
+                            }),
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
@@ -148,7 +159,9 @@ class _CalendarUiState extends State<CalendarUi> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: isDayView ? const DayView() : const MonthView(),
+                    child: isDayView 
+                        ? DayView(initialDate: _selectedDateForDayView)
+                        : MonthView(onDateSelected: _onDateSelectedFromMonth),
                   ),
                 ),
               ),

@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../services/crm_service.dart';
 import 'package:checkinn/services/auth_service.dart';
 import '../add_lead_screen.dart';
+import '../../../../widgets/skeleton_loader.dart';
+import '../../../../widgets/list_item_animation.dart';
 
 class LeadsTab extends StatefulWidget {
   const LeadsTab({super.key});
@@ -48,9 +50,14 @@ class _LeadsTabState extends State<LeadsTab> {
       CrmService.authToken = token;
       final list = await CrmService.fetchAllLeads(perPage: 200);
       final parsed = list.map<_Lead>(_parseLead).toList();
+      
+      if (mounted) {
       setState(() { _leads..clear()..addAll(parsed); _loading = false; });
+      }
     } catch (e) {
+      if (mounted) {
       setState(() { _error = '$e'; _loading = false; });
+      }
     }
   }
 
@@ -118,10 +125,10 @@ class _LeadsTabState extends State<LeadsTab> {
               const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  border: Border.fromBorderSide(BorderSide(color: Color(0xFFE5E7EB))),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
@@ -146,15 +153,13 @@ class _LeadsTabState extends State<LeadsTab> {
           child: RefreshIndicator(
             onRefresh: _loadLeads,
             child: _loading
-                ? ListView(
-                    children: const [
-                      SizedBox(height: 200),
-                      Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                        ),
-                      ),
-                    ],
+                ? ListView.separated(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 8),
+                    itemCount: 5,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      return const SkeletonListCard();
+                    },
                   )
                 : (_error != null
                     ? ListView(children: [
@@ -169,7 +174,9 @@ class _LeadsTabState extends State<LeadsTab> {
             separatorBuilder: (_, __) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final l = _leadFiltered[index];
-              return Container(
+              return ListItemAnimation(
+                delay: ListItemAnimationConfig.getDelayForIndex(index),
+                child: Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -258,6 +265,7 @@ class _LeadsTabState extends State<LeadsTab> {
                       ],
                     ),
                   ],
+                ),
                 ),
               );
             },

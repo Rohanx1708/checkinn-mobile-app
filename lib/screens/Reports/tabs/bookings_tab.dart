@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/report_components.dart';
 import '../services/reports_service.dart';
+import '../../../widgets/skeleton_loader.dart';
 
 class BookingsTab extends StatefulWidget {
   const BookingsTab({super.key});
@@ -43,13 +44,15 @@ class _BookingsTabState extends State<BookingsTab> {
       final completed = _toInt(map['completed'] ?? map['bookings_completed']);
       final cancelled = _toInt(map['cancelled'] ?? map['bookings_cancelled']);
 
-      setState(() {
-        _pending = pending;
-        _confirmed = confirmed;
-        _completed = completed;
-        _cancelled = cancelled;
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _pending = pending;
+          _confirmed = confirmed;
+          _completed = completed;
+          _cancelled = cancelled;
+          _loading = false;
+        });
+      }
     } else {
       setState(() => _loading = false);
     }
@@ -79,13 +82,33 @@ class _BookingsTabState extends State<BookingsTab> {
               ),
             ),
           ),
-          _BookingStatsGrid(
-            pending: _pending,
-            confirmed: _confirmed,
-            completed: _completed,
-            cancelled: _cancelled,
-            loading: _loading,
-          ),
+          _loading
+              ? Column(
+                  children: [
+                    Row(
+                      children: const [
+                        Expanded(child: SkeletonStatCard()),
+                        SizedBox(width: 12),
+                        Expanded(child: SkeletonStatCard()),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: const [
+                        Expanded(child: SkeletonStatCard()),
+                        SizedBox(width: 12),
+                        Expanded(child: SkeletonStatCard()),
+                      ],
+                    ),
+                  ],
+                )
+              : _BookingStatsGrid(
+                  pending: _pending,
+                  confirmed: _confirmed,
+                  completed: _completed,
+                  cancelled: _cancelled,
+                  loading: false,
+                ),
         ],
       ),
     );

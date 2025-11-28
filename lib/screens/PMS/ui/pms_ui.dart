@@ -8,7 +8,9 @@ import '../widgets/add_property_sheet.dart';
 import '../../../services/auth_service.dart';
 import '../widgets/empty_state.dart';
 import '../../../widgets/common_app_bar.dart';
+import '../../../widgets/skeleton_loader.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
+import '../../../widgets/list_item_animation.dart';
 
 class PmsUi extends StatefulWidget {
   const PmsUi({super.key});
@@ -74,6 +76,7 @@ class _PmsUiState extends State<PmsUi> {
           }
         }
 
+        if (mounted) {
         setState(() {
           _properties = properties;
           _isLoading = false;
@@ -82,6 +85,7 @@ class _PmsUiState extends State<PmsUi> {
             isLoading: false,
           );
         });
+        }
       } else {
         setState(() {
           _errorMessage = result['message'] ?? 'Failed to load properties';
@@ -333,13 +337,16 @@ class _PmsUiState extends State<PmsUi> {
                   child: Column(
                     children: [
                       if (_isLoading)
-                        Container(
-                          height: 200,
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                            ),
-                          ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: SkeletonPropertyCard(),
+                            );
+                          },
                         )
                       else if (_errorMessage != null)
                         Container(
@@ -396,11 +403,14 @@ class _PmsUiState extends State<PmsUi> {
                           itemCount: _properties.length,
                           itemBuilder: (context, index) {
                             final property = _properties[index];
-                            return PropertyCard(
+                            return ListItemAnimation(
+                              delay: ListItemAnimationConfig.getDelayForIndex(index),
+                              child: PropertyCard(
                               property: property,
                               onViewPressed: () => _viewProperty(property),
                               onEditPressed: () => _editProperty(property),
                               onDeletePressed: () => _confirmAndDelete(property),
+                              ),
                             );
                           },
                         ),

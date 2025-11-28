@@ -3,7 +3,9 @@ import 'employee_form_screen.dart';
 import 'employee_detail_screen.dart';
 import '../services/employees_service.dart';
 import '../../../widgets/common_app_bar.dart';
+import '../../../widgets/skeleton_loader.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
+import '../../../widgets/list_item_animation.dart';
 
 class EmployeesUi extends StatefulWidget {
   const EmployeesUi({super.key});
@@ -172,10 +174,14 @@ class _EmployeesUiState extends State<EmployeesUi> {
           'notes': clean(m['notes']),
         };
       }).toList();
+      
+      // Save fresh data to cache
+      if (mounted) {
       setState(() {
         _employees = mapped;
         _isLoading = false;
       });
+      }
     } else {
       setState(() {
         _errorMessage = res['message'] ?? 'Failed to load employees';
@@ -452,10 +458,10 @@ class _EmployeesUiState extends State<EmployeesUi> {
           // Employees list
           Expanded(
             child: _isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                    ),
+                ? SkeletonListLoader(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 8),
+                    itemCount: 5,
+                    itemBuilder: (context, index) => const SkeletonListCard(),
                   )
                 : _errorMessage != null
                     ? Center(
@@ -502,7 +508,9 @@ class _EmployeesUiState extends State<EmployeesUi> {
                               final last = parts.last.substring(0, 1).toUpperCase();
                               return '$first$last';
                             }();
-                            return InkWell(
+                            return ListItemAnimation(
+                              delay: ListItemAnimationConfig.getDelayForIndex(index),
+                              child: InkWell(
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -634,6 +642,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
                                     ),
                                   ),
                                 ],
+                              ),
                               ),
                             ),
                             );

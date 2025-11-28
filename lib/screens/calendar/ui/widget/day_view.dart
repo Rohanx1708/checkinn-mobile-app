@@ -8,7 +8,12 @@ import 'package:checkinn/screens/bookings/models/bookingdetails.dart';
 import 'package:checkinn/screens/bookings/services/bookings_service.dart';
 
 class DayView extends StatefulWidget {
-  const DayView({super.key});
+  final DateTime? initialDate;
+  
+  const DayView({
+    super.key,
+    this.initialDate,
+  });
 
   @override
   State<DayView> createState() => _DayViewState();
@@ -17,7 +22,7 @@ class DayView extends StatefulWidget {
 class _DayViewState extends State<DayView> {
   int? startHour;
   int? endHour;
-  DateTime selectedDate = DateTime.now();
+  late DateTime selectedDate;
   bool _isLoading = false;
   String? _errorMessage;
   List<dynamic> _events = [];
@@ -55,6 +60,7 @@ class _DayViewState extends State<DayView> {
   @override
   void initState() {
     super.initState();
+    selectedDate = widget.initialDate ?? DateTime.now();
     _dayScrollController = ScrollController();
     _setInitialSelectedTime();
     _loadDaily();
@@ -62,6 +68,18 @@ class _DayViewState extends State<DayView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToSelectedDate();
     });
+  }
+
+  @override
+  void didUpdateWidget(DayView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update selected date if initialDate changed
+    if (widget.initialDate != null && widget.initialDate != oldWidget.initialDate) {
+      setState(() {
+        selectedDate = widget.initialDate!;
+      });
+      _loadDaily();
+    }
   }
 
   @override

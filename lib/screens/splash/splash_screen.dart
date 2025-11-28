@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkAuthAndNavigate() async {
     // Wait a bit for splash screen visibility
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     
     if (!mounted) return;
     
@@ -48,12 +48,6 @@ class _SplashScreenState extends State<SplashScreen> {
             CheckInnLogo(
               iconSize: 80,
               fontSize: 32,
-            ),
-            const SizedBox(height: 24),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                const Color(0xFF1F2937),
-              ),
             ),
           ],
         ),

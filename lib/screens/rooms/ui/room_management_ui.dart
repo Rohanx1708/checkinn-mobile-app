@@ -8,7 +8,9 @@ import '../widgets/add_room_type_sheet.dart';
 import '../widgets/empty_state.dart';
 import '../ui/rooms.dart';
 import '../../../widgets/common_app_bar.dart';
+import '../../../widgets/skeleton_loader.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
+import '../../../widgets/list_item_animation.dart';
 import '../../../utils/routes.dart';
 
 class RoomManagementUi extends StatefulWidget {
@@ -114,11 +116,13 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
           }
         }
 
+        if (mounted) {
         setState(() {
           _rooms = rooms;
           _roomTypes = roomTypes;
           _isLoading = false;
         });
+        }
 
       } else {
         setState(() {
@@ -299,10 +303,10 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
               child: RefreshIndicator(
                 onRefresh: _refreshData,
                 child: _isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                        ),
+                    ? SkeletonListLoader(
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 8),
+                        itemCount: 3,
+                        itemBuilder: (context, index) => const SkeletonPropertyCard(),
                       )
                     : _errorMessage != null
                         ? Padding(
@@ -361,7 +365,9 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                                 itemCount: _rooms.length,
                                 itemBuilder: (context, index) {
                                   final room = _rooms[index];
-                                  return Padding(
+                                  return ListItemAnimation(
+                                    delay: ListItemAnimationConfig.getDelayForIndex(index),
+                                    child: Padding(
                                     padding: const EdgeInsets.only(bottom: 16),
                                     child: RoomCard(
                                       room: room,
@@ -388,6 +394,7 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                           });
                         }
                       },
+                    ),
                     ),
                   );
                 },

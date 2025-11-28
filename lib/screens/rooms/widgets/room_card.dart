@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../models/room_models.dart';
 import '../ui/edit_room_type.dart';
 import '../../../services/auth_service.dart';
@@ -167,52 +168,50 @@ class _RoomCardState extends State<RoomCard> {
                       
                       final imageData = roomImages[index];
                       
-                      // Display actual uploaded image
+                      // Display actual uploaded image with caching
                       return FutureBuilder<String?>(
                         future: _getAuthToken(),
                         builder: (context, tokenSnapshot) {
-                          return Image.network(
-                            imageData as String,
+                          final imageUrl = imageData as String;
+                          final headers = tokenSnapshot.hasData && tokenSnapshot.data != null
+                              ? {'Authorization': 'Bearer ${tokenSnapshot.data}'}
+                              : <String, String>{};
+                          
+                          return CachedNetworkImage(
+                            imageUrl: imageUrl,
                             fit: BoxFit.cover,
-                            headers: tokenSnapshot.hasData && tokenSnapshot.data != null
-                                ? {'Authorization': 'Bearer ${tokenSnapshot.data}'}
-                                : {},
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Container(
-                                color: Colors.grey[300],
-                                child: const Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-                                  ),
+                            httpHeaders: headers,
+                            placeholder: (context, url) => Container(
+                              color: const Color(0xFFF3F4F6),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
                                 ),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Colors.grey[100],
-                                child: const Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.error_outline,
-                                        size: 40,
-                                        color: Colors.grey,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: const Color(0xFFF3F4F6),
+                              child: const Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      size: 40,
+                                      color: Color(0xFF6B7280),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      'Failed to load image',
+                                      style: TextStyle(
+                                        color: Color(0xFF6B7280),
+                                        fontSize: 12,
                                       ),
-                                      SizedBox(height: 8),
-                                      Text(
-                                        'Failed to load image',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
+                              ),
+                            ),
                           );
                         },
                       );
@@ -230,6 +229,21 @@ class _RoomCardState extends State<RoomCard> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8),
                     onTap: () async {
+                      // Pre-cache images for detail page
+                      final roomImages = _getRoomImages();
+                      for (final imageData in roomImages) {
+                        if (imageData is String) {
+                          final token = await _getAuthToken();
+                          final headers = token != null
+                              ? {'Authorization': 'Bearer $token'}
+                              : <String, String>{};
+                          precacheImage(
+                            CachedNetworkImageProvider(imageData, headers: headers),
+                            context,
+                          );
+                        }
+                      }
+                      
                       final result = await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => EditRoomType(room: widget.room),

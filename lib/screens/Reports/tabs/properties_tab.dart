@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../PMS/services/properties_service.dart';
+import '../../../widgets/skeleton_loader.dart';
 
 class PropertiesTab extends StatelessWidget {
   const PropertiesTab({super.key});
@@ -68,13 +69,15 @@ class _PropertyPerformanceGridState extends State<_PropertyPerformanceGrid> {
       final occupancy = _computeAverageOccupancy(items);
       final rating = _computeAverageRating(items);
 
-      setState(() {
-        _total = total;
-        _active = active;
-        _avgOccupancy = occupancy;
-        _avgRating = rating;
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _total = total;
+          _active = active;
+          _avgOccupancy = occupancy;
+          _avgRating = rating;
+          _loading = false;
+        });
+      }
     } else {
       setState(() {
         _error = (res['message']?.toString() ?? 'Failed to load');
@@ -235,9 +238,9 @@ class _PropertyPerformanceGridState extends State<_PropertyPerformanceGrid> {
     if (_loading) {
       return Row(
         children: const [
-          Expanded(child: _SkeletonCard()),
+          Expanded(child: SkeletonStatCard()),
           SizedBox(width: 12),
-          Expanded(child: _SkeletonCard()),
+          Expanded(child: SkeletonStatCard()),
         ],
       );
     }
@@ -298,40 +301,6 @@ class _PropertyPerformanceGridState extends State<_PropertyPerformanceGrid> {
   }
 }
 
-class _SkeletonCard extends StatelessWidget {
-  const _SkeletonCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFF1F5F9), width: 1),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(height: 20, width: 80, color: const Color(0xFFF1F5F9)),
-            const SizedBox(height: 8),
-            Container(height: 16, width: 120, color: const Color(0xFFF1F5F9)),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// Using SkeletonStatCard from skeleton_loader.dart instead
 
 

@@ -200,9 +200,9 @@ class _RoomTypesUiState extends State<RoomTypesUi> {
                                     const SizedBox(height: 8),
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF1F2937),
-                                        borderRadius: BorderRadius.circular(20),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF1F2937),
+                                        borderRadius: BorderRadius.all(Radius.circular(20)),
                                       ),
                                       child: Text(
                                         room.roomType,

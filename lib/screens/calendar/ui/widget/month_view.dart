@@ -9,7 +9,12 @@ import 'package:checkinn/screens/bookings/services/bookings_service.dart';
 import 'package:checkinn/screens/bookings/add_booking/add_booking_ui.dart';
 
 class MonthView extends StatefulWidget {
-  const MonthView({super.key});
+  final Function(DateTime)? onDateSelected;
+  
+  const MonthView({
+    super.key,
+    this.onDateSelected,
+  });
 
   @override
   State<MonthView> createState() => _MonthViewState();
@@ -122,16 +127,9 @@ class _MonthViewState extends State<MonthView> {
       _selectedDate = date;
     });
     
-    // Check if there are bookings for this date
-    final dateKey = DateTime(date.year, date.month, date.day);
-    final bookings = _monthlyBookings[dateKey];
-    
-    if (bookings != null && bookings.isNotEmpty) {
-      // If there are bookings, show a dialog to select which booking to view
-      _showBookingSelectionDialog(bookings);
-    } else {
-      // If no bookings, show a "no bookings" message
-      _showNoBookingsDialog(date);
+    // Notify parent to switch to day view with selected date
+    if (widget.onDateSelected != null) {
+      widget.onDateSelected!(date);
     }
   }
 

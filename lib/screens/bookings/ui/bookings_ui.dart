@@ -8,6 +8,7 @@ import '../widgets/booking_list.dart';
 import '../widgets/add_booking_sheet.dart';
 import '../widgets/filter.dart';
 import '../../../widgets/common_app_bar.dart';
+import '../../../widgets/skeleton_loader.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
 import '../add_booking/add_booking_ui.dart';
 
@@ -43,7 +44,7 @@ class BookingsUiState extends State<BookingsUi> {
       });
     });
     
-    // Load bookings from API
+    // Load bookings
     loadBookings();
   }
 
@@ -181,10 +182,12 @@ class BookingsUiState extends State<BookingsUi> {
           }
         } catch (_) {}
 
+        if (mounted) {
         setState(() {
           allBookings = bookings;
           _isLoading = false;
         });
+        }
       } else {
         setState(() {
           _errorMessage = result['message'] ?? 'Failed to load bookings';
@@ -364,10 +367,9 @@ class BookingsUiState extends State<BookingsUi> {
 
   Widget _buildBookingsList(String type) {
     if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-        ),
+      return SkeletonListLoader(
+        itemCount: 5,
+        itemBuilder: (context, index) => const SkeletonBookingCard(),
       );
     }
 

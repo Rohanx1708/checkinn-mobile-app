@@ -90,10 +90,10 @@ class BookingTile extends StatelessWidget {
             // Trailing arrow chip
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+              decoration: const BoxDecoration(
+                color: Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.fromBorderSide(BorderSide(color: Color(0xFFE2E8F0), width: 1)),
               ),
               child: const Icon(
                 Icons.arrow_forward_ios,

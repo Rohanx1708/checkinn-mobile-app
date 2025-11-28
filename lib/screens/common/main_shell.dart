@@ -141,8 +141,8 @@ class _NavIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color activeColor = const Color(0xFF1F2937);
-    final Color inactiveColor = const Color(0xFF6B7280);
+    const Color activeColor = Color(0xFF1F2937);
+    const Color inactiveColor = Color(0xFF6B7280);
     return Expanded(
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -152,7 +152,7 @@ class _NavIcon extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: active ? const Color(0xFF1F2937).withOpacity(0.1) : Colors.transparent,
+              color: active ? activeColor.withOpacity(0.1) : Colors.transparent,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(

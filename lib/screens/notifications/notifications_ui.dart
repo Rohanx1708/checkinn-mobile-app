@@ -42,14 +42,14 @@ class NotificationsUi extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = _notifications[index];
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.all(Radius.circular(12)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
+                  color: Color.fromRGBO(0, 0, 0, 0.06),
                   blurRadius: 8,
-                  offset: const Offset(0, 3),
+                  offset: Offset(0, 3),
                 ),
               ],
             ),
