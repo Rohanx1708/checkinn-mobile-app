@@ -94,7 +94,8 @@ class Booking {
     return Booking(
       id: map["id"]?.toString() ?? "",
       title: map["property"]?["name"]?.toString() ?? map["title"]?.toString() ?? "",
-      companyName: map["source"]?.toString() ?? "",
+      // Use hotel/property name for companyName so UI shows hotel instead of source
+      companyName: map["property"]?["name"]?.toString() ?? map["property_name"]?.toString() ?? "",
       imageUrl: map["imageUrl"]?.toString() ?? "",
       date: _parseDate(map["created_at"]),
       status: map["booking_status"]?.toString() ?? map["status"]?.toString() ?? "",

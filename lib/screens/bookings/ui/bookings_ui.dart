@@ -13,7 +13,9 @@ import '../../Dashboard/widget/drawer_widget.dart';
 import '../add_booking/add_booking_ui.dart';
 
 class BookingsUi extends StatefulWidget {
-  const BookingsUi({super.key});
+  final bool showBackButton;
+
+  const BookingsUi({super.key, this.showBackButton = false});
 
   @override
   State<BookingsUi> createState() => BookingsUiState();
@@ -324,23 +326,20 @@ class BookingsUiState extends State<BookingsUi> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CommonAppBar.dashboard(
+      backgroundColor: const Color(0xFFF5F6FA),
+      appBar: widget.showBackButton
+          ? CommonAppBar.withBackButton(
+              title: 'Bookings',
+              onBackPressed: () => Navigator.of(context).pop(),
+              notificationCount: 5,
+            )
+          : CommonAppBar.dashboard(
         notificationCount: 5,
       ),
       drawer: const DrawerWidget(),
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white,
-                Color(0xFFF8FAFC),
-              ],
-            ),
-          ),
+          color: const Color(0xFFF5F6FA),
           child: Column(
             children: [
               // Header Section with Welcome Message

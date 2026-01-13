@@ -88,11 +88,13 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.pms:
       return _buildRoute(const MainShell(child: PmsUi()), settings);
     case AppRoutes.calendar:
-      return _buildRoute(const MainShell(initialIndex: 2), settings);
+      // Open shell with Calendar tab selected (index 1)
+      return _buildRoute(const MainShell(initialIndex: 1), settings);
     case AppRoutes.agent:
       return _buildRoute(const MainShell(child: AgentUi()), settings);
   case AppRoutes.bookings:
-  return _buildRoute(const MainShell(initialIndex: 1), settings);
+  // Keep bookings accessible via shell if needed (now index 0=Home,1=Calendar,2=Agents,3=Profile)
+  return _buildRoute(const MainShell(child: BookingsUi()), settings);
     case AppRoutes.reports:
       return _buildRoute(const MainShell(child: ReportsUi()), settings);
     case AppRoutes.crm:

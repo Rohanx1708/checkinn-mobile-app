@@ -668,11 +668,14 @@ class _DashboardUiState extends State<DashboardUi> {
               ],
             ),
           ),
-          const SizedBox(
-            width: 1,
-            height: 80,
-            child: ColoredBox(
-              color: Color(0xFFF1F5F9),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            child: SizedBox(
+              width: 1,
+              height: 80,
+              child: ColoredBox(
+                color: Color(0xFFF1F5F9),
+              ),
             ),
           ),
           const SizedBox(width: 20),

@@ -57,30 +57,30 @@ class _BookingListTileState extends State<BookingListTile> {
     final int guestsCountValue = deriveGuestsCount();
 
     return Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: screenWidth * .02,
-          vertical: screenHeight * .0035,
-        ),
-        decoration: BoxDecoration(
-          color: widget.tileColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.purple.withOpacity(0.3), width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * .028,
-          vertical: screenHeight * .016,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      margin: EdgeInsets.symmetric(
+        horizontal: screenWidth * .02,
+        vertical: screenHeight * .0035,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth * .028,
+        vertical: screenHeight * .016,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
             // Top row with guest name heading and booking status
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

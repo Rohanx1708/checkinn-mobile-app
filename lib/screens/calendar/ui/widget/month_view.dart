@@ -57,6 +57,7 @@ class _MonthViewState extends State<MonthView> {
   }
 
   Future<void> _loadMonthlyBookings() async {
+    if (!mounted) return;
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -78,6 +79,8 @@ class _MonthViewState extends State<MonthView> {
       );
 
       print('🔍 Month View - API Response: $result');
+
+      if (!mounted) return;
 
       if (result['success'] == true) {
         final data = result['data'];
@@ -102,12 +105,14 @@ class _MonthViewState extends State<MonthView> {
 
         print('🔍 Month View - Grouped bookings into ${monthlyBookings.length} dates');
 
+        if (!mounted) return;
         setState(() {
           _monthlyBookings = monthlyBookings;
           _isLoading = false;
         });
       } else {
         print('🔍 Month View - API Error: ${result['message']}');
+        if (!mounted) return;
         setState(() {
           _errorMessage = result['message'] ?? 'Failed to load monthly bookings';
           _isLoading = false;
@@ -115,6 +120,7 @@ class _MonthViewState extends State<MonthView> {
       }
     } catch (e) {
       print('🔍 Month View - Exception: $e');
+      if (!mounted) return;
       setState(() {
         _errorMessage = 'Error loading bookings: ${e.toString()}';
         _isLoading = false;

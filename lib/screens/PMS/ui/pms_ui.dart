@@ -259,7 +259,7 @@ class _PmsUiState extends State<PmsUi> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: CommonAppBar.dashboard(
         notificationCount: 5,
       ),
@@ -280,27 +280,23 @@ class _PmsUiState extends State<PmsUi> {
           onPressed: _openAddPropertySheet,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          icon: const Icon(Icons.add_business, color: Colors.white),
+          icon: const Icon(
+            Icons.add_business,
+            color: Colors.white,
+            size: 20,
+          ),
           label: Text(
             'Add Property',
             style: GoogleFonts.inter(
               color: Colors.white,
               fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
           ),
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Color(0xFFF8FAFC),
-            ],
-          ),
-        ),
+        color: const Color(0xFFF5F6FA),
         child: Column(
           children: [
             // Header Section

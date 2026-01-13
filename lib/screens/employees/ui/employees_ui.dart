@@ -354,7 +354,7 @@ class _EmployeesUiState extends State<EmployeesUi> {
     final colors = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: CommonAppBar.dashboard(
         notificationCount: 5,
       ),

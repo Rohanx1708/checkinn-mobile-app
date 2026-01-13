@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/common_app_bar.dart';
+import 'payment_screen.dart';
 
 class BillScreen extends StatefulWidget {
   final DateTime checkInDate;
@@ -29,6 +30,7 @@ class BillScreen extends StatefulWidget {
 class _BillScreenState extends State<BillScreen> {
   late Map<String, String> _editablePrices;
   final Map<String, TextEditingController> _priceControllers = {};
+  bool _includeGst = true;
 
   @override
   void initState() {
@@ -69,6 +71,7 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   double get _tax {
+    if (!_includeGst) return 0;
     return _subtotal * 0.18; // 18% GST
   }
 
@@ -133,6 +136,34 @@ class _BillScreenState extends State<BillScreen> {
               _buildSectionCard(
                 'Bill Summary',
                 [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Include GST (18%)',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF1F2937),
+                        ),
+                      ),
+                      Transform.scale(
+                        scale: 0.85,
+                        child: Switch(
+                          value: _includeGst,
+                          activeColor: const Color(0xFF1F2937),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          splashRadius: 16,
+                          onChanged: (value) {
+                            setState(() {
+                              _includeGst = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
                   _buildBillRow('Subtotal', _subtotal),
                   _buildBillRow('Tax (18% GST)', _tax),
                   const Divider(height: 24),
@@ -147,11 +178,9 @@ class _BillScreenState extends State<BillScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle booking confirmation
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Booking confirmed! Total: ₹${_total.toStringAsFixed(2)}'),
-                        backgroundColor: const Color(0xFF1F2937),
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => PaymentScreen(totalAmount: _total),
                       ),
                     );
                   },
@@ -165,7 +194,7 @@ class _BillScreenState extends State<BillScreen> {
                     elevation: 0,
                   ),
                   child: Text(
-                    'Confirm Booking',
+                    'Proceed To Payment',
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,

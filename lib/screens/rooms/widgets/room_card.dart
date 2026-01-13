@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 import '../models/room_models.dart';
 import '../ui/edit_room_type.dart';
 import '../../../services/auth_service.dart';
@@ -91,9 +92,14 @@ class _RoomCardState extends State<RoomCard> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final List<dynamic> roomImages = _getRoomImages();
+    final String formattedPrice = NumberFormat.currency(
+      locale: 'en_IN',
+      symbol: '₹',
+      decimalDigits: 0,
+    ).format(widget.room.price);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -105,7 +111,7 @@ class _RoomCardState extends State<RoomCard> {
           ),
         ],
         border: Border.all(
-          color: const Color(0xFFF1F5F9),
+          color: const Color(0xFFE5E7EB), // light grey border
           width: 1,
         ),
       ),
@@ -220,165 +226,6 @@ class _RoomCardState extends State<RoomCard> {
                 ),
               ),
               
-              // Edit button positioned at top right
-              Positioned(
-                top: 16,
-                right: 16,
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () async {
-                      // Pre-cache images for detail page
-                      final roomImages = _getRoomImages();
-                      for (final imageData in roomImages) {
-                        if (imageData is String) {
-                          final token = await _getAuthToken();
-                          final headers = token != null
-                              ? {'Authorization': 'Bearer $token'}
-                              : <String, String>{};
-                          precacheImage(
-                            CachedNetworkImageProvider(imageData, headers: headers),
-                            context,
-                          );
-                        }
-                      }
-                      
-                      final result = await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => EditRoomType(room: widget.room),
-                        ),
-                      );
-                      if (result == 'refresh') {
-                        // Trigger refresh in parent
-                        if (widget.onEdited != null) {
-                          widget.onEdited!(widget.room); // Pass current room to trigger refresh
-                        }
-                      } else if (result != null && widget.onEdited != null) {
-                        widget.onEdited!(result as RoomEntity);
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.edit,
-                        color: const Color(0xFF1F2937),
-                        size: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              
-              // Price badge (moved from room type badge position)
-              Positioned(
-                top: 16,
-                left: 16,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF22C55E),
-                        const Color(0xFF16A34A),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF22C55E).withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    '\$${widget.room.price.toStringAsFixed(0)}',
-                    style: GoogleFonts.inter(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-
-              // Navigation arrows
-              // Left navigation arrow (only show if there are images)
-              if (roomImages.isNotEmpty)
-                Positioned(
-                  left: 16,
-                  top: 0,
-                  bottom: 0,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: _previousImage,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.chevron_left,
-                          color: Color(0xFF1F2937),
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-              // Right navigation arrow (only show if there are images)
-              if (roomImages.isNotEmpty)
-                Positioned(
-                  right: 16,
-                  top: 0,
-                  bottom: 0,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: _nextImage,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.chevron_right,
-                          color: Color(0xFF1F2937),
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
               // Dot indicators (only show if there are images)
               if (roomImages.isNotEmpty)
                 Positioned(
@@ -421,22 +268,39 @@ class _RoomCardState extends State<RoomCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.room.name,
-                  style: GoogleFonts.inter(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF1F2937),
-                    letterSpacing: -0.3,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.room.name,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF1F2937),
+                          letterSpacing: -0.3,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '$formattedPrice / night',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF1F2937),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
                 Text(
                   widget.room.description,
                   style: GoogleFonts.inter(
-                    fontSize: 14,
+                    fontSize: 12,
                     color: const Color(0xFF6B7280),
-                    height: 1.5,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -462,50 +326,132 @@ class _RoomCardState extends State<RoomCard> {
                 ),
                 const SizedBox(height: 10),
                 
-                // View button
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1F2937),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF1F2937).withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: widget.onViewPressed,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.visibility,
-                              color: Colors.white,
-                              size: 14,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'View Rooms',
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                letterSpacing: 0.3,
-                              ),
+                // View & Edit buttons row
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1F2937),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF1F2937).withOpacity(0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
                             ),
                           ],
                         ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: widget.onViewPressed,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.visibility,
+                                    color: Colors.white,
+                                    size: 14,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'View Rooms',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: const Color(0xFF1F2937),
+                            width: 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF1F2937).withOpacity(0.1),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: () async {
+                              final roomImages = _getRoomImages();
+                              for (final imageData in roomImages) {
+                                if (imageData is String) {
+                                  final token = await _getAuthToken();
+                                  final headers = token != null
+                                      ? {'Authorization': 'Bearer $token'}
+                                      : <String, String>{};
+                                  precacheImage(
+                                    CachedNetworkImageProvider(imageData, headers: headers),
+                                    context,
+                                  );
+                                }
+                              }
+
+                              final result = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => EditRoomType(room: widget.room),
+                                ),
+                              );
+                              if (result == 'refresh') {
+                                if (widget.onEdited != null) {
+                                  widget.onEdited!(widget.room);
+                                }
+                              } else if (result != null && widget.onEdited != null) {
+                                widget.onEdited!(result as RoomEntity);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.edit,
+                                    color: Color(0xFF1F2937),
+                                    size: 12,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Edit',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF1F2937),
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

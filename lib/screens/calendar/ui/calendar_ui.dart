@@ -4,6 +4,7 @@ import 'package:checkinn/screens/calendar/ui/widget/month_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../widgets/common_app_bar.dart';
 import '../../Dashboard/widget/drawer_widget.dart';
+import '../../bookings/ui/bookings_ui.dart';
 
 class CalendarUi extends StatefulWidget {
   const CalendarUi({super.key});
@@ -13,7 +14,7 @@ class CalendarUi extends StatefulWidget {
 }
 
 class _CalendarUiState extends State<CalendarUi> {
-  bool isDayView = true; // Variable to track the selected view
+  bool isDayView = false; // Start in month view by default
   DateTime? _selectedDateForDayView; // Date to show in day view when switching from month view
 
   void _onDateSelectedFromMonth(DateTime date) {
@@ -26,26 +27,16 @@ class _CalendarUiState extends State<CalendarUi> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: CommonAppBar.dashboard(
         notificationCount: 5,
       ),
       drawer: const DrawerWidget(),
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white,
-                Color(0xFFF8FAFC),
-              ],
-            ),
-          ),
+          color: const Color(0xFFF5F6FA),
           child: Column(
             children: [
               // Header row consistent with other screens
@@ -64,79 +55,31 @@ class _CalendarUiState extends State<CalendarUi> {
                             ),
                       ),
                     ),
-                    // Toggle buttons compact
-                    Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () => setState(() {
-                              isDayView = true;
-                              _selectedDateForDayView = null; // Reset to today when manually switching
-                            }),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: isDayView ? Colors.white : Colors.transparent,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today,
-                                    color: isDayView ? const Color(0xFF1F2937) : const Color(0xFF6B7280),
-                                    size: 16,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    'Day',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: isDayView ? const Color(0xFF1F2937) : const Color(0xFF6B7280),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => setState(() => isDayView = false),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: !isDayView ? Colors.white : Colors.transparent,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_month,
-                                    color: !isDayView ? const Color(0xFF1F2937) : const Color(0xFF6B7280),
-                                    size: 16,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    'Month',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: !isDayView ? const Color(0xFF1F2937) : const Color(0xFF6B7280),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.format_list_bulleted_rounded, color: Color(0xFF1F2937)),
+                          tooltip: 'Open bookings list',
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const BookingsUi(showBackButton: true)),
+                            );
+                          },
+                        ),
+                        if (isDayView) ...[
+                          const SizedBox(width: 4),
+                          IconButton(
+                            icon: const Icon(Icons.calendar_month, color: Color(0xFF1F2937)),
+                            tooltip: 'Month view',
+                            onPressed: () {
+                              setState(() {
+                                isDayView = false;
+                              });
+                            },
                           ),
                         ],
-                      ),
+                      ],
                     ),
                   ],
                 ),

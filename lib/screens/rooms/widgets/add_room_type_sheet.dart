@@ -378,7 +378,8 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
           onTap: _pickRoomTypeImages,
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            height: 160,
+            constraints: const BoxConstraints(minHeight: 150),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -387,27 +388,28 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.add_photo_alternate_outlined, size: 36, color: Color(0xFF94A3B8)),
-                  const SizedBox(height: 8),
+                  Flexible(
+                    child: _roomTypeImages.isEmpty
+                        ? const Icon(Icons.add_photo_alternate_outlined, size: 36, color: Color(0xFF94A3B8))
+                        : _buildRoomTypeImagesPreview(),
+                  ),
+                  const SizedBox(height: 10),
                   Text('Click to upload or drag and drop', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 4),
-                  Text('PNG, JPG, JPEG up to 5MB each', style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF6B7280))),
+                  Text(
+                    'PNG, JPG, JPEG up to 5MB each',
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF6B7280)),
+                  ),
                 ],
               ),
             ),
           ),
         ),
-        if (_roomTypeImages.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: _roomTypeImages
-                .map((b) => ClipRRect(borderRadius: BorderRadius.circular(8), child: Image.memory(b, height: 64, width: 96, fit: BoxFit.cover)))
-                .toList(),
-          ),
-        ],
         const SizedBox(height: 24),
         // Active + Sort Order
         Column(
@@ -424,6 +426,171 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
           ],
         ),
       ],
+    );
+  }
+
+  void _removeRoomTypeImage(int index) {
+    setState(() {
+      _roomTypeImages = _roomTypeImages.asMap().entries
+          .where((entry) => entry.key != index)
+          .map((entry) => entry.value)
+          .toList();
+    });
+  }
+
+  Widget _buildRoomTypeImagesPreview() {
+    const int maxVisible = 2;
+    final int total = _roomTypeImages.length;
+    final int visibleCount = total > maxVisible ? maxVisible : total;
+
+    final tiles = <Widget>[];
+
+    for (int i = 0; i < visibleCount; i++) {
+      tiles.add(
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.memory(
+                _roomTypeImages[i],
+                height: 64,
+                width: 96,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              top: 4,
+              right: 4,
+              child: GestureDetector(
+                onTap: () => _removeRoomTypeImage(i),
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 12,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final remaining = total - visibleCount;
+    if (remaining > 0) {
+      tiles.add(
+        GestureDetector(
+          onTap: _showAllRoomTypeImagesDialog,
+          child: Container(
+            height: 64,
+            width: 96,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '+$remaining',
+              style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: _showAllRoomTypeImagesDialog,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: tiles,
+      ),
+    );
+  }
+
+  void _showAllRoomTypeImagesDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Room Type Images (${_roomTypeImages.length})',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 16),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Flexible(
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                    ),
+                    itemCount: _roomTypeImages.length,
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.memory(
+                              _roomTypeImages[index],
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            top: 6,
+                            right: 6,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(ctx).pop();
+                                _removeRoomTypeImage(index);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.close, color: Colors.white, size: 14),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -696,16 +863,9 @@ class _AddRoomTypeSheetState extends State<AddRoomTypeSheet> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
-            ),
-            SizedBox(height: 16),
-            Text('Creating room type and uploading images...'),
-          ],
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1F2937)),
         ),
       ),
     );

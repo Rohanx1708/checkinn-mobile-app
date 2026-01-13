@@ -68,7 +68,7 @@ class _AgentUiState extends State<AgentUi> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: CommonAppBar.dashboard(
         notificationCount: 5,
       ),
@@ -105,16 +105,7 @@ class _AgentUiState extends State<AgentUi> {
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Color(0xFFF8FAFC),
-            ],
-          ),
-        ),
+        color: const Color(0xFFF5F6FA),
         child: Column(
           children: [
             // Header Section

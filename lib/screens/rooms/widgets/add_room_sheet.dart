@@ -34,7 +34,6 @@ class _AddRoomSheetState extends State<AddRoomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       decoration: const BoxDecoration(

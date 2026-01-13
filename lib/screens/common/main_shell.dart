@@ -6,6 +6,7 @@ import '../Dashboard/dashboard_ui.dart';
 import '../bookings/ui/bookings_ui.dart';
 import '../new_booking/new_booking_ui.dart';
 import '../calendar/ui/calendar_ui.dart';
+import '../agent/ui/agent_ui.dart';
 import '../profile/ui/profile_ui.dart';
 
 class MainShell extends StatefulWidget {
@@ -19,11 +20,12 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> {
   late int _index;
+  PageController? _pageController;
 
   final List<Widget> _screens = const [
     DashboardUi(),
-    BookingsUi(),
     CalendarUi(),
+    AgentUi(),
     ProfileUi(),
   ];
 
@@ -34,9 +36,28 @@ class _MainShellState extends State<MainShell> {
   }
 
   @override
+  void dispose() {
+    _pageController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Ensure page controller is initialized for tabbed shell usage
+    if (widget.child == null && _pageController == null) {
+      _pageController = PageController(initialPage: _index);
+    }
+
     return Scaffold(
-      body: widget.child ?? _screens[_index],
+      body: widget.child == null
+          ? PageView(
+              controller: _pageController!,
+              onPageChanged: (newIndex) {
+                setState(() => _index = newIndex);
+              },
+              children: _screens,
+            )
+          : widget.child!,
       bottomNavigationBar: _buildBottomBar(context),
     );
   }
@@ -70,32 +91,50 @@ class _MainShellState extends State<MainShell> {
                 label: 'Home',
                 active: _index == 0,
                 onTap: () {
-                  setState(() => _index = 0);
-                  if (widget.child != null) {
+                  if (widget.child == null) {
+                    _pageController?.animateToPage(
+                      0,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    setState(() => _index = 0);
                     Navigator.of(context).pushReplacementNamed('/dashboard');
                   }
                 },
               ),
               _NavIcon(
-                icon: Icons.event_note_rounded,
-                label: 'Bookings',
+                icon: Icons.calendar_today_rounded,
+                label: 'Calendar',
                 active: _index == 1,
                 onTap: () {
-                  setState(() => _index = 1);
-                  if (widget.child != null) {
-                    Navigator.of(context).pushReplacementNamed('/bookings');
+                  if (widget.child == null) {
+                    _pageController?.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    setState(() => _index = 1);
+                    Navigator.of(context).pushReplacementNamed('/calendar');
                   }
                 },
               ),
               _CenterAddButton(onTap: _showAddBookingSheet),
               _NavIcon(
-                icon: Icons.calendar_today_rounded,
-                label: 'Calendar',
+                icon: Icons.groups_rounded,
+                label: 'Agents',
                 active: _index == 2,
                 onTap: () {
-                  setState(() => _index = 2);
-                  if (widget.child != null) {
-                    Navigator.of(context).pushReplacementNamed('/calendar');
+                  if (widget.child == null) {
+                    _pageController?.animateToPage(
+                      2,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    setState(() => _index = 2);
+                    Navigator.of(context).pushReplacementNamed('/agent');
                   }
                 },
               ),
@@ -104,8 +143,14 @@ class _MainShellState extends State<MainShell> {
                 label: 'Profile',
                 active: _index == 3,
                 onTap: () {
-                  setState(() => _index = 3);
-                  if (widget.child != null) {
+                  if (widget.child == null) {
+                    _pageController?.animateToPage(
+                      3,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    setState(() => _index = 3);
                     Navigator.of(context).pushReplacementNamed('/profile');
                   }
                 },

@@ -30,23 +30,26 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
     if (imageData == null) {
       return [];
     }
-    
+
     if (imageData is List) {
-      final urls = imageData.map((url) => _convertImageUrl(url.toString())).toList();
+      final urls =
+          imageData.map((url) => _convertImageUrl(url.toString())).toList();
       return urls;
     }
-    
+
     return [];
   }
 
   // Helper method to convert localhost URLs to proper domain
   String _convertImageUrl(String url) {
     if (url.startsWith('http://localhost')) {
-      final convertedUrl = url.replaceFirst('http://localhost', 'https://checkinn.club');
+      final convertedUrl =
+          url.replaceFirst('http://localhost', 'https://checkinn.club');
       return convertedUrl;
     }
     return url;
   }
+
   String? _errorMessage;
 
   @override
@@ -63,7 +66,8 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
 
     try {
       // Load room types (which seems to contain the actual room data)
-      final roomTypesResult = await RoomsService.getRoomTypes(page: 1, limit: 50);
+      final roomTypesResult =
+          await RoomsService.getRoomTypes(page: 1, limit: 50);
 
       if (roomTypesResult['success']) {
         List<RoomEntity> rooms = [];
@@ -84,16 +88,20 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                 floor: roomData['floor'] ?? 1,
                 roomNumber: roomData['room_number'] ?? 1,
                 amenities: _extractAmenities(roomData['amenities']),
-                imageUrls: _parseImageUrls(roomData['images'] ?? roomData['photos'] ?? []).isNotEmpty 
-                    ? _parseImageUrls(roomData['images'] ?? roomData['photos'] ?? [])
+                imageUrls: _parseImageUrls(
+                            roomData['images'] ?? roomData['photos'] ?? [])
+                        .isNotEmpty
+                    ? _parseImageUrls(
+                        roomData['images'] ?? roomData['photos'] ?? [])
                     : null,
                 photos: [], // No photos in current response
                 status: RoomStatus.available, // Default status
-                createdAt: DateTime.tryParse(roomData['created_at'] ?? '') ?? DateTime.now(),
+                createdAt: DateTime.tryParse(roomData['created_at'] ?? '') ??
+                    DateTime.now(),
                 updatedAt: DateTime.tryParse(roomData['updated_at'] ?? ''),
               );
               rooms.add(room);
-              
+
               // Also create room type from the same data
               final roomType = RoomType(
                 id: roomData['id'].toString(),
@@ -102,11 +110,17 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                 amenities: _extractAmenities(roomData['amenities']).join(', '),
                 basePrice: (roomData['base_price'] ?? 0.0).toDouble(),
                 capacity: roomData['max_occupancy'] ?? 1,
-                imageUrls: _parseImageUrls(roomData['images'] ?? roomData['photos'] ?? []).isNotEmpty 
-                    ? _parseImageUrls(roomData['images'] ?? roomData['photos'] ?? [])
+                imageUrls: _parseImageUrls(
+                            roomData['images'] ?? roomData['photos'] ?? [])
+                        .isNotEmpty
+                    ? _parseImageUrls(
+                        roomData['images'] ?? roomData['photos'] ?? [])
                     : null,
-                status: roomData['is_active'] == true ? RoomTypeStatus.active : RoomTypeStatus.inactive,
-                createdAt: DateTime.tryParse(roomData['created_at'] ?? '') ?? DateTime.now(),
+                status: roomData['is_active'] == true
+                    ? RoomTypeStatus.active
+                    : RoomTypeStatus.inactive,
+                createdAt: DateTime.tryParse(roomData['created_at'] ?? '') ??
+                    DateTime.now(),
                 updatedAt: DateTime.tryParse(roomData['updated_at'] ?? ''),
               );
               roomTypes.add(roomType);
@@ -117,13 +131,12 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
         }
 
         if (mounted) {
-        setState(() {
-          _rooms = rooms;
-          _roomTypes = roomTypes;
-          _isLoading = false;
-        });
+          setState(() {
+            _rooms = rooms;
+            _roomTypes = roomTypes;
+            _isLoading = false;
+          });
         }
-
       } else {
         setState(() {
           _errorMessage = roomTypesResult['message'] ?? 'Failed to load data';
@@ -152,7 +165,8 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
         }
         if (amenities.first is Map) {
           return amenities
-              .map((e) => (e['name'] ?? e['label'] ?? e['title'] ?? '').toString())
+              .map((e) =>
+                  (e['name'] ?? e['label'] ?? e['title'] ?? '').toString())
               .where((e) => e.trim().isNotEmpty)
               .cast<String>()
               .toList();
@@ -178,11 +192,10 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) =>
-          AddRoomSheet(
-            roomTypes: _roomTypes,
-            onRoomAdded: _addRoom,
-          ),
+      builder: (context) => AddRoomSheet(
+        roomTypes: _roomTypes,
+        onRoomAdded: _addRoom,
+      ),
     );
   }
 
@@ -237,7 +250,7 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
         ),
       ),
     );
-    
+
     // If room type was created successfully, refresh the data
     if (result == true) {
       _loadData();
@@ -246,30 +259,15 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: CommonAppBar.dashboard(),
       drawer: const DrawerWidget(),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Color(0xFFF8FAFC),
-            ],
-          ),
-        ),
+        color: const Color(0xFFF5F6FA),
         child: Column(
           children: [
             // Header Section
@@ -304,13 +302,16 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                 onRefresh: _refreshData,
                 child: _isLoading
                     ? SkeletonListLoader(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.04, vertical: 8),
                         itemCount: 3,
-                        itemBuilder: (context, index) => const SkeletonPropertyCard(),
+                        itemBuilder: (context, index) =>
+                            const SkeletonPropertyCard(),
                       )
                     : _errorMessage != null
                         ? Padding(
-                            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.04),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -351,55 +352,66 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
                           )
                         : _rooms.isEmpty
                             ? Padding(
-                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.04),
                                 child: EmptyState(
                                   title: 'No Rooms Added Yet',
-                                  subtitle: 'Add your first room to get started',
+                                  subtitle:
+                                      'Add your first room to get started',
                                   icon: Icons.hotel,
                                   onActionPressed: _onAddRoom,
                                   actionText: 'Add Room',
                                 ),
                               )
                             : ListView.builder(
-                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.04),
                                 itemCount: _rooms.length,
                                 itemBuilder: (context, index) {
                                   final room = _rooms[index];
                                   return ListItemAnimation(
-                                    delay: ListItemAnimationConfig.getDelayForIndex(index),
+                                    delay: ListItemAnimationConfig
+                                        .getDelayForIndex(index),
                                     child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
-                                    child: RoomCard(
-                                      room: room,
-                                      onViewPressed: () {
-                                        // Navigate to rooms screen
-                                        Navigator.push(
-                                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RoomTypesUi(
-                              categoryName: room.roomType,
-                              rooms: _rooms.where((r) => r.roomType == room.roomType).toList(),
-                            ),
-                          ),
-                        );
-                      },
-                      onEdited: (updated) {
-                        // If this is a refresh signal, reload all data
-                        if (updated.id == room.id) {
-                          _loadData(); // Refresh all data to get updated images
-                        } else {
-                          setState(() {
-                            final idx = _rooms.indexWhere((r) => r.id == updated.id);
-                            if (idx != -1) _rooms[idx] = updated;
-                          });
-                        }
-                      },
-                    ),
-                    ),
-                  );
-                },
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
+                                      child: RoomCard(
+                                        room: room,
+                                        onViewPressed: () {
+                                          // Navigate to rooms screen
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => RoomTypesUi(
+                                                categoryName: room.roomType,
+                                                rooms: _rooms
+                                                    .where((r) =>
+                                                        r.roomType ==
+                                                        room.roomType)
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        onEdited: (updated) {
+                                          // If this is a refresh signal, reload all data
+                                          if (updated.id == room.id) {
+                                            _loadData(); // Refresh all data to get updated images
+                                          } else {
+                                            setState(() {
+                                              final idx = _rooms.indexWhere(
+                                                  (r) => r.id == updated.id);
+                                              if (idx != -1)
+                                                _rooms[idx] = updated;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
               ),
-            ),
             ),
           ],
         ),
@@ -407,12 +419,17 @@ class _RoomManagementUiState extends State<RoomManagementUi> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _onAddRoomType,
         backgroundColor: const Color(0xFF1F2937),
-        icon: const Icon(Icons.add, color: Colors.white),
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 20,
+        ),
         label: Text(
           'Add Room Type',
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
+            fontSize: 12,
           ),
         ),
       ),

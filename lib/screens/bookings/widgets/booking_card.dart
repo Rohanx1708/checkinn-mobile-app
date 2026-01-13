@@ -55,6 +55,15 @@ class BookingCard extends StatelessWidget {
         statusIcon = Icons.info;
     }
 
+    // Derive customer's first name for display
+    String customerFirstName = booking.customer.name.trim();
+    if (customerFirstName.contains(' ')) {
+      final parts = customerFirstName.split(' ').where((p) => p.trim().isNotEmpty).toList();
+      if (parts.isNotEmpty) {
+        customerFirstName = parts.first;
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -67,7 +76,7 @@ class BookingCard extends StatelessWidget {
           ),
         ],
         border: Border.all(
-          color: const Color(0xFFF1F5F9),
+          color: const Color(0xFFE5E7EB), // light grey border
           width: 1,
         ),
       ),
@@ -102,16 +111,15 @@ class BookingCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Row
+                // Header Row: customer first name + hotel name, status badge on right
                 Row(
                   children: [
-                    // Title and Company
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            booking.title,
+                            customerFirstName,
                             style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -165,27 +173,29 @@ class BookingCard extends StatelessWidget {
                   ],
                 ),
                 
-                const SizedBox(height: 16),
-                
-                // Customer Info
+                const SizedBox(height: 8),
+
+                // Guest count row
                 Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        "${booking.customer.name} • ${booking.totalGuests} guest${booking.totalGuests > 1 ? 's' : ''}",
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                    const Icon(
+                      Icons.people_outline,
+                      size: 14,
+                      color: Color(0xFF6B7280),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      "${booking.totalGuests} guest${booking.totalGuests > 1 ? 's' : ''}",
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        color: Colors.grey.shade700,
                       ),
                     ),
                   ],
                 ),
-                
-                const SizedBox(height: 12),
-                
+
+                const SizedBox(height: 4),
+
                 // Check-in/Check-out Info
                 Row(
                   children: [

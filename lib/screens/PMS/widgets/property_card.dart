@@ -130,7 +130,7 @@ class _PropertyCardState extends State<PropertyCard> {
           ),
         ],
         border: Border.all(
-          color: const Color(0xFFF1F5F9),
+          color: const Color(0xFFE5E7EB), // light grey border
           width: 1,
         ),
       ),
@@ -295,55 +295,6 @@ class _PropertyCardState extends State<PropertyCard> {
                 ),
               ),
               
-              // Navigation arrows
-              Positioned(
-                left: 16,
-                top: 0,
-                bottom: 0,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: _previousImage,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.chevron_left,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              
-              Positioned(
-                right: 16,
-                top: 0,
-                bottom: 0,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: _nextImage,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.chevron_right,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              
-              
-              
               // Dots indicator
               if (widget.property.images.isNotEmpty)
                 Positioned(
@@ -381,8 +332,8 @@ class _PropertyCardState extends State<PropertyCard> {
               // Top-right Edit button overlay
               if (widget.onEditPressed != null)
                 Positioned(
-                  top: 12,
-                  right: 12,
+                  top: 10,
+                  right: 10,
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
@@ -393,7 +344,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         widget.onEditPressed?.call();
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.45),
                           borderRadius: BorderRadius.circular(12),
@@ -401,7 +352,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         ),
                         child: const Icon(
                           Icons.edit,
-                          size: 20,
+                          size: 16,
                           color: Colors.white,
                         ),
                       ),
@@ -428,7 +379,7 @@ class _PropertyCardState extends State<PropertyCard> {
                           Text(
                             widget.property.name,
                             style: GoogleFonts.inter(
-                              fontSize: 20,
+                              fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF1F2937),
                             ),
@@ -438,7 +389,7 @@ class _PropertyCardState extends State<PropertyCard> {
                             children: [
                               Icon(
                                 Icons.location_on,
-                                size: 16,
+                                size: 14,
                                 color: const Color(0xFF1F2937),
                               ),
                               const SizedBox(width: 4),
@@ -446,7 +397,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                 child: Text(
                                   widget.property.location,
                                   style: GoogleFonts.inter(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: const Color(0xFF6B7280),
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -457,56 +408,14 @@ class _PropertyCardState extends State<PropertyCard> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        const SizedBox(width: 8),
-                        // Delete Button
-                        if (widget.onDeletePressed != null)
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.red.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.red.shade200),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(12),
-                                onTap: widget.onDeletePressed,
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red.shade600,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
                   ],
                 ),
 
                 const SizedBox(height: 16),
 
-                // Key Amenities Bar
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFFF8FAFC),
-                        const Color(0xFFF1F5F9),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: const Color(0xFFE2E8F0),
-                      width: 1,
-                    ),
-                  ),
+                // Key Amenities (no outer card background)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: widget.property.amenities.take(3).map((amenity) {

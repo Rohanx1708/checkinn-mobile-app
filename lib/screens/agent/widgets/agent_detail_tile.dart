@@ -30,7 +30,7 @@ class AgentDetailTile extends StatelessWidget {
           ),
         ],
         border: const Border.fromBorderSide(BorderSide(
-          color: Color(0xFFF1F5F9),
+          color: Color(0xFFE5E7EB), // light grey border
           width: 1,
         )),
       ),

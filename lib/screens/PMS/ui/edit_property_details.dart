@@ -340,46 +340,7 @@ class _EditPropertyDetailsState extends State<EditPropertyDetails> {
             onTap: _pickMoreImages,
             preview: _moreImageBytes.isEmpty
                 ? null
-                : Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: _moreImageBytes
-                        .asMap()
-                        .entries
-                        .map((entry) => Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.memory(
-                                entry.value, 
-                                height: 56, 
-                                width: 80, 
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              top: 4,
-                              right: 4,
-                              child: GestureDetector(
-                                onTap: () => _removeImage(entry.key),
-                                child: Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ))
-                        .toList(),
-                  ),
+                : _buildAdditionalImagesPreview(),
           ),
         ),
         const SizedBox(height: 16),
@@ -637,6 +598,162 @@ class _EditPropertyDetailsState extends State<EditPropertyDetails> {
     });
   }
 
+  Widget _buildAdditionalImagesPreview() {
+    const int maxVisible = 2;
+    final int total = _moreImageBytes.length;
+    final int visibleCount = total > maxVisible ? maxVisible : total;
+
+    final tiles = <Widget>[];
+
+    for (int i = 0; i < visibleCount; i++) {
+      tiles.add(
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.memory(
+                _moreImageBytes[i],
+                height: 56,
+                width: 80,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              top: 4,
+              right: 4,
+              child: GestureDetector(
+                onTap: () => _removeImage(i),
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 12,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final remaining = total - visibleCount;
+    if (remaining > 0) {
+      tiles.add(
+        GestureDetector(
+          onTap: _showAllAdditionalImagesDialog,
+          child: Container(
+            height: 56,
+            width: 80,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              '+$remaining',
+              style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: _showAllAdditionalImagesDialog,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: tiles,
+      ),
+    );
+  }
+
+  void _showAllAdditionalImagesDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Additional Images (${_moreImageBytes.length})',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 16),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Flexible(
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                    ),
+                    itemCount: _moreImageBytes.length,
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.memory(
+                              _moreImageBytes[index],
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            top: 6,
+                            right: 6,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(ctx).pop();
+                                _removeImage(index);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(
+                                  color: Colors.red,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.close, color: Colors.white, size: 14),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildUploadTile({required String title, required String hint, required VoidCallback onTap, Widget? preview}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -647,7 +764,7 @@ class _EditPropertyDetailsState extends State<EditPropertyDetails> {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            height: 150,
+            constraints: const BoxConstraints(minHeight: 150),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -657,12 +774,21 @@ class _EditPropertyDetailsState extends State<EditPropertyDetails> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (preview != null) preview else const Icon(Icons.image_outlined, size: 36, color: Color(0xFF94A3B8)),
+                  Flexible(
+                    child: preview ?? const Icon(Icons.image_outlined, size: 36, color: Color(0xFF94A3B8)),
+                  ),
                   const SizedBox(height: 10),
                   Text('Click to upload', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 2),
-                  Text(hint, textAlign: TextAlign.center, style: GoogleFonts.inter(fontSize: 11, color: Color(0xFF6B7280))),
+                  Text(
+                    hint,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(fontSize: 11, color: Color(0xFF6B7280)),
+                  ),
                 ],
               ),
             ),
